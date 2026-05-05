@@ -1,0 +1,253 @@
+---
+/**
+ * COMPONENTE: Hero (Sección principal)
+ * ──────────────────────────────────────────────────────
+ * La primera sección que ve el usuario.
+ * Tiene el texto grande animado "divine allure" y la imagen del frasco.
+ *
+ * NOTA: Las imágenes de perfume vienen de Framer (el original).
+ * Cuando integres WordPress, podrías traer la imagen hero desde:
+ * - Una opción de tema (Appearance > Customize)
+ * - Un bloque de página estática de WordPress
+ * - ACF Options Page (plugin Advanced Custom Fields)
+ */
+---
+
+<section class="hero">
+  
+  <!-- Fondo con gradiente radial -->
+  <div class="hero__bg"></div>
+
+  <!-- Texto decorativo grande (fondo) -->
+  <div class="hero__bg-text" aria-hidden="true">
+    <span>divine</span>
+    <span>allure</span>
+  </div>
+
+  <!-- Imagen del perfume (flota con animación) -->
+  <div class="hero__bottle animate-fade-up delay-1">
+    <img
+      src="https://framerusercontent.com/images/XzpHmYtrKpOC2dXQ7lCieJQH90.png"
+      alt="Elysian Aromas — Frasco principal"
+      width="420"
+      loading="eager"
+    />
+    <!-- Reflejo/sombra del frasco -->
+    <div class="hero__bottle-glow"></div>
+  </div>
+
+  <!-- Contenido de texto -->
+  <div class="hero__content container">
+    <div class="hero__text animate-fade-up delay-2">
+      <p class="hero__eyebrow">Est. 2024</p>
+      <h1 class="hero__headline">
+        Welcome<br />
+        to Elysian<br />
+        Aromas
+      </h1>
+      <p class="hero__sub">
+        A luxury perfume company that creates<br />
+        unforgettable scents, leaving an unforgettable impression.
+      </p>
+      <div class="hero__actions">
+        <a href="/coleccion" class="btn-primary">Explore Collection</a>
+        <a href="/nosotros" class="btn-ghost">Our Story</a>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="hero__scroll animate-fade-up delay-4">
+      <div class="hero__scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </div>
+
+</section>
+
+<style>
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 60% 70% at 70% 50%, rgba(201,169,110,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 50% at 30% 80%, rgba(201,169,110,0.04) 0%, transparent 50%);
+}
+
+/* Texto gigante de fondo */
+.hero__bg-text {
+  position: absolute;
+  right: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  pointer-events: none;
+  user-select: none;
+}
+.hero__bg-text span {
+  font-family: var(--f-serif);
+  font-size: clamp(80px, 12vw, 200px);
+  font-weight: 300;
+  font-style: italic;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(201,169,110,0.08);
+  line-height: 0.9;
+  white-space: nowrap;
+}
+
+/* Frasco de perfume */
+.hero__bottle {
+  position: absolute;
+  right: 8%;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: float 6s ease-in-out infinite;
+  z-index: 2;
+}
+.hero__bottle img {
+  width: clamp(280px, 28vw, 420px);
+  filter: drop-shadow(0 40px 80px rgba(201,169,110,0.15));
+}
+.hero__bottle-glow {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 30px;
+  background: radial-gradient(ellipse, rgba(201,169,110,0.2), transparent 70%);
+  filter: blur(10px);
+}
+
+/* Contenido de texto */
+.hero__content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+}
+
+.hero__text {
+  max-width: 520px;
+  padding-top: 80px;
+}
+
+.hero__eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  margin-bottom: 32px;
+}
+
+.hero__headline {
+  font-size: clamp(44px, 6vw, 90px);
+  font-weight: 300;
+  color: var(--c-cream);
+  line-height: 1.05;
+  margin-bottom: 28px;
+}
+
+.hero__sub {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--c-cream);
+  opacity: 0.6;
+  margin-bottom: 48px;
+}
+
+.hero__actions {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Botones */
+.btn-primary {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: var(--c-gold);
+  color: var(--c-bg);
+  padding: 16px 36px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+.btn-primary:hover {
+  background: var(--c-gold-light);
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--c-cream);
+  opacity: 0.6;
+  transition: opacity 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.btn-ghost::before {
+  content: '';
+  width: 30px;
+  height: 1px;
+  background: currentColor;
+  display: inline-block;
+}
+.btn-ghost:hover { opacity: 1; }
+
+/* Scroll indicator */
+.hero__scroll {
+  position: absolute;
+  bottom: 40px;
+  left: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.hero__scroll-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--c-gold), transparent);
+  animation: float 2s ease-in-out infinite;
+}
+.hero__scroll span {
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  writing-mode: vertical-rl;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .hero__bottle {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    animation: none;
+    display: flex;
+    justify-content: center;
+    margin-bottom: -100px;
+    z-index: 1;
+  }
+  .hero__bottle img { width: 220px; }
+  .hero__bg-text { display: none; }
+  .hero__text { padding-top: 40px; max-width: 100%; }
+  .hero__scroll { display: none; }
+  .hero { flex-direction: column; padding: 120px 0 80px; }
+}
+</style>

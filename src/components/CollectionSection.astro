@@ -1,0 +1,134 @@
+---
+/**
+ * COMPONENTE: CollectionSection
+ * ──────────────────────────────────────────────────────
+ * Muestra la cuadrícula de productos en la página home.
+ * Recibe los productos ya normalizados desde WordPress (o mock data).
+ *
+ * CÓMO LLEGAN LOS DATOS:
+ * index.astro llama a getProducts() → pasa el resultado como prop aquí
+ * → este componente los renderiza con <ProductCard />
+ */
+
+import ProductCard from './ProductCard.astro';
+
+interface Props {
+  products: any[]; // Tipo any temporalmente; en producción usar interfaz Product
+}
+
+const { products } = Astro.props;
+---
+
+<section class="collection" id="collection">
+  <div class="container">
+
+    <!-- Header de sección -->
+    <div class="collection__header">
+      <div class="collection__label">
+        <div class="gold-line"></div>
+        <span>Our Collections</span>
+      </div>
+      <h2 class="collection__title">
+        Inspired by<br />
+        heavenly realms.
+      </h2>
+      <a href="/coleccion" class="collection__all">
+        View All
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Grid de productos -->
+    <div class="collection__grid">
+      {products.map((product) => (
+        <ProductCard {...product} />
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+.collection {
+  padding: 120px 0;
+}
+
+.collection__header {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: end;
+  gap: 40px;
+  margin-bottom: 64px;
+}
+
+.collection__label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  opacity: 0.7;
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+}
+
+.collection__title {
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 300;
+  color: var(--c-cream);
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.collection__all {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  grid-column: 3;
+  grid-row: 2;
+  transition: gap 0.3s;
+}
+.collection__all:hover { gap: 16px; }
+
+/* Grid de 3 columnas */
+.collection__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .collection__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .collection {
+    padding: 80px 0;
+  }
+  .collection__header {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    gap: 16px;
+  }
+  .collection__label { grid-column: 1; }
+  .collection__title { grid-column: 1; }
+  .collection__all {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .collection__grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

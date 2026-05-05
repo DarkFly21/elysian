@@ -1,0 +1,191 @@
+---
+/**
+ * COMPONENTE: Navegación
+ * ─────────────────────────────────────────────────────
+ * En Astro, los componentes van en src/components/
+ * Se usan como etiquetas HTML: <Nav />
+ *
+ * Este Nav es transparente y se vuelve sólido al hacer scroll.
+ * Es "sticky" — se queda fijo arriba mientras bajas.
+ */
+
+const navLinks = [
+  { label: 'Collection', href: '/coleccion' },
+  { label: 'About', href: '/nosotros' },
+  { label: 'Contact', href: '/contacto' },
+];
+---
+
+<nav class="nav" id="mainNav">
+  <div class="nav__inner container">
+    
+    <!-- Logo -->
+    <a href="/" class="nav__logo">ELYSIAN</a>
+
+    <!-- Links (centro) -->
+    <ul class="nav__links">
+      {navLinks.map(link => (
+        <li>
+          <a href={link.href} class="nav__link">{link.label}</a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- CTA derecha -->
+    <a href="/coleccion" class="nav__cta">Shop Now</a>
+
+    <!-- Menú hamburguesa (mobile) -->
+    <button class="nav__burger" id="burger" aria-label="Abrir menú">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="nav__mobile" id="mobileMenu">
+    {navLinks.map(link => (
+      <a href={link.href} class="nav__mobile-link">{link.label}</a>
+    ))}
+    <a href="/coleccion" class="nav__mobile-cta">Shop Now</a>
+  </div>
+</nav>
+
+<style>
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  padding: 28px 0;
+}
+
+/* Se vuelve sólido al hacer scroll */
+.nav.scrolled {
+  background: rgba(10, 9, 6, 0.92);
+  backdrop-filter: blur(20px);
+  padding: 18px 0;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav__logo {
+  font-family: var(--f-serif);
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  color: var(--c-gold);
+  transition: color 0.3s;
+}
+.nav__logo:hover { color: var(--c-gold-light); }
+
+.nav__links {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+}
+
+.nav__link {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--c-cream);
+  opacity: 0.7;
+  transition: opacity 0.3s;
+  position: relative;
+}
+.nav__link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0; right: 0;
+  height: 1px;
+  background: var(--c-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.nav__link:hover { opacity: 1; }
+.nav__link:hover::after { transform: scaleX(1); }
+
+.nav__cta {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid var(--c-gold-dim);
+  color: var(--c-gold);
+  padding: 10px 24px;
+  transition: all 0.3s;
+}
+.nav__cta:hover {
+  background: var(--c-gold);
+  color: var(--c-bg);
+}
+
+/* Mobile */
+.nav__burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 4px;
+}
+.nav__burger span {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: var(--c-cream);
+  transition: all 0.3s;
+}
+
+.nav__mobile {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 40px 24px;
+  background: rgba(10, 9, 6, 0.98);
+  backdrop-filter: blur(20px);
+}
+.nav__mobile.open { display: flex; }
+
+.nav__mobile-link {
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-cream);
+  opacity: 0.8;
+}
+
+.nav__mobile-cta {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid var(--c-gold-dim);
+  color: var(--c-gold);
+  padding: 12px 32px;
+}
+
+@media (max-width: 768px) {
+  .nav__links, .nav__cta { display: none; }
+  .nav__burger { display: flex; }
+}
+</style>
+
+<script>
+  // Scroll effect
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav?.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Mobile menu toggle
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  burger?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('open');
+  });
+</script>

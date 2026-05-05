@@ -1,0 +1,253 @@
+---
+/**
+ * COMPONENTE: Footer
+ * ──────────────────────────────────────────────────────
+ * Pie de página con links y copyright.
+ * Los links podrían venir de WordPress menus via REST API:
+ * GET /wp-json/wp/v2/menus (requiere plugin WP REST API Menus)
+ */
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="footer">
+  
+  <!-- Newsletter strip -->
+  <div class="footer__newsletter">
+    <div class="container">
+      <div class="footer__newsletter-inner">
+        <div>
+          <h3 class="footer__newsletter-title">Stay in the essence</h3>
+          <p class="footer__newsletter-sub">New collections, exclusive offers, olfactory stories.</p>
+        </div>
+        <div class="footer__newsletter-form">
+          <input
+            type="email"
+            placeholder="Your email address"
+            class="footer__newsletter-input"
+          />
+          <button class="footer__newsletter-btn">Subscribe</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main footer -->
+  <div class="footer__main">
+    <div class="container">
+      <div class="footer__grid">
+
+        <!-- Brand -->
+        <div class="footer__brand">
+          <a href="/" class="footer__logo">ELYSIAN</a>
+          <p class="footer__tagline">
+            Divine fragrances for those<br />who dare to be unforgettable.
+          </p>
+          <div class="footer__social">
+            <a href="#" class="footer__social-link" aria-label="Instagram">
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
+                <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+              </svg>
+            </a>
+            <a href="#" class="footer__social-link" aria-label="Twitter / X">
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
+                <path d="M4 4l16 16M4 20L20 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Links -->
+        <div class="footer__links-group">
+          <h4 class="footer__links-title">Pages</h4>
+          <nav class="footer__links">
+            <a href="/">Home</a>
+            <a href="/coleccion">Collection</a>
+            <a href="/nosotros">About</a>
+            <a href="/contacto">Contact</a>
+          </nav>
+        </div>
+
+        <div class="footer__links-group">
+          <h4 class="footer__links-title">Legal</h4>
+          <nav class="footer__links">
+            <a href="/privacidad">Privacy Policy</a>
+            <a href="/terminos">Terms & Conditions</a>
+            <a href="/envios">Shipping & Returns</a>
+          </nav>
+        </div>
+
+        <div class="footer__links-group">
+          <h4 class="footer__links-title">Contact</h4>
+          <nav class="footer__links">
+            <a href="mailto:hello@elysianaromas.com">hello@elysianaromas.com</a>
+            <a href="tel:+34900000000">+34 900 000 000</a>
+            <span>Mon–Fri, 10am–6pm</span>
+          </nav>
+        </div>
+
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="footer__bottom">
+        <p>© {currentYear} Elysian Aromas Inc. All rights reserved.</p>
+        <p class="footer__credit">Product shots by Unsplash & Pinterest</p>
+      </div>
+
+    </div>
+  </div>
+
+</footer>
+
+<style>
+/* Newsletter */
+.footer__newsletter {
+  border-top: 1px solid var(--c-border);
+  border-bottom: 1px solid var(--c-border);
+  padding: 48px 0;
+  background: var(--c-bg-soft);
+}
+.footer__newsletter-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+.footer__newsletter-title {
+  font-size: 24px;
+  font-weight: 300;
+  color: var(--c-cream);
+  margin-bottom: 6px;
+}
+.footer__newsletter-sub {
+  font-size: 12px;
+  color: var(--c-cream);
+  opacity: 0.5;
+}
+
+.footer__newsletter-form {
+  display: flex;
+  gap: 0;
+  flex-shrink: 0;
+}
+.footer__newsletter-input {
+  background: transparent;
+  border: 1px solid var(--c-border);
+  border-right: none;
+  color: var(--c-cream);
+  padding: 14px 24px;
+  font-family: var(--f-sans);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  width: 280px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.footer__newsletter-input::placeholder { color: var(--c-muted); }
+.footer__newsletter-input:focus { border-color: var(--c-gold-dim); }
+
+.footer__newsletter-btn {
+  background: var(--c-gold);
+  color: var(--c-bg);
+  padding: 14px 28px;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-family: var(--f-sans);
+  font-weight: 500;
+  transition: background 0.3s;
+  cursor: pointer;
+  border: none;
+}
+.footer__newsletter-btn:hover { background: var(--c-gold-light); }
+
+/* Main footer */
+.footer__main { padding: 80px 0 40px; }
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 60px;
+}
+
+.footer__logo {
+  font-family: var(--f-serif);
+  font-size: 24px;
+  letter-spacing: 0.3em;
+  color: var(--c-gold);
+  display: block;
+  margin-bottom: 20px;
+}
+
+.footer__tagline {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--c-cream);
+  opacity: 0.4;
+  margin-bottom: 28px;
+}
+
+.footer__social {
+  display: flex;
+  gap: 16px;
+}
+.footer__social-link {
+  color: var(--c-cream);
+  opacity: 0.4;
+  transition: opacity 0.3s;
+}
+.footer__social-link:hover { opacity: 1; color: var(--c-gold); }
+
+.footer__links-title {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  opacity: 0.7;
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+
+.footer__links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.footer__links a, .footer__links span {
+  font-size: 13px;
+  color: var(--c-cream);
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+.footer__links a:hover { opacity: 1; }
+
+/* Bottom */
+.footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 32px;
+  border-top: 1px solid var(--c-border-soft);
+  font-size: 11px;
+  color: var(--c-cream);
+  opacity: 0.3;
+}
+
+@media (max-width: 1024px) {
+  .footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  .footer__brand { grid-column: 1 / -1; }
+}
+@media (max-width: 640px) {
+  .footer__newsletter-inner { flex-direction: column; align-items: flex-start; }
+  .footer__newsletter-form { width: 100%; flex-direction: column; }
+  .footer__newsletter-input { width: 100%; border-right: 1px solid var(--c-border); border-bottom: none; }
+  .footer__grid { grid-template-columns: 1fr; }
+  .footer__bottom { flex-direction: column; gap: 8px; text-align: center; }
+}
+</style>

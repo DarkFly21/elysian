@@ -1,0 +1,167 @@
+---
+/**
+ * PÁGINA: /coleccion
+ * ──────────────────────────────────────────────────────
+ * Catálogo completo con filtros visuales.
+ * Los productos vienen de WordPress (o mock data si WP no está listo).
+ */
+
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { getProducts, MOCK_PRODUCTS } from '../../lib/wordpress.js';
+
+let products;
+try {
+  products = await getProducts({ perPage: 12 });
+  if (!products?.length) products = MOCK_PRODUCTS;
+} catch {
+  products = MOCK_PRODUCTS;
+}
+
+// Categorías únicas para los filtros
+const categories = [...new Set(products.flatMap(p => p.categories || []))];
+---
+
+<Layout
+  title="Collection — Elysian Aromas"
+  description="Explora nuestra colección de fragancias de lujo. Cada aroma, una historia."
+>
+  <Nav slot="nav" />
+
+  <!-- Hero de página -->
+  <section class="page-hero">
+    <div class="container">
+      <p class="page-hero__label">Our Collection</p>
+      <h1 class="page-hero__title">
+        Inspired by<br />
+        heavenly realms.
+      </h1>
+      <p class="page-hero__count">{products.length} fragancias únicas</p>
+    </div>
+    <div class="page-hero__line"></div>
+  </section>
+
+  <!-- Filtros (decorativos — JS los activa) -->
+  {categories.length > 1 && (
+    <div class="filters container">
+      <button class="filter-btn active" data-filter="all">Todas</button>
+      {categories.map(cat => (
+        <button class="filter-btn" data-filter={cat}>
+          {cat.charAt(0).toUpperCase() + cat.slice(1)}
+        </button>
+      ))}
+    </div>
+  )}
+
+  <!-- Grid -->
+  <section class="catalog">
+    <div class="container">
+      <div class="catalog__grid" id="productGrid">
+        {products.map(product => (
+          <div class="catalog__item" data-categories={product.categories?.join(',') || 'all'}>
+            <ProductCard {...product} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>
+
+<script>
+  // Filtros por categoría
+  const btns = document.querySelectorAll('.filter-btn');
+  const items = document.querySelectorAll('.catalog__item');
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = (btn as HTMLElement).dataset.filter;
+      items.forEach(item => {
+        const cats = (item as HTMLElement).dataset.categories || '';
+        const show = filter === 'all' || cats.includes(filter);
+        (item as HTMLElement).style.display = show ? '' : 'none';
+      });
+    });
+  });
+</script>
+
+<style>
+.page-hero {
+  padding: 150px 0 60px;
+  position: relative;
+}
+.page-hero__label {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  opacity: 0.7;
+  margin-bottom: 20px;
+}
+.page-hero__title {
+  font-size: clamp(52px, 8vw, 110px);
+  font-weight: 300;
+  color: var(--c-cream);
+  line-height: 1;
+  margin-bottom: 20px;
+}
+.page-hero__count {
+  font-size: 12px;
+  color: var(--c-cream);
+  opacity: 0.35;
+  letter-spacing: 0.1em;
+}
+.page-hero__line {
+  height: 1px;
+  background: var(--c-border-soft);
+  margin-top: 60px;
+}
+
+/* Filtros */
+.filters {
+  display: flex;
+  gap: 4px;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--c-border-soft);
+  margin-bottom: 60px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-cream);
+  opacity: 0.4;
+  padding: 10px 20px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: var(--f-sans);
+}
+.filter-btn:hover, .filter-btn.active {
+  opacity: 1;
+  color: var(--c-gold);
+  border-color: var(--c-border);
+}
+
+/* Grid */
+.catalog { padding-bottom: 120px; }
+.catalog__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .catalog__grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .catalog__grid { grid-template-columns: 1fr; }
+}
+</style>

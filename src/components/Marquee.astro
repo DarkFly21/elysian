@@ -1,0 +1,73 @@
+---
+/**
+ * COMPONENTE: Marquee (Ticker de texto)
+ * ──────────────────────────────────────────────────────
+ * La banda dorada con texto que corre horizontalmente.
+ * Es puramente decorativo/de marca.
+ */
+
+const items = [
+  'LUXURY FRAGRANCES',
+  'ELYSIAN AROMAS',
+  'DIVINE ALLURE',
+  'EST. 2024',
+  'HANDCRAFTED SCENTS',
+  'ELYSIAN AROMAS',
+];
+---
+
+<div class="marquee-wrap">
+  <div class="marquee">
+    <div class="marquee__track">
+      {/* Duplicamos los items para el loop infinito */}
+      {[...items, ...items].map((item, i) => (
+        <span class="marquee__item">
+          {item}
+          <span class="marquee__dot" aria-hidden="true">✦</span>
+        </span>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+.marquee-wrap {
+  border-top: 1px solid var(--c-border);
+  border-bottom: 1px solid var(--c-border);
+  overflow: hidden;
+  padding: 14px 0;
+  background: rgba(201,169,110,0.03);
+}
+
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee__track {
+  display: inline-flex;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee__item {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  padding: 0 32px;
+  opacity: 0.7;
+  display: inline-flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.marquee__dot {
+  font-size: 8px;
+  opacity: 0.5;
+}
+
+/* Pausa el marquee al hacer hover */
+.marquee-wrap:hover .marquee__track {
+  animation-play-state: paused;
+}
+</style>
