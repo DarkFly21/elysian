@@ -1,145 +1,203 @@
 /**
- * 📡 WORDPRESS HEADLESS API — ELYSIAN AROMAS
+ * 📡 WOOCOMMERCE + WORDPRESS HEADLESS API — ELYSIAN AROMAS
  * ─────────────────────────────────────────────────────────────────────────────
- * Puente entre Astro y WordPress REST API.
+ * Lee productos desde WooCommerce REST API v3.
  *
- * ESTRUCTURA EN WORDPRESS (lo que necesitas configurar):
- * ┌─────────────────────────────────────────────────────────────────┐
- * │  Custom Post Type: "perfume"  (show_in_rest: true)             │
- * │  Campos ACF:                                                    │
- * │    price          → Text      → "€195"                         │
- * │    compare_price  → Text      → "€240"  (precio tachado)       │
- * │    size           → Text      → "50ml"                         │
- * │    stock          → Number    → 15                              │
- * │    featured       → True/False                                  │
- * │    notes_top      → Text      → "Bergamota, Pimienta Rosa"     │
- * │    notes_heart    → Text      → "Rosa, Jazmín"                 │
- * │    notes_base     → Text      → "Sándalo, Ámbar"               │
- * │    specs          → Repeater  → [{label, value}, ...]          │
- * │    gallery        → Gallery   → [img1, img2, ...]              │
- * └─────────────────────────────────────────────────────────────────┘
+ * CONFIGURACIÓN EN .env:
+ *   WP_URL     = https://reyes.saulpedroza.com.mx
+ *   WC_KEY     = ck_xxxxx   (WooCommerce → Ajustes → Avanzado → REST API)
+ *   WC_SECRET  = cs_xxxxx
  *
- * PLUGINS NECESARIOS:
- *   1. Advanced Custom Fields (ACF)
- *   2. ACF to REST API
+ * ENDPOINT BASE:
+ *   /wp-json/wc/v3/products
  *
- * SIN PLUGINS: funciona con MOCK_PRODUCTS (datos de prueba incluidos abajo)
+ * LA AUTENTICACIÓN ES BASIC AUTH:
+ *   Base64(WC_KEY:WC_SECRET) en el header Authorization
+ *   Esto es seguro porque solo se ejecuta en el servidor (build time)
+ *   El visitante NUNCA ve las claves
  */
 
-const WP_URL = import.meta.env.WP_URL || 'https://reyes.saulpedroza.com.mx';
+const WP_URL    = import.meta.env.WP_URL    || 'https://reyes.saulpedroza.com.mx';
+const WC_KEY    = import.meta.env.WC_KEY    || '';
+const WC_SECRET = import.meta.env.WC_SECRET || '';
 
-// ─── Fetch base ───────────────────────────────────────────────────────────────
-async function wpFetch(endpoint, params = {}) {
+// ─── Auth header para WooCommerce ─────────────────────────────────────────────
+function getAuthHeader() {
+  if (!WC_KEY || !WC_SECRET) return {};
+  // btoa = Base64 encode (disponible en Node 18+ y en el browser)
+  const token = btoa(`${WC_KEY}:${WC_SECRET}`);
+  return { Authorization: `Basic ${token}` };
+}
+
+// ─── Fetch base WooCommerce ───────────────────────────────────────────────────
+async function wcFetch(endpoint, params = {}) {
   const query = new URLSearchParams(params).toString();
-  const url = `${WP_URL}/wp-json/wp/v2/${endpoint}${query ? '?' + query : ''}`;
+  const url = `${WP_URL}/wp-json/wc/v3/${endpoint}${query ? '?' + query : ''}`;
+
   try {
-    const res = await fetch(url);
-    if (!res.ok) { console.warn(`[WP API] ${res.status} → ${url}`); return null; }
+    const res = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeader(),
+      },
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      console.warn(`[WC API] ${res.status} → ${url}`, err.message || '');
+      return null;
+    }
+
     return await res.json();
   } catch (err) {
-    console.warn(`[WP API] Sin conexión: ${err.message}`);
+    console.warn(`[WC API] Sin conexión: ${err.message}`);
     return null;
   }
 }
 
-// ─── Normalización ────────────────────────────────────────────────────────────
-function normalizeProduct(item) {
-  const acf = item.acf || {};
-  const featuredImg = item._embedded?.['wp:featuredmedia']?.[0];
-  const gallery = acf.gallery?.length
-    ? acf.gallery.map(img => ({ url: img.url || img, alt: img.alt || '' }))
-    : featuredImg
-      ? [{ url: featuredImg.source_url, alt: featuredImg.alt_text || item.title?.rendered }]
-      : [];
+// ─── Normalización WooCommerce → formato interno ──────────────────────────────
+/**
+ * WooCommerce devuelve productos con esta estructura:
+ * {
+ *   id, name, slug, description, short_description,
+ *   price, regular_price, sale_price,
+ *   stock_quantity, stock_status,
+ *   images: [{src, alt}, ...],
+ *   categories: [{id, name, slug}, ...],
+ *   attributes: [{name, options}, ...],   ← notas aromáticas aquí
+ *   meta_data: [{key, value}, ...],       ← campos extra aquí
+ * }
+ */
+function normalizeWCProduct(item) {
+  // Imágenes
+  const gallery = (item.images || []).map(img => ({
+    url: img.src,
+    alt: img.alt || item.name,
+  }));
 
-  const specs = acf.specs?.length ? acf.specs : [
-    { label: 'Concentración', value: 'Eau de Parfum' },
-    { label: 'Tamaño', value: acf.size || '50ml' },
-    { label: 'Procedencia', value: 'Francia' },
-    { label: 'Tipo', value: 'Unisex' },
-  ];
+  // Precio
+  const price        = item.price        ? `€${item.price}`         : '€180';
+  const comparePrice = item.regular_price && item.sale_price && item.regular_price !== item.sale_price
+    ? `€${item.regular_price}`
+    : null;
+
+  // Stock
+  const stock = item.stock_quantity ?? (item.stock_status === 'instock' ? 10 : 0);
+
+  // Notas aromáticas desde atributos de WooCommerce
+  // En WooCommerce crea atributos: "Notas Top", "Notas Corazón", "Notas Base"
+  const attrs = item.attributes || [];
+  const getAttr = (name) => {
+    const a = attrs.find(a => a.name.toLowerCase().includes(name.toLowerCase()));
+    return a ? a.options : [];
+  };
+
+  const notesTop   = getAttr('top')    || getAttr('salida')   || [];
+  const notesHeart = getAttr('heart')  || getAttr('corazón')  || getAttr('corazon') || [];
+  const notesBase  = getAttr('base')   || getAttr('fondo')    || [];
+
+  // Specs desde meta_data (campos personalizados de WooCommerce)
+  const meta = {};
+  (item.meta_data || []).forEach(m => { meta[m.key] = m.value; });
+
+  const specs = [
+    { label: 'Concentración', value: meta.concentracion || meta.concentration || 'Eau de Parfum' },
+    { label: 'Tamaño',        value: meta.tamano || meta.size || '50ml' },
+    { label: 'Procedencia',   value: meta.procedencia || meta.origin || 'Francia' },
+    { label: 'Familia',       value: meta.familia || meta.family || '' },
+    { label: 'Tipo',          value: meta.tipo || meta.type || 'Unisex' },
+  ].filter(s => s.value); // Quita los vacíos
 
   return {
-    id: item.id,
-    slug: item.slug,
-    title: item.title?.rendered || 'Sin título',
-    description: item.content?.rendered || '',
-    excerpt: item.excerpt?.rendered?.replace(/<[^>]*>/g, '') || '',
-    price: acf.price || '€180',
-    comparePrice: acf.compare_price || null,
-    stock: acf.stock ?? 10,
-    size: acf.size || '50ml',
-    featured: acf.featured || false,
-    image: gallery[0]?.url || null,
-    imageAlt: gallery[0]?.alt || item.title?.rendered,
+    id:           item.id,
+    slug:         item.slug,
+    title:        item.name || 'Sin título',
+    description:  item.description || '',
+    excerpt:      item.short_description?.replace(/<[^>]*>/g, '') || '',
+    price,
+    comparePrice,
+    stock,
+    size:         meta.tamano || meta.size || '50ml',
+    featured:     item.featured || false,
+    image:        gallery[0]?.url || null,
+    imageAlt:     gallery[0]?.alt || item.name,
     gallery,
     notes: {
-      top:   acf.notes_top   ? acf.notes_top.split(',').map(n => n.trim())   : [],
-      heart: acf.notes_heart ? acf.notes_heart.split(',').map(n => n.trim()) : [],
-      base:  acf.notes_base  ? acf.notes_base.split(',').map(n => n.trim())  : [],
+      top:   notesTop,
+      heart: notesHeart,
+      base:  notesBase,
     },
-    notesFlat: [
-      ...(acf.notes_top   ? acf.notes_top.split(',')   : []),
-      ...(acf.notes_heart ? acf.notes_heart.split(',') : []),
-      ...(acf.notes_base  ? acf.notes_base.split(',')  : []),
-    ].map(n => n.trim()).filter(Boolean),
+    notesFlat: [...notesTop, ...notesHeart, ...notesBase],
     specs,
-    categories: item._embedded?.['wp:term']?.[0]?.map(c => c.slug) || [],
-  };
-}
-
-function normalizePost(item) {
-  const featuredImg = item._embedded?.['wp:featuredmedia']?.[0];
-  return {
-    id: item.id, slug: item.slug,
-    title: item.title?.rendered || 'Sin título',
-    description: item.content?.rendered || '',
-    excerpt: item.excerpt?.rendered?.replace(/<[^>]*>/g, '') || '',
-    price: '€180', comparePrice: null, stock: 10, size: '50ml', featured: false,
-    image: featuredImg?.source_url || null,
-    imageAlt: item.title?.rendered,
-    gallery: featuredImg ? [{ url: featuredImg.source_url, alt: featuredImg.alt_text || '' }] : [],
-    notes: { top: [], heart: [], base: [] },
-    notesFlat: [],
-    specs: [{ label: 'Concentración', value: 'Eau de Parfum' }, { label: 'Tamaño', value: '50ml' }],
-    categories: [],
+    categories: (item.categories || []).map(c => c.slug),
+    // Campo extra por si necesitas el precio numérico
+    priceRaw: parseFloat(item.price) || 0,
   };
 }
 
 // ─── API pública ──────────────────────────────────────────────────────────────
+
+/**
+ * Lista de productos de WooCommerce.
+ * Fallback a MOCK_PRODUCTS si no hay conexión o credenciales.
+ */
 export async function getProducts({ perPage = 12 } = {}) {
-  const cpt = await wpFetch('perfume', { per_page: perPage, _embed: true });
-  if (cpt?.length) return cpt.map(normalizeProduct);
-  const posts = await wpFetch('posts', { per_page: perPage, _embed: true });
-  if (posts?.length) return posts.map(normalizePost);
-  console.info('[WP API] Usando MOCK_PRODUCTS');
+  const data = await wcFetch('products', {
+    per_page: perPage,
+    status: 'publish',      // Solo productos publicados
+    orderby: 'date',
+    order: 'desc',
+  });
+
+  if (data?.length) return data.map(normalizeWCProduct);
+
+  console.info('[WC API] Usando MOCK_PRODUCTS — configura WC_KEY y WC_SECRET en .env');
   return MOCK_PRODUCTS;
 }
 
+/**
+ * Producto individual por slug.
+ */
 export async function getProductBySlug(slug) {
-  const cpt = await wpFetch('perfume', { slug, _embed: true });
-  if (cpt?.[0]) return normalizeProduct(cpt[0]);
-  const posts = await wpFetch('posts', { slug, _embed: true });
-  if (posts?.[0]) return normalizePost(posts[0]);
+  const data = await wcFetch('products', { slug, status: 'publish' });
+  if (data?.[0]) return normalizeWCProduct(data[0]);
   return MOCK_PRODUCTS.find(p => p.slug === slug) || null;
 }
 
+/**
+ * Todos los slugs (para getStaticPaths de Astro)
+ */
 export async function getAllSlugs() {
   const products = await getProducts({ perPage: 100 });
   return products.map(p => p.slug);
 }
 
-export async function getRelatedProducts(currentSlug, { perPage = 4 } = {}) {
+/**
+ * Productos relacionados
+ */
+export async function getRelatedProducts(currentSlug, { perPage = 3 } = {}) {
   const all = await getProducts({ perPage: 20 });
   return all.filter(p => p.slug !== currentSlug).slice(0, perPage);
 }
 
+/**
+ * Página estática de WordPress
+ */
 export async function getPage(slug) {
-  const data = await wpFetch('pages', { slug, _embed: true });
-  return data?.[0] || null;
+  try {
+    const url = `${WP_URL}/wp-json/wp/v2/pages?slug=${slug}&_embed=true`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return data?.[0] || null;
+  } catch {
+    return null;
+  }
 }
 
-// ─── Mock Data (datos de prueba) ──────────────────────────────────────────────
+// ─── Mock Data ────────────────────────────────────────────────────────────────
+// Se usa cuando WooCommerce no está conectado.
+// Replica EXACTAMENTE la estructura de normalizeWCProduct().
+
 export const MOCK_PRODUCTS = [
   {
     id: 1, slug: 'rose-jasmine', title: 'Rose & Jasmine',
@@ -162,7 +220,7 @@ export const MOCK_PRODUCTS = [
       { label: 'Familia', value: 'Floral Oriental' },
       { label: 'Tipo', value: 'Unisex' },
     ],
-    categories: ['florales'],
+    categories: ['florales'], priceRaw: 195,
   },
   {
     id: 2, slug: 'noir-absolu', title: 'Noir Absolu',
@@ -184,7 +242,7 @@ export const MOCK_PRODUCTS = [
       { label: 'Familia', value: 'Oriental Amaderado' },
       { label: 'Tipo', value: 'Unisex' },
     ],
-    categories: ['orientales'],
+    categories: ['orientales'], priceRaw: 220,
   },
   {
     id: 3, slug: 'velvet-iris', title: 'Velvet Iris',
@@ -206,7 +264,7 @@ export const MOCK_PRODUCTS = [
       { label: 'Familia', value: 'Floral Polvoroso' },
       { label: 'Tipo', value: 'Femenino' },
     ],
-    categories: ['florales'],
+    categories: ['florales'], priceRaw: 175,
   },
   {
     id: 4, slug: 'golden-oud', title: 'Golden Oud',
@@ -228,6 +286,6 @@ export const MOCK_PRODUCTS = [
       { label: 'Familia', value: 'Oriental Resinoso' },
       { label: 'Tipo', value: 'Unisex' },
     ],
-    categories: ['orientales'],
+    categories: ['orientales'], priceRaw: 280,
   },
 ];
