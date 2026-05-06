@@ -1,167 +1,946 @@
 ---
-/**
- * PÁGINA: /coleccion
- * ──────────────────────────────────────────────────────
- * Catálogo completo con filtros visuales.
- * Los productos vienen de WordPress (o mock data si WP no está listo).
- */
-
-import Layout from '../../layouts/Layout.astro';
-import Nav from '../../components/Nav.astro';
-import Footer from '../../components/Footer.astro';
-import ProductCard from '../../components/ProductCard.astro';
-import { getProducts, MOCK_PRODUCTS } from '../../lib/wordpress.js';
+import Layout from '../layouts/Layout.astro';
+import { getProducts, MOCK_PRODUCTS } from '../lib/wordpress.js';
 
 let products;
 try {
-  products = await getProducts({ perPage: 12 });
+  products = await getProducts({ perPage: 6 });
   if (!products?.length) products = MOCK_PRODUCTS;
 } catch {
   products = MOCK_PRODUCTS;
 }
 
-// Categorías únicas para los filtros
-const categories = [...new Set(products.flatMap(p => p.categories || []))];
+// Imágenes del slider (del template original de Framer)
+const sliderImages = [
+  { src: 'https://framerusercontent.com/images/9p6ZdVRkfJqY0sgtSIUbUvrY4T8.jpg', label: 'PERFUME 01' },
+  { src: 'https://framerusercontent.com/images/MMEyUHZzDOmm6WwPRKyQIme7pw.jpg', label: 'PERFUME 02', href: '/coleccion' },
+  { src: 'https://framerusercontent.com/images/uhfzzPLmgOpXgorwxMLLNS62Vg.jpg', label: 'PERFUME 03', href: '/coleccion' },
+  { src: 'https://framerusercontent.com/images/WbXGhJjO9A5ZMCVFyQimOKE1ZbE.jpg', label: 'PERFUME 04', href: '/coleccion' },
+  { src: 'https://framerusercontent.com/images/BqoHIJC0AVM4K7ayotWMaIoo0U.jpg', label: 'PERFUME 05', href: '/coleccion' },
+  { src: 'https://framerusercontent.com/images/DLjH9pXaV6Jj1rUJ4wRVYujkHOI.jpg', label: 'PERFUME 06', href: '/coleccion' },
+];
 ---
 
 <Layout
-  title="Collection — Elysian Aromas"
-  description="Explora nuestra colección de fragancias de lujo. Cada aroma, una historia."
+  title="Elysian Aromas — Luxury Fragrances"
+  description="A luxury perfume company that creates unforgettable scents, leaving an unforgettable impression."
 >
-  <Nav slot="nav" />
 
-  <!-- Hero de página -->
-  <section class="page-hero">
-    <div class="container">
-      <p class="page-hero__label">Our Collection</p>
-      <h1 class="page-hero__title">
-        Inspired by<br />
-        heavenly realms.
-      </h1>
-      <p class="page-hero__count">{products.length} fragancias únicas</p>
+<!-- ══════════════════════════════════════════
+     NAV
+════════════════════════════════════════════ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">ELYSIAN</a>
+    <div class="nav-links hidden-mobile">
+      <a href="/coleccion">Collection</a>
+      <a href="/nosotros">About</a>
+      <a href="/contacto">Contact</a>
     </div>
-    <div class="page-hero__line"></div>
-  </section>
+    <a href="/coleccion" class="nav-cta hidden-mobile">Shop Now</a>
+    <button class="nav-burger show-mobile" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="mobileMenu">
+    <a href="/coleccion">Collection</a>
+    <a href="/nosotros">About</a>
+    <a href="/contacto">Contact</a>
+    <a href="/coleccion" class="nav-mobile-cta">Shop Now</a>
+  </div>
+</nav>
 
-  <!-- Filtros (decorativos — JS los activa) -->
-  {categories.length > 1 && (
-    <div class="filters container">
-      <button class="filter-btn active" data-filter="all">Todas</button>
-      {categories.map(cat => (
-        <button class="filter-btn" data-filter={cat}>
-          {cat.charAt(0).toUpperCase() + cat.slice(1)}
-        </button>
+<!-- ══════════════════════════════════════════
+     HERO — fondo púrpura/negro, texto "divine allure", frasco
+════════════════════════════════════════════ -->
+<section class="hero" id="hero">
+
+  <!-- Texto gigante "divine allure" -->
+  <div class="hero-bg-text" aria-hidden="true">divine allure</div>
+
+  <!-- Imagen del frasco principal -->
+  <div class="hero-bottle">
+    <img
+      src="https://framerusercontent.com/images/XzpHmYtrKpOC2dXQ7lCieJQH90.png"
+      alt="Elysian perfume bottle"
+      width="276"
+    />
+  </div>
+
+  <!-- Arena / suelo -->
+  <div class="hero-sand">
+    <img
+      src="https://framerusercontent.com/images/8eq7qmkLvK4orUvTGKaJXCo8L1I.png"
+      alt=""
+      aria-hidden="true"
+    />
+  </div>
+
+  <!-- Contenido de texto hero -->
+  <div class="hero-content">
+    <h1 class="hero-headline">
+      Welcome<br/>
+      to Elysian Aromas
+      <br/><br/>
+      <span class="hero-sub">A luxury perfume company that creates<br/>unforgettable scents and leaving an unforgettable impression.</span>
+    </h1>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════
+     HEADER SECTION — imagen modelo + texto
+════════════════════════════════════════════ -->
+<header class="header-section">
+  <div class="header-text">
+    <h1 class="header-headline">
+      <span class="serif-big">Welcome</span><br/>
+      <span class="serif-big">to Elysian Aromas</span><br/><br/>
+      A luxury perfume company that creates<br/>
+      unforgettable scents and leaving an unforgettable impression.
+    </h1>
+  </div>
+  <div class="header-img">
+    <img
+      src="https://framerusercontent.com/images/Qi3nYHH8jDLxYC6vrOJ1VKaYI.png"
+      alt="Elysian model"
+      loading="lazy"
+    />
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════
+     SLIDER COLLECTIONS SECTION
+     Texto "Elysian" gigante de fondo + slider
+════════════════════════════════════════════ -->
+<section class="collections-section">
+
+  <!-- Imágenes de fondo decorativas -->
+  <div class="collections-bg-left">
+    <img src="https://framerusercontent.com/images/WsDDxdWCgU7m5q5BnM8kMej8yw.webp" alt="" aria-hidden="true" loading="lazy"/>
+  </div>
+  <div class="collections-bg-right">
+    <img src="https://framerusercontent.com/images/8EXryTCenq0CTCxok8dknZ6AW4Q.webp" alt="" aria-hidden="true" loading="lazy"/>
+  </div>
+
+  <!-- Frasco central -->
+  <div class="collections-bottle">
+    <img src="https://framerusercontent.com/images/XzpHmYtrKpOC2dXQ7lCieJQH90.png" alt="Elysian perfume" loading="lazy"/>
+  </div>
+
+  <!-- Texto Elysian gigante de fondo -->
+  <div class="collections-elysian-text" aria-hidden="true">Elysian</div>
+
+  <!-- SLIDER -->
+  <div class="slider-wrap">
+    <div class="slider-track" id="sliderTrack">
+      {[...sliderImages, ...sliderImages].map((img, i) => (
+        img.href
+          ? <a href={img.href} class="slide">
+              <div class="slide-img">
+                <img src={img.src} alt={img.label} loading="lazy"/>
+              </div>
+              <p class="slide-label">{img.label}</p>
+            </a>
+          : <div class="slide">
+              <div class="slide-img">
+                <img src={img.src} alt={img.label} loading="lazy"/>
+              </div>
+              <p class="slide-label">{img.label}</p>
+            </div>
       ))}
     </div>
-  )}
 
-  <!-- Grid -->
-  <section class="catalog">
-    <div class="container">
-      <div class="catalog__grid" id="productGrid">
-        {products.map(product => (
-          <div class="catalog__item" data-categories={product.categories?.join(',') || 'all'}>
-            <ProductCard {...product} />
-          </div>
-        ))}
-      </div>
+    <!-- Controles -->
+    <div class="slider-controls">
+      <button class="slider-btn" id="sliderPrev" aria-label="Anterior">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M13 3L6 10L13 17" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button class="slider-btn" id="sliderNext" aria-label="Siguiente">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M7 3L14 10L7 17" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
     </div>
-  </section>
 
-  <Footer slot="footer" />
+    <!-- Text "Collections" debajo del slider -->
+    <div class="slider-collections-text" aria-hidden="true">Collections</div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     INSPIRED BY HEAVENLY REALMS
+════════════════════════════════════════════ -->
+<section class="inspired-section">
+  <div class="inspired-bg">
+    <img src="https://framerusercontent.com/images/MYZxK82zNzoKWlZ6byhg3sMiA1k.png" alt="" aria-hidden="true" loading="lazy"/>
+  </div>
+  <div class="inspired-cloud">
+    <h2 class="inspired-headline">Inspired by<br/>heavenly realms.</h2>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     ROSE & JASMINE — sección producto
+════════════════════════════════════════════ -->
+<section class="product-feature">
+  <!-- Texto "Rose & Jasmine" gigante de fondo -->
+  <div class="product-feature-bg-text" aria-hidden="true">Rose &amp; Jasmine</div>
+
+  <!-- Imagen del producto -->
+  <div class="product-feature-img">
+    <img
+      src="https://framerusercontent.com/images/VCuHbqQ65TU0xES0AXWMp8OXtBE.png"
+      alt="Rose & Jasmine perfume"
+      loading="lazy"
+    />
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     INGREDIENTS / FONDO NEGRO CON ELEMENTOS
+════════════════════════════════════════════ -->
+<section class="ingredients-section">
+  <!-- Imagen de fondo del lifestyle -->
+  <div class="ingredients-bg">
+    <img
+      src="https://framerusercontent.com/images/KOvgEfkQvCiAaEOfBLyMV68ol0I.png"
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+    />
+  </div>
+
+  <!-- Elementos decorativos flotantes -->
+  <img class="deco deco-flower" src="https://framerusercontent.com/images/GbkSAROjfmIqRfQRV4qUy7FSA.png" alt="" aria-hidden="true" loading="lazy"/>
+  <img class="deco deco-leaf" src="https://framerusercontent.com/images/2rt5ilYw61rs9xpySobmfcf8aDw.png" alt="" aria-hidden="true" loading="lazy"/>
+  <img class="deco deco-branch" src="https://framerusercontent.com/images/orEQIdlYPE3HQ3ETQ50IuTTjFR4.png" alt="" aria-hidden="true" loading="lazy"/>
+  <img class="deco deco-stone" src="https://framerusercontent.com/images/V37RmbLWOMDqPGmrRXNoUm0wpTA.png" alt="" aria-hidden="true" loading="lazy"/>
+  <img class="deco deco-sprig" src="https://framerusercontent.com/images/rAWGm2JtLEUaQjdIdk2JEK7Nxc.png" alt="" aria-hidden="true" loading="lazy"/>
+
+  <!-- Texto "Ingredients" de fondo -->
+  <div class="ingredients-bg-text" aria-hidden="true">Ingredients</div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <p class="footer-col-title">Page</p>
+      <nav class="footer-links">
+        <a href="/">Home</a>
+        <a href="/coleccion">Collection</a>
+        <a href="/nosotros">About</a>
+        <a href="/contacto">Contact</a>
+      </nav>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-title">Link</p>
+      <nav class="footer-links">
+        <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://twitter.com" target="_blank" rel="noopener">Twitter</a>
+      </nav>
+    </div>
+    <div class="footer-col">
+      <p class="footer-credits">Product shots by Unsplash &amp; Pinterest</p>
+      <a href="/" class="footer-credits">Design and build by Elysian</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Elysian Inc.</p>
+    <div class="footer-icons">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <rect x="2" y="2" width="16" height="16" rx="4" stroke="white" stroke-width="1.2"/>
+        <circle cx="10" cy="10" r="3.5" stroke="white" stroke-width="1.2"/>
+        <circle cx="14.5" cy="5.5" r="1" fill="white"/>
+      </svg>
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <rect x="2.5" y="2.5" width="17" height="17" rx="2" stroke="white" stroke-width="1.2"/>
+        <path d="M6 7.5L10 11.5L6 15.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M10.5 8H16" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M10.5 11H16" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M10.5 14H14" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</footer>
+
 </Layout>
 
-<script>
-  // Filtros por categoría
-  const btns = document.querySelectorAll('.filter-btn');
-  const items = document.querySelectorAll('.catalog__item');
+<style is:global>
+/* ══════════════════════════════════════════
+   FONTS — del template Framer original
+══════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap');
 
-  btns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      btns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const filter = (btn as HTMLElement).dataset.filter;
-      items.forEach(item => {
-        const cats = (item as HTMLElement).dataset.categories || '';
-        const show = filter === 'all' || cats.includes(filter);
-        (item as HTMLElement).style.display = show ? '' : 'none';
-      });
-    });
-  });
-</script>
-
-<style>
-.page-hero {
-  padding: 150px 0 60px;
-  position: relative;
+@font-face {
+  font-family: 'GAQIRE';
+  src: url('https://framerusercontent.com/assets/Wp8lnnMPMog56QRHcxx96J1jPs.otf');
+  font-display: swap;
 }
-.page-hero__label {
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--c-gold);
-  opacity: 0.7;
-  margin-bottom: 20px;
+@font-face {
+  font-family: 'NeueMontreal';
+  src: url('https://framerusercontent.com/assets/hks8NVUtjEWwpEZ9gmKhEfED8BU.otf');
+  font-weight: 400;
+  font-display: swap;
 }
-.page-hero__title {
-  font-size: clamp(52px, 8vw, 110px);
+@font-face {
+  font-family: 'NeueMontreal';
+  src: url('https://framerusercontent.com/assets/UXfQAi5uuynutajGoHhCRb0LII.otf');
   font-weight: 300;
-  color: var(--c-cream);
-  line-height: 1;
-  margin-bottom: 20px;
+  font-display: swap;
 }
-.page-hero__count {
+
+/* ══════════════════════════════════════════
+   RESET & BASE
+══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+body {
+  background: #000;
+  color: #fff;
+  font-family: 'NeueMontreal', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; border: none; background: none; font: inherit; }
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: #444; }
+
+/* ══════════════════════════════════════════
+   NAV
+══════════════════════════════════════════ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  transition: background 0.4s;
+  border-bottom: 1px solid rgba(255,255,255,0);
+}
+.nav.scrolled {
+  background: rgba(17,17,17,0.95);
+  backdrop-filter: blur(20px);
+  border-bottom-color: rgba(255,255,255,0.08);
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+}
+.nav-logo {
+  font-family: 'GAQIRE', serif;
+  font-size: 32px;
+  letter-spacing: -1.9px;
+  color: #fff;
+  line-height: 1;
+}
+.nav-links {
+  display: flex;
+  gap: 40px;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: rgba(255,255,255,0.8);
+}
+.nav-links a:hover { color: #fff; }
+.nav-cta {
   font-size: 12px;
-  color: var(--c-cream);
-  opacity: 0.35;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 10px 22px;
+  transition: all 0.3s;
+}
+.nav-cta:hover { background: #fff; color: #000; }
+
+.nav-burger { display: none; flex-direction: column; gap: 5px; }
+.nav-burger span { display: block; width: 22px; height: 1px; background: #fff; }
+.nav-mobile {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 32px;
+  background: rgba(0,0,0,0.97);
+  font-size: 18px;
+}
+.nav-mobile.open { display: flex; }
+.nav-mobile-cta {
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 12px 32px;
+  font-size: 12px;
+  text-transform: uppercase;
   letter-spacing: 0.1em;
 }
-.page-hero__line {
-  height: 1px;
-  background: var(--c-border-soft);
-  margin-top: 60px;
-}
 
-/* Filtros */
-.filters {
+/* ══════════════════════════════════════════
+   HERO — fondo radial púrpura/negro
+══════════════════════════════════════════ */
+.hero {
+  position: relative;
+  height: 1400px;
+  overflow: hidden;
+  background: radial-gradient(50% 50% at 50% 50%, #270061 0%, #000 100%);
   display: flex;
-  gap: 4px;
-  padding: 32px 0;
-  border-bottom: 1px solid var(--c-border-soft);
-  margin-bottom: 60px;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-bg-text {
+  position: absolute;
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'GAQIRE', serif;
+  font-size: clamp(80px, 13vw, 199px);
+  letter-spacing: -0.07em;
+  line-height: 0.9;
+  text-align: center;
+  white-space: nowrap;
+  color: transparent;
+  background: linear-gradient(0deg, #fff -25.7%, rgba(255,255,255,0) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-bottle {
+  position: absolute;
+  bottom: 290px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  animation: float 6s ease-in-out infinite;
+}
+.hero-bottle img { width: 276px; filter: drop-shadow(0 40px 80px rgba(100,0,200,0.3)); }
+
+.hero-sand {
+  position: absolute;
+  bottom: -31px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1507px;
+  z-index: 2;
+}
+.hero-sand img { width: 100%; }
+
+.hero-content {
+  position: relative;
+  z-index: 4;
+  text-align: center;
+  padding-top: 80px;
+  pointer-events: none;
+}
+.hero-headline {
+  font-family: 'NeueMontreal', sans-serif;
+  font-weight: 300;
+  font-size: 28px;
+  letter-spacing: 1.2px;
+  line-height: 1;
+  color: rgba(255,255,255,0);
+  /* El texto real está en el header-section debajo, el hero muestra el background visual */
+}
+
+/* ══════════════════════════════════════════
+   HEADER SECTION (texto visible + imagen modelo)
+══════════════════════════════════════════ */
+.header-section {
+  position: relative;
+  background: #fff;
+  min-height: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 40px;
+  overflow: hidden;
+}
+.header-text {
+  max-width: 720px;
+  position: relative;
+  z-index: 2;
+}
+.header-headline {
+  font-family: 'NeueMontreal', sans-serif;
+  font-weight: 300;
+  font-size: 28px;
+  letter-spacing: 1.2px;
+  line-height: 1.5;
+  color: #000;
+}
+.serif-big {
+  font-family: 'GAQIRE', serif;
+  font-size: clamp(60px, 9vw, 132px);
+  letter-spacing: -2.6px;
+  line-height: 0.95;
+  display: block;
+}
+.header-img {
+  position: absolute;
+  bottom: 0;
+  left: 71%;
+  transform: translateX(-50%);
+  width: 828px;
+  z-index: 1;
+  pointer-events: none;
+}
+.header-img img {
+  width: 100%;
+  object-fit: cover;
+}
+
+/* ══════════════════════════════════════════
+   COLLECTIONS SLIDER SECTION
+══════════════════════════════════════════ */
+.collections-section {
+  position: relative;
+  background: #000;
+  height: 1183px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.collections-bg-left {
+  position: absolute;
+  left: -1642px;
+  top: 0; bottom: 0;
+  width: 2478px;
+  opacity: 0.6;
+  z-index: 0;
+}
+.collections-bg-right {
+  position: absolute;
+  right: -1446px;
+  top: 0; bottom: 0;
+  width: 2123px;
+  opacity: 0.6;
+  z-index: 0;
+}
+.collections-bg-left img,
+.collections-bg-right img { width: 100%; height: 100%; object-fit: cover; }
+
+.collections-bottle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+.collections-bottle img { width: 272px; filter: drop-shadow(0 20px 60px rgba(100,0,200,0.2)); }
+
+.collections-elysian-text {
+  position: absolute;
+  top: 53%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'GAQIRE', serif;
+  font-size: clamp(120px, 18vw, 257px);
+  letter-spacing: -0.07em;
+  line-height: 0.9;
+  color: #fff;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Slider */
+.slider-wrap {
+  position: relative;
+  width: 100%;
+  height: 800px;
+  z-index: 3;
+  overflow: hidden;
+}
+.slider-track {
+  display: flex;
+  gap: 10px;
+  height: 100%;
+  transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.slide {
+  flex-shrink: 0;
+  width: calc(33.333% - 7px);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  overflow: hidden;
+  text-decoration: none;
+}
+.slide-img {
+  height: 680px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.slide-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.slide:hover .slide-img img { transform: scale(1.05); }
+.slide-label {
+  padding: 16px 20px 0;
+  font-family: 'GAQIRE', serif;
+  font-size: 54px;
+  letter-spacing: -0.07em;
+  line-height: 0.9;
+  color: #000;
+}
+
+/* Slider buttons */
+.slider-controls {
+  position: absolute;
+  top: 50%;
+  left: 0; right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  pointer-events: none;
+  z-index: 10;
+}
+.slider-btn {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  transition: background 0.3s;
+  backdrop-filter: blur(4px);
+}
+.slider-btn:hover { background: rgba(0,0,0,0.4); }
+
+.slider-collections-text {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'GAQIRE', serif;
+  font-size: clamp(80px, 13vw, 199px);
+  letter-spacing: -0.07em;
+  line-height: 0.9;
+  text-align: center;
+  white-space: nowrap;
+  color: transparent;
+  background: linear-gradient(0deg, #6461BD -25.7%, rgba(255,255,255,0) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ══════════════════════════════════════════
+   INSPIRED BY HEAVENLY REALMS
+══════════════════════════════════════════ */
+.inspired-section {
+  position: relative;
+  height: 1200px;
+  overflow: hidden;
+  background: #000;
+}
+.inspired-bg {
+  position: absolute;
+  bottom: 0;
+  left: 51%;
+  transform: translateX(-50%);
+  width: 1185px;
+  height: 666px;
+  z-index: 1;
+}
+.inspired-bg img { width: 100%; height: 100%; object-fit: cover; }
+.inspired-cloud {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.inspired-headline {
+  font-family: 'GAQIRE', serif;
+  font-size: clamp(48px, 6.5vw, 99px);
+  letter-spacing: -2.6px;
+  line-height: 1.1;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 0 120px rgba(255,255,255,0.2);
+  transform: translateY(-240px);
+}
+
+/* ══════════════════════════════════════════
+   PRODUCT FEATURE — Rose & Jasmine
+══════════════════════════════════════════ */
+.product-feature {
+  position: relative;
+  background: #fff;
+  height: 1200px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.product-feature-bg-text {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'GAQIRE', serif;
+  font-size: clamp(60px, 13vw, 199px);
+  letter-spacing: -0.07em;
+  line-height: 0.9;
+  text-align: center;
+  white-space: nowrap;
+  color: transparent;
+  background: linear-gradient(0deg, #CCB DB7 0%, #FFE9E0 100%);
+  background: linear-gradient(0deg, rgb(204,189,183) 0%, rgb(255,233,224) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  pointer-events: none;
+  z-index: 0;
+}
+.product-feature-img {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 892px;
+  z-index: 1;
+}
+.product-feature-img img { width: 100%; }
+
+/* ══════════════════════════════════════════
+   INGREDIENTS SECTION — fondo negro
+══════════════════════════════════════════ */
+.ingredients-section {
+  position: relative;
+  background: #000;
+  height: 2000px;
+  overflow: hidden;
+}
+.ingredients-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.ingredients-bg img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+}
+.deco {
+  position: absolute;
+  pointer-events: none;
+  z-index: 2;
+}
+.deco-flower {
+  width: 102px;
+  top: 50%; left: 51%;
+  transform: translate(-50%, -50%) scale(0.9);
+}
+.deco-leaf {
+  width: 89px;
+  left: 592px; top: 51%;
+  transform: translateY(-50%) rotate(-42deg);
+}
+.deco-branch {
+  width: 175px;
+  bottom: 815px; left: 899px;
+}
+.deco-stone {
+  width: 349px;
+  right: -671px; top: 45%;
+  transform: translateY(-50%) rotate(-17deg);
+}
+.deco-sprig {
+  width: 176px;
+  left: 478px; top: 0;
+}
+.ingredients-bg-text {
+  position: absolute;
+  bottom: 200px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'GAQIRE', serif;
+  font-size: clamp(80px, 13vw, 199px);
+  letter-spacing: -0.07em;
+  line-height: 0.9;
+  text-align: center;
+  white-space: nowrap;
+  color: transparent;
+  background: linear-gradient(0deg, rgba(255,255,255,0) -13.7%, #fff 115.2%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ */
+.site-footer {
+  background: #000;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding: 60px 60px 30px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+.footer-inner {
+  display: flex;
+  gap: 40px;
   flex-wrap: wrap;
+  margin-bottom: 60px;
 }
-.filter-btn {
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--c-cream);
-  opacity: 0.4;
-  padding: 10px 20px;
-  border: 1px solid transparent;
-  background: transparent;
-  cursor: pointer;
-  transition: all 0.3s;
-  font-family: var(--f-sans);
+.footer-col { width: 300px; display: flex; flex-direction: column; gap: 15px; }
+.footer-col-title {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #fff;
 }
-.filter-btn:hover, .filter-btn.active {
-  opacity: 1;
-  color: var(--c-gold);
-  border-color: var(--c-border);
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.footer-links a {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #999;
+  transition: color 0.3s;
+}
+.footer-links a:hover { color: #fff; }
+.footer-credits {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #999;
+}
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  font-size: 14px;
+  color: #666;
+}
+.footer-icons { display: flex; gap: 10px; }
+.footer-icons svg { opacity: 0.6; transition: opacity 0.3s; cursor: pointer; }
+.footer-icons svg:hover { opacity: 1; }
+
+/* ══════════════════════════════════════════
+   ANIMACIONES
+══════════════════════════════════════════ */
+@keyframes float {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-16px); }
 }
 
-/* Grid */
-.catalog { padding-bottom: 120px; }
-.catalog__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+.hidden-mobile { display: flex; }
+.show-mobile { display: none; }
 
-@media (max-width: 1024px) {
-  .catalog__grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 640px) {
-  .catalog__grid { grid-template-columns: 1fr; }
+@media (max-width: 809px) {
+  .hidden-mobile { display: none !important; }
+  .show-mobile { display: flex !important; }
+  .nav-burger { display: flex; }
+
+  .hero { height: 900px; }
+  .hero-bottle img { width: 180px; }
+  .hero-sand { width: 100%; }
+
+  .header-section { min-height: auto; padding: 120px 24px 400px; }
+  .header-img { left: 50%; width: 100%; }
+
+  .collections-section { height: auto; min-height: 600px; }
+  .slider-wrap { height: 500px; }
+  .slide { width: calc(100% - 20px); }
+  .slide-img { height: 400px; }
+
+  .inspired-section { height: 700px; }
+  .inspired-headline { font-size: 48px; transform: translateY(-100px); }
+
+  .product-feature { height: 700px; }
+  .product-feature-img { width: 100%; }
+
+  .ingredients-section { height: 1000px; }
+
+  .site-footer { padding: 40px 24px 30px; }
+  .footer-inner { flex-direction: column; }
+  .footer-col { width: 100%; }
+  .footer-bottom { flex-direction: column; gap: 16px; }
+
+  .collections-elysian-text { font-size: 80px; }
+  .collections-bg-left, .collections-bg-right { display: none; }
 }
 </style>
+
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav?.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Mobile menu
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  burger?.addEventListener('click', () => mobileMenu?.classList.toggle('open'));
+
+  // Slider
+  const track = document.getElementById('sliderTrack') as HTMLElement;
+  const prevBtn = document.getElementById('sliderPrev');
+  const nextBtn = document.getElementById('sliderNext');
+
+  if (track && prevBtn && nextBtn) {
+    const totalSlides = 6; // número original (sin duplicados)
+    let current = 0;
+
+    function getSlideWidth() {
+      const slide = track.querySelector('.slide') as HTMLElement;
+      return slide ? slide.offsetWidth + 10 : 0; // 10 = gap
+    }
+
+    function updateSlider() {
+      const slideW = getSlideWidth();
+      track.style.transform = `translateX(-${current * slideW}px)`;
+    }
+
+    nextBtn.addEventListener('click', () => {
+      current = (current + 1) % totalSlides;
+      updateSlider();
+    });
+
+    prevBtn.addEventListener('click', () => {
+      current = (current - 1 + totalSlides) % totalSlides;
+      updateSlider();
+    });
+
+    // Touch/swipe
+    let startX = 0;
+    track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', e => {
+      const diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) { current = (current + 1) % totalSlides; }
+        else { current = (current - 1 + totalSlides) % totalSlides; }
+        updateSlider();
+      }
+    });
+  }
+</script>
