@@ -18,9 +18,8 @@
  */
 
 const WP_URL    = import.meta.env.WP_URL    || 'https://reyes.saulpedroza.com.mx';
-const WC_KEY    = import.meta.env.WC_KEY    || '';
-const WC_SECRET = import.meta.env.WC_SECRET || '';
-
+const WC_KEY    = import.meta.env.WC_KEY    || 'ck_d5780bddda8106de040040a6a15d2884272de4c2';
+const WC_SECRET = import.meta.env.WC_SECRET || 'cs_cd09723f0e558459a141df333cdd5236faff943b';
 // ─── Auth header para WooCommerce ─────────────────────────────────────────────
 function getAuthHeader() {
   if (!WC_KEY || !WC_SECRET) return {};
