@@ -194,8 +194,8 @@
     position: absolute;
     bottom: 0;
     left: 50%;
-    /* Empieza parcialmente fuera de pantalla */
-    transform: translateX(-50%) translateY(30%);
+    /* Empieza parcialmente fuera de pantalla — sincronizado con JS */
+    transform: translateX(-50%) translateY(35%);
     width: 110%;
     z-index: 2;
     will-change: transform;
@@ -225,21 +225,24 @@
   }
 </style>
 
-<script>
-  // Mano sube suavemente al hacer scroll
-  const hand = document.getElementById('heroHand');
-  const hero = document.getElementById('hero');
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function () {
+    const hand = document.getElementById('heroHand');
+    const hero = document.getElementById('hero');
+    if (!hand || !hero) return;
 
-  if (hand && hero) {
     function onScroll() {
-      const scrollY   = window.scrollY;
-      const heroH     = hero.offsetHeight;
-      const progress  = Math.min(scrollY / (heroH * 0.55), 1);
-      // de 30% → 0% al scrollear
-      const offset = 30 - progress * 30;
-      hand.style.transform = `translateX(-50%) translateY(${offset}%)`;
+      const scrollY  = window.scrollY;
+      const heroH    = hero.offsetHeight;
+      // progreso 0→1 mientras scrolleas la mitad del hero
+      const progress = Math.min(scrollY / (heroH * 0.5), 1);
+      // mano va de translateY(35%) → translateY(0%)
+      const offset   = 35 * (1 - progress);
+      hand.style.transform = 'translateX(-50%) translateY(' + offset + '%)';
     }
+
+    // Aplicar estado inicial
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-  }
+  });
 </script>
