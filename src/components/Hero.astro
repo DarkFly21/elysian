@@ -1,232 +1,297 @@
 ---
 /**
- * COMPONENTE: Hero
- * Diseño fiel al template Elysian de Framer
- * Fondo fotográfico + frasco flotante + texto "divine allure"
+ * HERO — Estilo minimalista editorial
+ * Inspirado en Essentia + SOHub:
+ * Tipografía enorme, producto centrado flotando, mucho espacio
  */
 ---
 
 <section class="hero">
-  <!-- Fondo fotográfico -->
-  <div class="hero__bg">
-    <img
-      src="https://framerusercontent.com/images/8eq7qmkLvK4orUvTGKaJXCo8L1I.png"
-      alt=""
-      aria-hidden="true"
-      class="hero__bg-img"
-    />
-    <div class="hero__bg-overlay"></div>
+
+  <!-- Nav hint arriba derecha -->
+  <div class="hero__tagline">
+    <span>Luxury Fragrance</span>
+    <span class="hero__dot">✦</span>
+    <span>Est. 2024</span>
   </div>
 
-  <!-- Texto decorativo fondo -->
-  <div class="hero__wordmark" aria-hidden="true">divine<br/>allure</div>
+  <!-- Texto enorme de fondo -->
+  <div class="hero__bg-word" aria-hidden="true">Elysian</div>
 
-  <!-- Frasco flotante -->
-  <div class="hero__bottle">
+  <!-- Producto centrado -->
+  <div class="hero__product">
     <img
       src="https://framerusercontent.com/images/XzpHmYtrKpOC2dXQ7lCieJQH90.png"
-      alt="Elysian perfume"
-      loading="eager"
+      alt="Elysian Aromas — Fragrance"
     />
+    <div class="hero__product-glow"></div>
   </div>
 
-  <!-- Contenido -->
-  <div class="hero__content container">
-    <p class="hero__eyebrow">Est. 2024</p>
+  <!-- Título izquierda -->
+  <div class="hero__left">
     <h1 class="hero__title">
-      Huevos<br />
-      to Elysian<br />
-      Aromas
+      Divine<br/>
+      <em>Allure.</em>
     </h1>
     <p class="hero__sub">
-      A luxury perfume company that creates<br />
-      unforgettable scents, leaving an unforgettable impression.
+      A luxury perfume company<br/>
+      that creates unforgettable scents.
     </p>
-    <div class="hero__actions">
-      <a href="/coleccion" class="btn-gold">Explore Collection</a>
-      <a href="/nosotros" class="btn-line">
-        <span class="btn-line__dash"></span>
-        Our Story
-      </a>
-    </div>
+    <a href="/coleccion" class="hero__cta">
+      Explore Collection
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </a>
   </div>
 
-  <!-- Scroll indicator -->
+  <!-- Info derecha -->
+  <div class="hero__right">
+    <div class="hero__stat">
+      <span class="hero__stat-num">12</span>
+      <span class="hero__stat-label">Unique<br/>Scents</span>
+    </div>
+    <div class="hero__stat">
+      <span class="hero__stat-num">42</span>
+      <span class="hero__stat-label">Rare<br/>Ingredients</span>
+    </div>
+    <a href="/coleccion" class="hero__shop">
+      Shop Now →
+    </a>
+  </div>
+
+  <!-- Scroll -->
   <div class="hero__scroll">
     <div class="hero__scroll-line"></div>
     <span>Scroll</span>
   </div>
+
 </section>
 
 <style>
 .hero {
   position: relative;
   min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: auto 1fr auto;
+  align-items: center;
+  padding: 120px 64px 60px;
+  overflow: hidden;
+  background: var(--c-bg);
+}
+
+/* Tagline arriba centro */
+.hero__tagline {
+  grid-column: 1 / -1;
+  grid-row: 1;
   display: flex;
   align-items: center;
-  overflow: hidden;
-}
-
-/* Fondo fotográfico */
-.hero__bg {
-  position: absolute;
-  inset: 0;
-}
-.hero__bg-img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: center 30%;
-  filter: brightness(0.35);
-}
-.hero__bg-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg,
-    rgba(10,9,6,0.7) 0%,
-    rgba(10,9,6,0.2) 60%,
-    rgba(10,9,6,0.5) 100%
-  );
-}
-
-/* Texto decorativo grande */
-.hero__wordmark {
-  position: absolute;
-  right: -20px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: var(--f-serif);
-  font-size: clamp(100px, 14vw, 220px);
-  font-weight: 300;
-  font-style: italic;
-  line-height: 0.85;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(201,169,110,0.12);
-  pointer-events: none;
-  user-select: none;
-  white-space: nowrap;
-  text-align: right;
-  z-index: 1;
-}
-
-/* Frasco */
-.hero__bottle {
-  position: absolute;
-  right: 8%;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-  animation: float 6s ease-in-out infinite;
-}
-.hero__bottle img {
-  width: clamp(200px, 22vw, 380px);
-  filter: drop-shadow(0 40px 80px rgba(201,169,110,0.2));
-}
-
-/* Contenido */
-.hero__content {
-  position: relative;
-  z-index: 3;
-  width: 100%;
-  padding-top: 80px;
-}
-.hero__eyebrow {
-  font-size: 11px;
+  justify-content: center;
+  gap: 16px;
+  font-size: 10px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--c-gold);
-  margin-bottom: 28px;
+  color: var(--c-cream);
+  opacity: 0.35;
+  margin-bottom: 0;
+  padding-bottom: 40px;
+}
+.hero__dot { color: var(--c-gold); opacity: 0.6; }
+
+/* Texto enorme de fondo */
+.hero__bg-word {
+  position: absolute;
+  bottom: -0.1em;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--f-serif);
+  font-size: clamp(120px, 18vw, 280px);
+  font-weight: 300;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(201,169,110,0.1);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  z-index: 0;
+  letter-spacing: -0.02em;
+}
+
+/* Producto */
+.hero__product {
+  grid-column: 2;
+  grid-row: 2;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  animation: float 7s ease-in-out infinite;
+}
+.hero__product img {
+  width: clamp(220px, 24vw, 420px);
+  filter: drop-shadow(0 60px 100px rgba(201,169,110,0.18))
+          drop-shadow(0 20px 40px rgba(0,0,0,0.4));
+}
+.hero__product-glow {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 20px;
+  background: radial-gradient(ellipse, rgba(201,169,110,0.25), transparent 70%);
+  filter: blur(8px);
+  z-index: -1;
+}
+
+/* Izquierda */
+.hero__left {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-right: 40px;
+  z-index: 2;
 }
 .hero__title {
-  font-size: clamp(48px, 7vw, 100px);
+  font-family: var(--f-serif);
+  font-size: clamp(52px, 6vw, 90px);
   font-weight: 300;
   color: var(--c-cream);
   line-height: 1.0;
-  margin-bottom: 24px;
+}
+.hero__title em {
+  font-style: italic;
+  color: var(--c-gold);
 }
 .hero__sub {
   font-size: 13px;
   line-height: 1.8;
   color: var(--c-cream);
-  opacity: 0.6;
-  max-width: 360px;
-  margin-bottom: 48px;
+  opacity: 0.45;
+  max-width: 240px;
 }
-.hero__actions {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  flex-wrap: wrap;
-}
-
-/* Botones */
-.btn-gold {
+.hero__cta {
   display: inline-flex;
   align-items: center;
-  background: var(--c-gold);
-  color: var(--c-bg);
-  padding: 15px 36px;
+  gap: 10px;
   font-size: 11px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  font-family: var(--f-sans);
-  font-weight: 500;
-  transition: background 0.3s, transform 0.2s;
+  color: var(--c-gold);
+  border-bottom: 1px solid rgba(201,169,110,0.3);
+  padding-bottom: 6px;
+  width: fit-content;
+  transition: gap 0.3s, border-color 0.3s;
 }
-.btn-gold:hover {
-  background: var(--c-gold-light);
-  transform: translateY(-2px);
-}
+.hero__cta:hover { gap: 16px; border-color: var(--c-gold); }
 
-.btn-line {
-  display: inline-flex;
-  align-items: center;
+/* Derecha */
+.hero__right {
+  grid-column: 3;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 40px;
+  padding-left: 40px;
+  z-index: 2;
+}
+.hero__stat {
+  display: flex;
+  align-items: baseline;
   gap: 12px;
-  font-size: 11px;
+  text-align: right;
+}
+.hero__stat-num {
+  font-family: var(--f-serif);
+  font-size: 56px;
+  color: var(--c-gold);
+  line-height: 1;
+  opacity: 0.8;
+}
+.hero__stat-label {
+  font-size: 10px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--c-cream);
-  opacity: 0.6;
-  transition: opacity 0.3s, gap 0.3s;
+  opacity: 0.4;
+  line-height: 1.4;
 }
-.btn-line__dash {
-  width: 28px;
-  height: 1px;
-  background: currentColor;
+.hero__shop {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-cream);
+  opacity: 0.35;
+  transition: opacity 0.3s;
 }
-.btn-line:hover { opacity: 1; gap: 18px; }
+.hero__shop:hover { opacity: 1; color: var(--c-gold); }
 
-/* Scroll indicator */
-.hero__scroll {
+/* Divider decorativo horizontal */
+.hero::before {
+  content: '';
   position: absolute;
-  bottom: 40px;
-  left: 48px;
+  top: 110px;
+  left: 64px;
+  right: 64px;
+  height: 1px;
+  background: rgba(201,169,110,0.08);
+  z-index: 1;
+}
+
+/* Scroll */
+.hero__scroll {
+  grid-column: 1 / -1;
+  grid-row: 3;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 10px;
-  z-index: 3;
+  gap: 16px;
+  padding-top: 40px;
+  z-index: 2;
 }
 .hero__scroll-line {
-  width: 1px;
-  height: 50px;
-  background: linear-gradient(to bottom, var(--c-gold), transparent);
-  animation: float 2s ease-in-out infinite;
+  width: 40px;
+  height: 1px;
+  background: var(--c-gold);
+  opacity: 0.4;
 }
 .hero__scroll span {
   font-size: 9px;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--c-gold);
-  writing-mode: vertical-rl;
-  opacity: 0.5;
+  color: var(--c-cream);
+  opacity: 0.3;
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .hero__bottle { display: none; }
-  .hero__wordmark { display: none; }
-  .hero__scroll { display: none; }
-  .hero__content { padding-top: 120px; }
+@media (max-width: 1024px) {
+  .hero {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    padding: 100px 40px 60px;
+  }
+  .hero__tagline { grid-column: 1 / -1; }
+  .hero__product { grid-column: 2; grid-row: 2; }
+  .hero__left { grid-column: 1; grid-row: 2; padding-right: 20px; }
+  .hero__right { display: none; }
+  .hero__scroll { grid-column: 1 / -1; }
+  .hero__bg-word { font-size: 15vw; }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 100px 24px 60px;
+    text-align: center;
+  }
+  .hero__tagline { grid-column: 1; }
+  .hero__product { grid-column: 1; grid-row: 2; }
+  .hero__left { grid-column: 1; grid-row: 3; align-items: center; padding: 0; }
   .hero__sub { max-width: 100%; }
+  .hero__bg-word { display: none; }
+  .hero::before { display: none; }
 }
 </style>
