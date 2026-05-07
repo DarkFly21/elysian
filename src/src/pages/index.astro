@@ -1,0 +1,937 @@
+---
+/**
+ * HOME — Réplica fiel del template Elysian de Framer
+ * Secciones: Nav · Hero · Marquee · Collection · Editorial · Ingredients · Testimonials · CTA · Footer
+ */
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import ProductCard from '../components/ProductCard.astro';
+import { getProducts, MOCK_PRODUCTS } from '../lib/wordpress.js';
+
+let products;
+try {
+  products = await getProducts({ perPage: 3 });
+  if (!products?.length) products = MOCK_PRODUCTS.slice(0, 3);
+} catch {
+  products = MOCK_PRODUCTS.slice(0, 3);
+}
+
+// Imágenes del template original de Framer
+const IMG = {
+  bottle:     'https://framerusercontent.com/images/XzpHmYtrKpOC2dXQ7lCieJQH90.png',
+  heroFull:   'https://framerusercontent.com/images/8eq7qmkLvK4orUvTGKaJXCo8L1I.png',
+  editorial1: 'https://framerusercontent.com/images/9p6ZdVRkfJqY0sgtSIUbUvrY4T8.jpg',
+  editorial2: 'https://framerusercontent.com/images/MMEyUHZzDOmm6WwPRKyQIme7pw.jpg',
+  editorial3: 'https://framerusercontent.com/images/uhfzzPLmgOpXgorwxMLLNS62Vg.jpg',
+  editorial4: 'https://framerusercontent.com/images/WbXGhJjO9A5ZMCVFyQimOKE1ZbE.jpg',
+  editorial5: 'https://framerusercontent.com/images/BqoHIJC0AVM4K7ayotWMaIoo0U.jpg',
+  editorial6: 'https://framerusercontent.com/images/DLjH9pXaV6Jj1rUJ4wRVYujkHOI.jpg',
+  ingr:       'https://framerusercontent.com/images/IOhbTFxoyJYbNgPXKW5DZW1xr4.webp',
+  about:      'https://framerusercontent.com/images/Qi3nYHH8jDLxYC6vrOJ1VKaYI.png',
+};
+---
+
+<Layout title="Elysian Aromas — Luxury Fragrances">
+  <Nav slot="nav" />
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- HERO                                                   -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="hero">
+    <!-- Fondo fotográfico -->
+    <div class="hero__bg">
+      <img src={IMG.heroFull} alt="" aria-hidden="true" class="hero__bg-img" />
+      <div class="hero__bg-overlay"></div>
+    </div>
+
+    <!-- Texto decorativo grande -->
+    <div class="hero__wordmark" aria-hidden="true">divine<br/>allure</div>
+
+    <!-- Frasco flotante -->
+    <div class="hero__bottle">
+      <img src={IMG.bottle} alt="Elysian perfume" />
+    </div>
+
+    <!-- Contenido -->
+    <div class="hero__content container">
+      <p class="hero__eyebrow">Est. 2024</p>
+      <h1 class="hero__title">
+        Welcome<br />
+        to Elysian<br />
+        Aromas
+      </h1>
+      <p class="hero__sub">
+        A luxury perfume company that creates<br />
+        unforgettable scents, leaving an unforgettable impression.
+      </p>
+      <div class="hero__actions">
+        <a href="/coleccion" class="btn-gold">Explore Collection</a>
+        <a href="/nosotros" class="btn-line">
+          <span class="btn-line__dash"></span>
+          Our Story
+        </a>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="hero__scroll">
+      <div class="hero__scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- MARQUEE                                               -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="marquee-wrap">
+    <div class="marquee__track">
+      {['LUXURY FRAGRANCES','ELYSIAN AROMAS','DIVINE ALLURE','EST. 2024','HANDCRAFTED SCENTS','ELYSIAN AROMAS',
+        'LUXURY FRAGRANCES','ELYSIAN AROMAS','DIVINE ALLURE','EST. 2024','HANDCRAFTED SCENTS','ELYSIAN AROMAS'].map(t => (
+        <span class="marquee__item">{t}<span class="marquee__dot" aria-hidden="true"> ✦ </span></span>
+      ))}
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- COLLECTION                                             -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="collection">
+    <div class="container">
+      <div class="collection__head">
+        <div class="collection__label">
+          <span class="gold-line"></span>
+          <span>Our Collections</span>
+        </div>
+        <h2 class="collection__title">
+          Inspired by<br />heavenly realms.
+        </h2>
+        <a href="/coleccion" class="collection__link">
+          View All
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+      <div class="collection__grid">
+        {products.map(p => <ProductCard {...p} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- EDITORIAL GRID (6 fotos estilo lookbook)              -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="editorial">
+    <div class="editorial__grid">
+      <!-- Col izquierda: 1 foto tall -->
+      <div class="editorial__col editorial__col--left">
+        <div class="editorial__img-wrap editorial__img--tall">
+          <img src={IMG.editorial1} alt="Elysian editorial" loading="lazy" />
+        </div>
+      </div>
+
+      <!-- Col centro: texto + 2 fotos -->
+      <div class="editorial__col editorial__col--center">
+        <div class="editorial__text">
+          <div class="editorial__label">
+            <span class="gold-line"></span>
+            <span>The Experience</span>
+          </div>
+          <h2 class="editorial__title">
+            A scent for<br />every moment.
+          </h2>
+          <p class="editorial__body">
+            Each fragrance is a carefully crafted journey, designed to evolve 
+            beautifully on your skin throughout the day.
+          </p>
+          <a href="/coleccion" class="btn-gold">Discover More</a>
+        </div>
+        <div class="editorial__duo">
+          <div class="editorial__img-wrap">
+            <img src={IMG.editorial2} alt="" loading="lazy" />
+          </div>
+          <div class="editorial__img-wrap">
+            <img src={IMG.editorial3} alt="" loading="lazy" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Col derecha: 3 fotos apiladas -->
+      <div class="editorial__col editorial__col--right">
+        <div class="editorial__img-wrap">
+          <img src={IMG.editorial4} alt="" loading="lazy" />
+        </div>
+        <div class="editorial__img-wrap editorial__img--tall2">
+          <img src={IMG.editorial5} alt="" loading="lazy" />
+        </div>
+        <div class="editorial__img-wrap">
+          <img src={IMG.editorial6} alt="" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- ABOUT / FILOSOFÍA                                      -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="about">
+    <div class="about__inner container">
+      <div class="about__visual">
+        <div class="about__img-wrap">
+          <img src={IMG.about} alt="Elysian — artesanía" loading="lazy" />
+        </div>
+        <div class="about__badge">
+          <span class="about__badge-num">12</span>
+          <span class="about__badge-label">Unique<br/>Scents</span>
+        </div>
+      </div>
+      <div class="about__content">
+        <div class="about__label">
+          <span class="gold-line"></span>
+          <span>Our Philosophy</span>
+        </div>
+        <h2 class="about__title">
+          Where heaven<br />meets the senses.
+        </h2>
+        <p class="about__text">
+          At Elysian, we believe fragrance is more than scent — it is memory, 
+          emotion, and identity crystallized in a bottle. Each formula is crafted 
+          with rare ingredients sourced from the world's most exquisite regions.
+        </p>
+        <div class="about__stats">
+          <div class="about__stat">
+            <span class="about__stat-num">08</span>
+            <span class="about__stat-label">Years of Craft</span>
+          </div>
+          <div class="about__stat">
+            <span class="about__stat-num">42</span>
+            <span class="about__stat-label">Rare Ingredients</span>
+          </div>
+          <div class="about__stat">
+            <span class="about__stat-num">∞</span>
+            <span class="about__stat-label">Memories Created</span>
+          </div>
+        </div>
+        <a href="/nosotros" class="btn-gold" style="display:inline-block;margin-top:40px;">Discover Our Story</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- INGREDIENTES                                           -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="ingr">
+    <div class="ingr__bg">
+      <img src={IMG.ingr} alt="" aria-hidden="true" id="ingrBg" />
+      <div class="ingr__overlay"></div>
+    </div>
+    <div class="container">
+      <div class="ingr__head">
+        <div class="ingr__label">
+          <span class="gold-line"></span>
+          <span>Ingredients</span>
+        </div>
+        <h2 class="ingr__title">Nature's finest,<br/>distilled for you.</h2>
+      </div>
+      <div class="ingr__grid">
+        {[
+          { n:'01', note:'Top note',   name:'Rosa de Damasco', origin:'Bulgaria',        desc:'La reina de las flores. Dulce, aterciopelada, con sutiles matices de fruta.' },
+          { n:'02', note:'Base note',  name:'Oud Árabe',       origin:'Arabia Saudita',  desc:'La madera más preciada. Rico, profundo, con reminiscencias de miel.' },
+          { n:'03', note:'Heart note', name:'Jazmín Sambac',   origin:'India',           desc:'Intensamente floral y casi indólico. La esencia de las noches de verano.' },
+          { n:'04', note:'Base note',  name:'Ámbar Gris',      origin:'Océano Índico',   desc:'Cálido, marino, con una complejidad terrosa. Fija y amplifica los demás aromas.' },
+        ].map(i => (
+          <div class="ingr__card">
+            <div class="ingr__num">{i.n}</div>
+            <div class="ingr__note">{i.note}</div>
+            <h3 class="ingr__name">{i.name}</h3>
+            <p class="ingr__origin">{i.origin}</p>
+            <p class="ingr__desc">{i.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- TESTIMONIOS                                            -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="testimonials__head">
+        <div class="testimonials__label">
+          <span class="gold-line"></span>
+          <span>Reviews</span>
+        </div>
+        <h2 class="testimonials__title">What our clients say.</h2>
+      </div>
+      <div class="testimonials__grid">
+        {[
+          { quote: '"An ethereal experience. Rose & Jasmine is unlike anything I have ever worn. It lingers beautifully all day."', name: 'Isabella M.', role: 'Fashion Editor, Paris' },
+          { quote: '"Noir Absolu is pure sophistication. Deep, mysterious, and absolutely unforgettable. My signature scent."', name: 'Alexandre D.', role: 'Creative Director, London' },
+          { quote: '"The packaging alone is art. But the fragrance inside is even more extraordinary. Velvet Iris is a masterpiece."', name: 'Sophia R.', role: 'Perfume Collector, New York' },
+        ].map(t => (
+          <div class="testimonial-card">
+            <div class="testimonial-card__stars">✦ ✦ ✦ ✦ ✦</div>
+            <p class="testimonial-card__quote">{t.quote}</p>
+            <div class="testimonial-card__author">
+              <span class="testimonial-card__name">{t.name}</span>
+              <span class="testimonial-card__role">{t.role}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- CTA FINAL                                             -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="cta-section">
+    <div class="cta-section__bg">
+      <img src={IMG.editorial1} alt="" aria-hidden="true" />
+      <div class="cta-section__overlay"></div>
+    </div>
+    <div class="cta-section__content container">
+      <p class="cta-section__eyebrow">Begin your journey</p>
+      <h2 class="cta-section__title">
+        Find your<br />
+        signature scent.
+      </h2>
+      <a href="/coleccion" class="btn-gold btn-gold--lg">Shop the Collection</a>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+/* ── HERO ─────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.hero__bg {
+  position: absolute;
+  inset: 0;
+}
+.hero__bg-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  filter: brightness(0.35);
+}
+.hero__bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(10,9,6,0.7) 0%, rgba(10,9,6,0.2) 60%, rgba(10,9,6,0.5) 100%);
+}
+
+/* Texto decorativo fondo */
+.hero__wordmark {
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--f-serif);
+  font-size: clamp(100px, 14vw, 220px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 0.85;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(201,169,110,0.12);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  text-align: right;
+  z-index: 1;
+}
+
+/* Frasco */
+.hero__bottle {
+  position: absolute;
+  right: 8%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  animation: float 6s ease-in-out infinite;
+}
+.hero__bottle img {
+  width: clamp(200px, 22vw, 380px);
+  filter: drop-shadow(0 40px 80px rgba(201,169,110,0.2));
+}
+
+/* Contenido */
+.hero__content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  padding-top: 80px;
+}
+.hero__eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  margin-bottom: 28px;
+}
+.hero__title {
+  font-size: clamp(48px, 7vw, 100px);
+  font-weight: 300;
+  color: var(--c-cream);
+  line-height: 1.0;
+  margin-bottom: 24px;
+}
+.hero__sub {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--c-cream);
+  opacity: 0.6;
+  max-width: 360px;
+  margin-bottom: 48px;
+}
+.hero__actions {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+/* Scroll */
+.hero__scroll {
+  position: absolute;
+  bottom: 40px;
+  left: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 3;
+}
+.hero__scroll-line {
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(to bottom, var(--c-gold), transparent);
+  animation: float 2s ease-in-out infinite;
+}
+.hero__scroll span {
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  writing-mode: vertical-rl;
+  opacity: 0.5;
+}
+
+/* ── BOTONES ─────────────────────────────────────────────── */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  background: var(--c-gold);
+  color: var(--c-bg);
+  padding: 15px 36px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-family: var(--f-sans);
+  font-weight: 500;
+  transition: background 0.3s, transform 0.2s;
+}
+.btn-gold:hover { background: var(--c-gold-light); transform: translateY(-2px); }
+.btn-gold--lg { padding: 18px 48px; font-size: 12px; }
+
+.btn-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--c-cream);
+  opacity: 0.6;
+  transition: opacity 0.3s, gap 0.3s;
+}
+.btn-line__dash {
+  width: 28px;
+  height: 1px;
+  background: currentColor;
+}
+.btn-line:hover { opacity: 1; gap: 18px; }
+
+/* ── MARQUEE ─────────────────────────────────────────────── */
+.marquee-wrap {
+  border-top: 1px solid var(--c-border);
+  border-bottom: 1px solid var(--c-border);
+  padding: 14px 0;
+  overflow: hidden;
+  background: rgba(201,169,110,0.03);
+}
+.marquee__track {
+  display: inline-flex;
+  animation: marquee 30s linear infinite;
+  white-space: nowrap;
+}
+.marquee__item {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  opacity: 0.6;
+  padding: 0 24px;
+}
+.marquee__dot { opacity: 0.4; }
+.marquee-wrap:hover .marquee__track { animation-play-state: paused; }
+
+/* ── COLLECTION ──────────────────────────────────────────── */
+.collection { padding: 120px 0; }
+.collection__head {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: end;
+  gap: 32px;
+  margin-bottom: 60px;
+}
+.collection__label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  opacity: 0.7;
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+}
+.collection__title {
+  font-size: clamp(36px, 5vw, 70px);
+  font-weight: 300;
+  color: var(--c-cream);
+  grid-column: 1;
+  grid-row: 2;
+}
+.collection__link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  grid-column: 3;
+  grid-row: 2;
+  transition: gap 0.3s;
+}
+.collection__link:hover { gap: 16px; }
+.collection__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* ── EDITORIAL ───────────────────────────────────────────── */
+.editorial { padding: 0 0 120px; }
+.editorial__grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: 16px;
+  min-height: 700px;
+}
+.editorial__col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.editorial__img-wrap {
+  overflow: hidden;
+  flex: 1;
+  background: var(--c-bg-card);
+}
+.editorial__img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.editorial__img-wrap:hover img { transform: scale(1.05); }
+.editorial__img--tall { flex: 2; }
+.editorial__img--tall2 { flex: 2; }
+
+.editorial__text {
+  padding: 48px 40px;
+  background: var(--c-bg-soft);
+  border: 1px solid var(--c-border-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.editorial__label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  opacity: 0.7;
+}
+.editorial__title {
+  font-size: clamp(28px, 3vw, 44px);
+  font-weight: 300;
+  color: var(--c-cream);
+  line-height: 1.1;
+}
+.editorial__body {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--c-cream);
+  opacity: 0.55;
+}
+.editorial__duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  flex: 1;
+}
+
+/* ── ABOUT ───────────────────────────────────────────────── */
+.about { padding: 120px 0; overflow: hidden; }
+.about__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.about__visual { position: relative; }
+.about__img-wrap { overflow: hidden; }
+.about__img-wrap img {
+  width: 100%;
+  height: 580px;
+  object-fit: cover;
+  filter: brightness(0.88);
+}
+.about__badge {
+  position: absolute;
+  bottom: -24px; right: -24px;
+  width: 120px; height: 120px;
+  background: var(--c-gold);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.about__badge-num {
+  font-family: var(--f-serif);
+  font-size: 40px;
+  color: var(--c-bg);
+  line-height: 1;
+}
+.about__badge-label {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-bg);
+  text-align: center;
+  opacity: 0.7;
+}
+.about__label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  opacity: 0.7;
+  margin-bottom: 24px;
+}
+.about__title {
+  font-size: clamp(34px, 4vw, 58px);
+  font-weight: 300;
+  color: var(--c-cream);
+  line-height: 1.1;
+  margin-bottom: 28px;
+}
+.about__text {
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--c-cream);
+  opacity: 0.55;
+  margin-bottom: 12px;
+}
+.about__stats {
+  display: flex;
+  gap: 48px;
+  padding-top: 40px;
+  border-top: 1px solid var(--c-border);
+  margin-top: 40px;
+}
+.about__stat { display: flex; flex-direction: column; gap: 4px; }
+.about__stat-num {
+  font-family: var(--f-serif);
+  font-size: 40px;
+  color: var(--c-gold);
+  line-height: 1;
+}
+.about__stat-label {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--c-cream);
+  opacity: 0.45;
+}
+
+/* ── INGREDIENTES ─────────────────────────────────────────── */
+.ingr {
+  position: relative;
+  padding: 160px 0;
+  overflow: hidden;
+}
+.ingr__bg {
+  position: absolute;
+  inset: 0;
+}
+.ingr__bg img {
+  width: 100%; height: 120%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.25;
+  will-change: transform;
+}
+.ingr__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, var(--c-bg) 0%, rgba(10,9,6,0.6) 30%, rgba(10,9,6,0.6) 70%, var(--c-bg) 100%);
+}
+.ingr__head {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 80px;
+}
+.ingr__label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  opacity: 0.7;
+  margin-bottom: 20px;
+}
+.ingr__title {
+  font-size: clamp(36px, 5vw, 70px);
+  font-weight: 300;
+  color: var(--c-cream);
+  line-height: 1.1;
+}
+.ingr__grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--c-border);
+}
+.ingr__card {
+  background: var(--c-bg-card);
+  padding: 40px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: background 0.4s;
+}
+.ingr__card:hover { background: rgba(201,169,110,0.06); }
+.ingr__num {
+  font-family: var(--f-serif);
+  font-size: 52px;
+  color: var(--c-gold);
+  opacity: 0.2;
+  line-height: 1;
+  margin-bottom: -4px;
+}
+.ingr__note {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  opacity: 0.65;
+}
+.ingr__name {
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--c-cream);
+  line-height: 1.2;
+}
+.ingr__origin {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+}
+.ingr__desc {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--c-cream);
+  opacity: 0.5;
+  margin-top: 8px;
+}
+
+/* ── TESTIMONIOS ─────────────────────────────────────────── */
+.testimonials { padding: 120px 0; }
+.testimonials__head {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 64px;
+}
+.testimonials__label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+.testimonials__title {
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 300;
+  color: var(--c-cream);
+}
+.testimonials__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.testimonial-card {
+  border: 1px solid var(--c-border-soft);
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transition: border-color 0.4s;
+  background: var(--c-bg-card);
+}
+.testimonial-card:hover { border-color: var(--c-border); }
+.testimonial-card__stars {
+  font-size: 10px;
+  color: var(--c-gold);
+  letter-spacing: 4px;
+  opacity: 0.8;
+}
+.testimonial-card__quote {
+  font-family: var(--f-serif);
+  font-size: 18px;
+  font-style: italic;
+  color: var(--c-cream);
+  line-height: 1.6;
+  opacity: 0.85;
+  flex: 1;
+}
+.testimonial-card__author {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 20px;
+  border-top: 1px solid var(--c-border-soft);
+}
+.testimonial-card__name {
+  font-size: 13px;
+  color: var(--c-gold);
+  letter-spacing: 0.1em;
+}
+.testimonial-card__role {
+  font-size: 11px;
+  color: var(--c-cream);
+  opacity: 0.4;
+  letter-spacing: 0.05em;
+}
+
+/* ── CTA FINAL ───────────────────────────────────────────── */
+.cta-section {
+  position: relative;
+  padding: 160px 0;
+  overflow: hidden;
+}
+.cta-section__bg {
+  position: absolute;
+  inset: 0;
+}
+.cta-section__bg img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: brightness(0.25);
+}
+.cta-section__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10,9,6,0.5);
+}
+.cta-section__content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+.cta-section__eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  opacity: 0.7;
+}
+.cta-section__title {
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 300;
+  color: var(--c-cream);
+  line-height: 1.05;
+  margin-bottom: 16px;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .editorial__grid { grid-template-columns: 1fr 1fr; }
+  .editorial__col--right { display: none; }
+  .about__inner { grid-template-columns: 1fr; gap: 60px; }
+  .about__img-wrap img { height: 400px; }
+  .ingr__grid { grid-template-columns: repeat(2, 1fr); }
+  .testimonials__grid { grid-template-columns: repeat(2, 1fr); }
+  .collection__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .hero__bottle { display: none; }
+  .hero__wordmark { display: none; }
+  .editorial__grid { grid-template-columns: 1fr; }
+  .editorial__col--left, .editorial__col--right { display: none; }
+  .ingr__grid { grid-template-columns: 1fr; }
+  .testimonials__grid { grid-template-columns: 1fr; }
+  .collection__grid { grid-template-columns: 1fr; }
+  .collection__head { grid-template-columns: 1fr; }
+  .collection__link { grid-column: 1; }
+  .hero__scroll { display: none; }
+}
+</style>
+
+<script>
+  // Parallax en ingredientes
+  const ingrBg = document.getElementById('ingrBg');
+  window.addEventListener('scroll', () => {
+    if (!ingrBg) return;
+    const section = ingrBg.closest('.ingr');
+    if (!section) return;
+    const rect = section.getBoundingClientRect();
+    const p = -rect.top / (rect.height + window.innerHeight);
+    ingrBg.style.transform = `translateY(${p * 60}px)`;
+  });
+</script>

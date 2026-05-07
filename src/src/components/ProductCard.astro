@@ -1,0 +1,206 @@
+---
+/**
+ * COMPONENTE: ProductCard
+ * ──────────────────────────────────────────────────────
+ * Muestra un producto individual.
+ * Recibe los datos como "props" (propiedades).
+ *
+ * FLUJO DE DATOS:
+ * WordPress → wordpress.js (normalización) → página → ProductCard
+ *
+ * interface Props es TypeScript-light de Astro:
+ * define qué datos acepta este componente.
+ */
+
+interface Props {
+  id: number;
+  slug: string;
+  title: string;
+  excerpt?: string;
+  price?: string;
+  image?: string;
+  imageAlt?: string;
+  notes?: string[];
+  featured?: boolean;
+}
+
+const {
+  slug,
+  title,
+  excerpt = '',
+  price = '€180',
+  image,
+  imageAlt = title,
+  notes = [],
+  featured = false,
+} = Astro.props;
+
+// Imagen de placeholder si WordPress no tiene imagen
+const imageSrc = image || 'https://framerusercontent.com/images/9p6ZdVRkfJqY0sgtSIUbUvrY4T8.jpg';
+---
+
+<article class:list={['product-card', { 'product-card--featured': featured }]}>
+  
+  <!-- Imagen -->
+  <a href={`/coleccion/${slug}`} class="product-card__img-wrap">
+    <img
+      src={imageSrc}
+      alt={imageAlt}
+      class="product-card__img"
+      loading="lazy"
+    />
+    <div class="product-card__overlay">
+      <span class="product-card__view">View Product</span>
+    </div>
+  </a>
+
+  <!-- Info -->
+  <div class="product-card__info">
+    
+    <!-- Notas aromáticas (si existen) -->
+    {notes.length > 0 && (
+      <p class="product-card__notes">
+        {notes.slice(0, 3).join(' · ')}
+      </p>
+    )}
+
+    <h3 class="product-card__title">
+      <a href={`/coleccion/${slug}`}>{title}</a>
+    </h3>
+
+    {excerpt && (
+      <!-- set:html renderiza HTML de WordPress de forma segura -->
+      <p class="product-card__excerpt" set:html={excerpt} />
+    )}
+
+    <div class="product-card__footer">
+      <span class="product-card__price">{price}</span>
+      <a href={`/coleccion/${slug}`} class="product-card__cta">
+        <span>Shop</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </a>
+    </div>
+
+  </div>
+</article>
+
+<style>
+.product-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-border-soft);
+  transition: border-color 0.4s, transform 0.4s;
+}
+.product-card:hover {
+  border-color: var(--c-border);
+  transform: translateY(-4px);
+}
+
+/* Imagen */
+.product-card__img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+}
+.product-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.product-card:hover .product-card__img {
+  transform: scale(1.05);
+}
+
+/* Overlay hover */
+.product-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10,9,6,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.product-card:hover .product-card__overlay {
+  opacity: 1;
+}
+.product-card__view {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  border: 1px solid var(--c-gold-dim);
+  padding: 10px 24px;
+}
+
+/* Info */
+.product-card__info {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.product-card__notes {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  opacity: 0.7;
+}
+
+.product-card__title {
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--c-cream);
+  line-height: 1.2;
+}
+.product-card__title a:hover { color: var(--c-gold-light); }
+
+.product-card__excerpt {
+  font-size: 12px;
+  color: var(--c-cream);
+  opacity: 0.5;
+  line-height: 1.6;
+  /* Elimina los <p> que WordPress añade */
+}
+.product-card__excerpt p { margin: 0; }
+
+.product-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--c-border-soft);
+}
+
+.product-card__price {
+  font-family: var(--f-serif);
+  font-size: 20px;
+  color: var(--c-gold);
+}
+
+.product-card__cta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--c-cream);
+  opacity: 0.5;
+  transition: all 0.3s;
+}
+.product-card__cta:hover {
+  opacity: 1;
+  color: var(--c-gold);
+  gap: 12px;
+}
+</style>
