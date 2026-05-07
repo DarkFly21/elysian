@@ -1,63 +1,48 @@
 ---
 /**
  * HERO — Elysian Aromas
- * - Fondo oscuro #0a0906
- * - Título serif correcto sin breaks rotos
- * - Perfume real con imagen externa
- * - Mano sube al hacer scroll (JS parallax)
+ * Idéntico a Essentia: fondo crema, título negro bold enorme,
+ * producto PNG transparente centrado, mano sube con scroll.
  */
 ---
 
 <section class="hero" id="hero">
 
-  <!-- Marca gigante de fondo -->
+  <!-- Marca gigante fondo -->
   <div class="hero__brand-bg" aria-hidden="true">Elysian</div>
 
   <!-- Título top-left -->
   <div class="hero__title-block">
-    <h1 class="hero__title">
-      Your finest scent<br /><em>revealed.</em>
-    </h1>
+    <h1 class="hero__title">Your finest<br />scent revealed.</h1>
     <div class="hero__proof">
       <div class="hero__avatars">
-        <span class="hero__av av1"></span>
-        <span class="hero__av av2"></span>
-        <span class="hero__av av3"></span>
-        <span class="hero__av av4"></span>
+        <img class="hero__av" src="https://i.pravatar.cc/40?img=1" alt="" />
+        <img class="hero__av" src="https://i.pravatar.cc/40?img=2" alt="" />
+        <img class="hero__av" src="https://i.pravatar.cc/40?img=3" alt="" />
+        <img class="hero__av" src="https://i.pravatar.cc/40?img=5" alt="" />
       </div>
       <span class="hero__stars">★★★★★</span>
-      <span class="hero__reviews-label">2,500+ Happy Clients</span>
+      <span class="hero__reviews-label">2500+ Happy Customers</span>
     </div>
   </div>
 
-  <!-- Texto + CTA derecha -->
+  <!-- Texto derecha -->
   <div class="hero__side-text">
-    <p>
-      We craft rare perfumes that strip away the
-      unnecessary to reveal what truly endures.
-    </p>
-    <a href="/coleccion" class="hero__cta">
-      Explore Collection
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-      </svg>
-    </a>
+    We strip away the unnecessary to focus
+    on what truly endures.
   </div>
 
   <!-- Visual: perfume + mano -->
   <div class="hero__visual">
-
-    <!-- Perfume flotando -->
+    <!-- Perfume PNG transparente -->
     <div class="hero__product-wrap">
-      <div class="hero__product-glow"></div>
       <img
         class="hero__product-img"
-        src="https://scentperfumes.mx/cdn/shop/files/ADG_PARFUM_a9319c38-54d4-4e29-b8c2-1c6018dbc84e.jpg?v=1769542154&width=1000"
+        src="https://framerusercontent.com/images/XzpHmYtrKpOC2dXQ7lCieJQH90.png"
         alt="Elysian Perfume"
       />
     </div>
-
-    <!-- Mano que sube con scroll -->
+    <!-- Mano desde abajo -->
     <div class="hero__hand-wrap" id="heroHand">
       <img
         class="hero__hand-img"
@@ -66,24 +51,21 @@
         aria-hidden="true"
       />
     </div>
-
   </div>
 
 </section>
 
 <style>
-  /* ── Paleta Elysian ───────────────────────────── */
   .hero {
-    --bg:       #0a0906;
-    --cream:    #f5efe6;
-    --gold:     #c9a96e;
-    --muted:    rgba(245,239,230,0.40);
-    --brand:    rgba(201,169,110,0.07);
-    --serif:    'Cormorant Garamond', Georgia, serif;
-    --sans:     'Montserrat', sans-serif;
+    --bg:     #f0ebe2;
+    --text:   #1a1a18;
+    --muted:  rgba(26,26,24,0.45);
+    --brand:  rgba(26,26,24,0.055);
+    --sans:   'Montserrat', 'DM Sans', system-ui, sans-serif;
+    --serif:  'Cormorant Garamond', Georgia, serif;
   }
 
-  /* ── Base ─────────────────────────────────────── */
+  /* Base */
   .hero {
     position: relative;
     width: 100%;
@@ -92,52 +74,47 @@
     overflow: hidden;
   }
 
-  /* ── Marca fondo ──────────────────────────────── */
+  /* Marca fondo */
   .hero__brand-bg {
     position: absolute;
-    bottom: -0.06em;
+    bottom: -0.07em;
     left: 50%;
     transform: translateX(-50%);
     white-space: nowrap;
     font-family: var(--sans);
     font-weight: 800;
-    font-size: clamp(110px, 19vw, 280px);
+    font-size: clamp(120px, 20vw, 300px);
     letter-spacing: -0.02em;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(201,169,110,0.10);
+    color: var(--brand);
     pointer-events: none;
     user-select: none;
     z-index: 0;
     line-height: 1;
   }
 
-  /* ── Título top-left ──────────────────────────── */
+  /* Título */
   .hero__title-block {
     position: absolute;
-    top: 88px;
-    left: 52px;
+    top: 68px;
+    left: 44px;
     z-index: 2;
     display: flex;
     flex-direction: column;
     gap: 24px;
-    max-width: 420px;
+    max-width: 500px;
   }
 
   .hero__title {
-    font-family: var(--serif);
-    font-weight: 300;
-    font-size: clamp(42px, 5.5vw, 82px);
-    line-height: 1.05;
-    letter-spacing: -0.01em;
-    color: var(--cream);
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: clamp(44px, 6.5vw, 96px);
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    color: var(--text);
     margin: 0;
   }
-  .hero__title em {
-    font-style: italic;
-    color: var(--gold);
-  }
 
-  /* ── Social proof ─────────────────────────────── */
+  /* Avatares reales + stars */
   .hero__proof {
     display: flex;
     flex-direction: column;
@@ -148,191 +125,121 @@
     margin-bottom: 4px;
   }
   .hero__av {
-    width: 30px;
-    height: 30px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
-    border: 1.5px solid rgba(201,169,110,0.22);
-    margin-right: -9px;
+    border: 2px solid var(--bg);
+    margin-right: -10px;
+    object-fit: cover;
     display: block;
   }
-  .av1 { background: rgba(201,169,110,0.28); }
-  .av2 { background: rgba(201,169,110,0.20); }
-  .av3 { background: rgba(201,169,110,0.13); }
-  .av4 { background: rgba(201,169,110,0.07); }
-
   .hero__stars {
-    color: var(--gold);
-    font-size: 13px;
-    letter-spacing: 2px;
+    color: #333;
+    font-size: 14px;
+    letter-spacing: 1px;
   }
   .hero__reviews-label {
     font-family: var(--sans);
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+    letter-spacing: 0.04em;
     color: var(--muted);
   }
 
-  /* ── Texto + CTA derecha ──────────────────────── */
+  /* Texto derecha */
   .hero__side-text {
     position: absolute;
-    right: 52px;
+    right: 48px;
     top: 50%;
-    transform: translateY(-42%);
+    transform: translateY(-38%);
     z-index: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    text-align: right;
-    max-width: 240px;
-  }
-  .hero__side-text p {
-    font-family: var(--serif);
-    font-size: clamp(14px, 1.4vw, 20px);
-    font-weight: 300;
-    font-style: italic;
-    line-height: 1.8;
-    color: var(--cream);
-    opacity: 0.55;
-    margin: 0;
-  }
-  .hero__cta {
-    display: inline-flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 10px;
     font-family: var(--sans);
-    font-size: 9px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--gold);
-    border-bottom: 1px solid rgba(201,169,110,0.25);
-    padding-bottom: 6px;
-    text-decoration: none;
-    transition: gap 0.3s, border-color 0.3s;
-    width: fit-content;
-    margin-left: auto;
+    font-weight: 400;
+    font-size: clamp(14px, 1.5vw, 22px);
+    line-height: 1.65;
+    color: var(--text);
+    text-align: right;
+    max-width: 280px;
   }
-  .hero__cta:hover { gap: 16px; border-color: var(--gold); }
 
-  /* ── Visual central ───────────────────────────── */
+  /* Visual central */
   .hero__visual {
     position: absolute;
     left: 50%;
     transform: translateX(-48%);
     top: 0;
     bottom: 0;
-    width: clamp(280px, 38vw, 560px);
+    width: clamp(320px, 42vw, 640px);
     z-index: 1;
     pointer-events: none;
   }
 
-  /* Perfume */
+  /* Perfume arriba */
   .hero__product-wrap {
     position: absolute;
-    top: 7%;
+    top: 5%;
     left: 50%;
     transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     animation: floatPerfume 7s ease-in-out infinite;
     z-index: 3;
   }
   .hero__product-img {
-    width: clamp(160px, 20vw, 320px);
-    border-radius: 4px;
-    filter:
-      drop-shadow(0 50px 70px rgba(201,169,110,0.20))
-      drop-shadow(0 10px 30px rgba(0,0,0,0.70));
-    object-fit: cover;
-  }
-  .hero__product-glow {
-    position: absolute;
-    bottom: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60%;
-    height: 24px;
-    background: radial-gradient(ellipse, rgba(201,169,110,0.25), transparent 70%);
-    filter: blur(12px);
-    z-index: 2;
+    width: clamp(200px, 26vw, 400px);
+    display: block;
+    filter: drop-shadow(0 60px 60px rgba(0,0,0,0.10));
   }
 
-  /* Mano */
+  /* Mano desde abajo */
   .hero__hand-wrap {
     position: absolute;
     bottom: 0;
     left: 50%;
-    transform: translateX(-50%);
-    width: 115%;
+    /* Empieza parcialmente fuera de pantalla */
+    transform: translateX(-50%) translateY(30%);
+    width: 110%;
     z-index: 2;
-    /* Estado inicial: mano fuera de pantalla abajo */
-    transform: translateX(-50%) translateY(40%);
-    transition: transform 0.1s linear;
+    will-change: transform;
   }
   .hero__hand-img {
     width: 100%;
     display: block;
-    mask-image: linear-gradient(to top, black 50%, transparent 90%);
-    -webkit-mask-image: linear-gradient(to top, black 50%, transparent 90%);
   }
 
-  /* ── Animaciones ──────────────────────────────── */
   @keyframes floatPerfume {
     0%, 100% { transform: translateX(-50%) translateY(0); }
-    50%       { transform: translateX(-50%) translateY(-22px); }
+    50%       { transform: translateX(-50%) translateY(-20px); }
   }
 
-  /* ── Responsive ───────────────────────────────── */
-  @media (max-width: 960px) {
-    .hero__title-block { left: 32px; top: 90px; }
-    .hero__side-text   { right: 24px; max-width: 200px; }
-    .hero__visual      { width: clamp(240px, 48vw, 440px); }
+  /* Responsive */
+  @media (max-width: 900px) {
+    .hero__title-block { left: 28px; top: 80px; }
+    .hero__side-text   { right: 20px; font-size: 13px; max-width: 200px; }
+    .hero__visual      { width: clamp(260px, 52vw, 480px); }
   }
-
   @media (max-width: 640px) {
-    .hero__title-block {
-      position: relative;
-      top: auto; left: auto;
-      padding: 96px 24px 0;
-    }
-    .hero__title { font-size: clamp(36px, 10vw, 52px); }
-    .hero__side-text {
-      position: relative;
-      right: auto; top: auto; transform: none;
-      padding: 20px 24px 0;
-      text-align: left;
-      max-width: 100%;
-    }
-    .hero__cta { margin-left: 0; justify-content: flex-start; }
-    .hero__visual {
-      position: relative;
-      left: auto; transform: none;
-      width: 100%;
-      height: 65vh;
-    }
-    .hero__brand-bg { font-size: 24vw; }
+    .hero__title-block { position: relative; top: auto; left: auto; padding: 90px 24px 0; }
+    .hero__title       { font-size: clamp(36px, 10vw, 52px); }
+    .hero__side-text   { position: relative; right: auto; top: auto; transform: none; padding: 20px 24px 0; text-align: left; max-width: 100%; }
+    .hero__visual      { position: relative; left: auto; transform: none; width: 100%; height: 65vh; }
+    .hero__brand-bg    { font-size: 26vw; }
   }
 </style>
 
 <script>
-  // Parallax mano: sube desde abajo al hacer scroll
+  // Mano sube suavemente al hacer scroll
   const hand = document.getElementById('heroHand');
   const hero = document.getElementById('hero');
 
   if (hand && hero) {
-    function updateHand() {
-      const heroH = hero.offsetHeight;
-      const scrollY = window.scrollY;
-      // scrollY 0 => mano en 40% abajo; scrollY=heroH => mano en posición normal
-      const progress = Math.min(scrollY / (heroH * 0.6), 1);
-      const offset = 40 - progress * 40; // de 40% a 0%
+    function onScroll() {
+      const scrollY   = window.scrollY;
+      const heroH     = hero.offsetHeight;
+      const progress  = Math.min(scrollY / (heroH * 0.55), 1);
+      // de 30% → 0% al scrollear
+      const offset = 30 - progress * 30;
       hand.style.transform = `translateX(-50%) translateY(${offset}%)`;
     }
-
-    updateHand();
-    window.addEventListener('scroll', updateHand, { passive: true });
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
   }
 </script>
