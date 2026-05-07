@@ -1,48 +1,42 @@
 ---
 /**
  * HERO — Elysian Aromas
- * Idéntico a Essentia: fondo crema, título negro bold enorme,
- * producto PNG transparente centrado, mano sube con scroll.
+ * Layout idéntico a Essentia.framer.media
  */
 ---
 
 <section class="hero" id="hero">
 
-  <!-- Marca gigante fondo -->
   <div class="hero__brand-bg" aria-hidden="true">Elysian</div>
 
-  <!-- Título top-left -->
   <div class="hero__title-block">
-    <h1 class="hero__title">Your finest<br />scent revealed.</h1>
+    <h1 class="hero__title">Your finest scent revealed.</h1>
     <div class="hero__proof">
       <div class="hero__avatars">
-        <img class="hero__av" src="https://i.pravatar.cc/40?img=1" alt="" />
-        <img class="hero__av" src="https://i.pravatar.cc/40?img=2" alt="" />
-        <img class="hero__av" src="https://i.pravatar.cc/40?img=3" alt="" />
-        <img class="hero__av" src="https://i.pravatar.cc/40?img=5" alt="" />
+        <img class="hero__av" src="https://i.pravatar.cc/40?img=47" alt="" />
+        <img class="hero__av" src="https://i.pravatar.cc/40?img=44" alt="" />
+        <img class="hero__av" src="https://i.pravatar.cc/40?img=41" alt="" />
+        <img class="hero__av" src="https://i.pravatar.cc/40?img=48" alt="" />
       </div>
-      <span class="hero__stars">★★★★★</span>
-      <span class="hero__reviews-label">2500+ Happy Customers</span>
+      <div class="hero__stars">★★★★★</div>
+      <div class="hero__reviews-label">2500+ Happy Customers</div>
     </div>
   </div>
 
-  <!-- Texto derecha -->
   <div class="hero__side-text">
-    We strip away the unnecessary to focus
-    on what truly endures.
+    We strip away the unnecessary<br />to focus on what truly endures.
   </div>
 
-  <!-- Visual: perfume + mano -->
   <div class="hero__visual">
-    <!-- Perfume PNG transparente -->
+
     <div class="hero__product-wrap">
       <img
         class="hero__product-img"
-        src="https://www.destinodebelleza.es/assets/images/product_images/700x700_ADGH_Profondo.png"
+        src="https://scentperfumes.mx/cdn/shop/files/ADG_PARFUM_a9319c38-54d4-4e29-b8c2-1c6018dbc84e.jpg?v=1769542154&width=1000"
         alt="Elysian Perfume"
       />
     </div>
-    <!-- Mano desde abajo -->
+
     <div class="hero__hand-wrap" id="heroHand">
       <img
         class="hero__hand-img"
@@ -51,21 +45,20 @@
         aria-hidden="true"
       />
     </div>
+
   </div>
 
 </section>
 
 <style>
   .hero {
-    --bg:     #f0ebe2;
-    --text:   #1a1a18;
-    --muted:  rgba(26,26,24,0.45);
-    --brand:  rgba(26,26,24,0.055);
-    --sans:   'Montserrat', 'DM Sans', system-ui, sans-serif;
-    --serif:  'Cormorant Garamond', Georgia, serif;
+    --bg:    #f0ebe2;
+    --text:  #1a1a18;
+    --muted: rgba(26,26,24,0.45);
+    --brand: rgba(26,26,24,0.06);
+    --sans:  'Montserrat', system-ui, sans-serif;
   }
 
-  /* Base */
   .hero {
     position: relative;
     width: 100%;
@@ -74,16 +67,15 @@
     overflow: hidden;
   }
 
-  /* Marca fondo */
   .hero__brand-bg {
     position: absolute;
-    bottom: -0.07em;
+    bottom: -0.06em;
     left: 50%;
     transform: translateX(-50%);
     white-space: nowrap;
     font-family: var(--sans);
     font-weight: 800;
-    font-size: clamp(120px, 20vw, 300px);
+    font-size: clamp(110px, 19vw, 280px);
     letter-spacing: -0.02em;
     color: var(--brand);
     pointer-events: none;
@@ -92,157 +84,140 @@
     line-height: 1;
   }
 
-  /* Título */
   .hero__title-block {
     position: absolute;
-    top: 68px;
+    top: 64px;
     left: 44px;
     z-index: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    max-width: 500px;
+    max-width: 480px;
   }
 
   .hero__title {
     font-family: var(--sans);
     font-weight: 800;
-    font-size: clamp(44px, 6.5vw, 96px);
+    font-size: clamp(42px, 6vw, 92px);
     line-height: 1.0;
     letter-spacing: -0.025em;
     color: var(--text);
-    margin: 0;
+    margin: 0 0 28px 0;
   }
 
-  /* Avatares reales + stars */
-  .hero__proof {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .hero__avatars {
-    display: flex;
-    margin-bottom: 4px;
-  }
+  .hero__proof { display: flex; flex-direction: column; gap: 5px; }
+
+  .hero__avatars { display: flex; margin-bottom: 6px; }
   .hero__av {
-    width: 34px;
-    height: 34px;
+    width: 34px; height: 34px;
     border-radius: 50%;
-    border: 2px solid var(--bg);
+    border: 2.5px solid var(--bg);
     margin-right: -10px;
     object-fit: cover;
     display: block;
   }
-  .hero__stars {
-    color: #333;
-    font-size: 14px;
-    letter-spacing: 1px;
-  }
+
+  .hero__stars { color: var(--text); font-size: 14px; letter-spacing: 1px; }
   .hero__reviews-label {
     font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    color: var(--muted);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.05em; color: var(--muted);
   }
 
-  /* Texto derecha */
   .hero__side-text {
     position: absolute;
     right: 48px;
     top: 50%;
-    transform: translateY(-38%);
+    transform: translateY(-35%);
     z-index: 2;
     font-family: var(--sans);
     font-weight: 400;
-    font-size: clamp(14px, 1.5vw, 22px);
+    font-size: clamp(15px, 1.5vw, 22px);
     line-height: 1.65;
     color: var(--text);
     text-align: right;
     max-width: 280px;
   }
 
-  /* Visual central */
   .hero__visual {
     position: absolute;
     left: 50%;
-    transform: translateX(-48%);
-    top: 0;
-    bottom: 0;
-    width: clamp(320px, 42vw, 640px);
+    transform: translateX(-50%);
+    top: 0; bottom: 0;
+    width: clamp(300px, 40vw, 600px);
     z-index: 1;
     pointer-events: none;
   }
 
-  /* Perfume arriba */
+  /* Perfume — mix-blend-mode: multiply para que el fondo blanco
+     de la imagen se funda con el fondo crema del hero */
   .hero__product-wrap {
     position: absolute;
-    top: 5%;
+    top: 4%;
     left: 50%;
     transform: translateX(-50%);
-    animation: floatPerfume 7s ease-in-out infinite;
     z-index: 3;
+    animation: floatPerfume 7s ease-in-out infinite;
   }
   .hero__product-img {
-    width: clamp(200px, 26vw, 400px);
+    width: clamp(220px, 28vw, 420px);
     display: block;
-    filter: drop-shadow(0 60px 60px rgba(0,0,0,0.10));
+    mix-blend-mode: multiply;
+    filter: drop-shadow(0 30px 40px rgba(0,0,0,0.15));
   }
 
-  /* Mano desde abajo */
+  /* Mano — empieza 45% abajo, JS la sube */
   .hero__hand-wrap {
     position: absolute;
     bottom: 0;
     left: 50%;
-    /* Empieza parcialmente fuera de pantalla — sincronizado con JS */
-    transform: translateX(-50%) translateY(35%);
-    width: 110%;
+    transform: translateX(-50%) translateY(45%);
+    width: 115%;
     z-index: 2;
     will-change: transform;
   }
-  .hero__hand-img {
-    width: 100%;
-    display: block;
-  }
+  .hero__hand-img { width: 100%; display: block; }
 
   @keyframes floatPerfume {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50%       { transform: translateX(-50%) translateY(-20px); }
+    0%, 100% { transform: translateX(-50%) translateY(0px); }
+    50%       { transform: translateX(-50%) translateY(-18px); }
   }
 
-  /* Responsive */
   @media (max-width: 900px) {
-    .hero__title-block { left: 28px; top: 80px; }
-    .hero__side-text   { right: 20px; font-size: 13px; max-width: 200px; }
-    .hero__visual      { width: clamp(260px, 52vw, 480px); }
+    .hero__title-block { left: 28px; }
+    .hero__side-text   { right: 24px; font-size: 13px; max-width: 200px; }
+    .hero__visual      { width: clamp(260px, 50vw, 480px); }
   }
   @media (max-width: 640px) {
-    .hero__title-block { position: relative; top: auto; left: auto; padding: 90px 24px 0; }
-    .hero__title       { font-size: clamp(36px, 10vw, 52px); }
+    .hero__title-block { position: relative; top: auto; left: auto; padding: 88px 24px 0; }
+    .hero__title       { font-size: clamp(36px, 9vw, 52px); }
     .hero__side-text   { position: relative; right: auto; top: auto; transform: none; padding: 20px 24px 0; text-align: left; max-width: 100%; }
     .hero__visual      { position: relative; left: auto; transform: none; width: 100%; height: 65vh; }
-    .hero__brand-bg    { font-size: 26vw; }
+    .hero__brand-bg    { font-size: 25vw; }
   }
 </style>
 
 <script is:inline>
-  document.addEventListener('DOMContentLoaded', function () {
-    const hand = document.getElementById('heroHand');
-    const hero = document.getElementById('hero');
+(function () {
+  function initHero() {
+    var hand = document.getElementById('heroHand');
+    var hero = document.getElementById('hero');
     if (!hand || !hero) return;
 
-    function onScroll() {
-      const scrollY  = window.scrollY;
-      const heroH    = hero.offsetHeight;
-      // progreso 0→1 mientras scrolleas la mitad del hero
-      const progress = Math.min(scrollY / (heroH * 0.5), 1);
-      // mano va de translateY(35%) → translateY(0%)
-      const offset   = 35 * (1 - progress);
+    function updateHand() {
+      var scrollY  = window.pageYOffset || document.documentElement.scrollTop;
+      var heroH    = hero.offsetHeight;
+      var progress = Math.min(scrollY / (heroH * 0.55), 1);
+      var offset   = 45 * (1 - progress);
       hand.style.transform = 'translateX(-50%) translateY(' + offset + '%)';
     }
 
-    // Aplicar estado inicial
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-  });
+    updateHand();
+    window.addEventListener('scroll', updateHand, { passive: true });
+    window.addEventListener('resize', updateHand, { passive: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHero);
+  } else {
+    initHero();
+  }
+})();
 </script>
