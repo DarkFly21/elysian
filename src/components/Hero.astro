@@ -1,7 +1,8 @@
 ---
 /**
  * HERO — Elysian Aromas
- * Perfume baja y mano sube con scroll hasta encontrarse.
+ * Desktop: elementos grandes, centrados
+ * Mobile: título arriba, perfume+mano abajo bien proporcionados
  */
 ---
 
@@ -31,14 +32,12 @@
 
   <!-- Composición central -->
   <div class="hero__stage">
-
     <img
       class="hero__perfume"
       id="heroPerfume"
       src="https://www.destinodebelleza.es/assets/images/product_images/700x700_ADGH_Profondo.png"
       alt="Perfume Elysian"
     />
-
     <img
       class="hero__hand"
       id="heroHand"
@@ -46,7 +45,6 @@
       alt=""
       aria-hidden="true"
     />
-
   </div>
 
   <!-- Indicador scroll -->
@@ -80,13 +78,13 @@
   /* ── Marca fondo ─────────────────────────────── */
   .hero__brand-bg {
     position: absolute;
-    bottom: -0.08em;
+    bottom: -0.05em;
     left: 50%;
     transform: translateX(-50%);
     white-space: nowrap;
     font-family: var(--sans);
     font-weight: 900;
-    font-size: clamp(100px, 18vw, 260px);
+    font-size: clamp(100px, 18vw, 280px);
     letter-spacing: -0.02em;
     color: var(--brand);
     pointer-events: none;
@@ -99,7 +97,7 @@
   .hero__title-block {
     position: absolute;
     top: 50%;
-    left: 48px;
+    left: 52px;
     transform: translateY(-50%);
     z-index: 10;
     max-width: 380px;
@@ -107,7 +105,7 @@
   .hero__title {
     font-family: var(--sans);
     font-weight: 900;
-    font-size: clamp(36px, 5vw, 72px);
+    font-size: clamp(38px, 5.5vw, 80px);
     line-height: 1.0;
     letter-spacing: -0.03em;
     color: var(--text);
@@ -116,13 +114,13 @@
   .hero__proof        { display: flex; flex-direction: column; gap: 6px; }
   .hero__avatars      { display: flex; margin-bottom: 4px; }
   .hero__av {
-    width: 32px; height: 32px;
+    width: 34px; height: 34px;
     border-radius: 50%;
     border: 2.5px solid var(--bg);
     margin-right: -9px;
     object-fit: cover;
   }
-  .hero__stars        { font-size: 13px; letter-spacing: 2px; color: var(--text); margin-top: 2px; }
+  .hero__stars        { font-size: 14px; letter-spacing: 2px; color: var(--text); margin-top: 2px; }
   .hero__reviews-label {
     font-family: var(--sans);
     font-size: 11px; font-weight: 500;
@@ -137,52 +135,52 @@
     transform: translateY(-50%);
     z-index: 10;
     font-family: var(--sans);
-    font-size: clamp(13px, 1.2vw, 17px);
+    font-size: clamp(13px, 1.2vw, 18px);
     font-weight: 400;
     line-height: 1.7;
     color: var(--text);
     text-align: right;
-    max-width: 220px;
+    max-width: 230px;
   }
 
   /* ── Stage central ───────────────────────────── */
   .hero__stage {
     position: relative;
-    width: clamp(280px, 36vw, 520px);
-    height: 80vh;
+    width: clamp(300px, 38vw, 560px);
+    height: 85vh;
     z-index: 5;
     overflow: visible;
     pointer-events: none;
   }
 
-  /* Perfume: arriba, baja con scroll vía JS */
+  /* Perfume — más grande */
   .hero__perfume {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translateX(-50%) translateY(-55%);
-    width: clamp(220px, 28vw, 400px);
+    width: clamp(240px, 30vw, 460px);
     mix-blend-mode: multiply;
-    filter: drop-shadow(0 24px 40px rgba(0,0,0,0.13));
+    filter: drop-shadow(0 24px 48px rgba(0,0,0,0.14));
     animation: floatPerfume 6s ease-in-out infinite;
     z-index: 6;
     will-change: transform;
   }
 
-  /* Mano: abajo, sube con scroll vía JS */
+  /* Mano */
   .hero__hand {
     position: absolute;
     left: 50%;
-    bottom: -10%;
+    bottom: -8%;
     transform: translateX(-50%) translateY(60%);
-    width: 115%;
+    width: 120%;
     z-index: 7;
     will-change: transform;
   }
 
   @keyframes floatPerfume {
     0%, 100% { transform: translateX(-50%) translateY(-55%); }
-    50%       { transform: translateX(-50%) translateY(calc(-55% - 14px)); }
+    50%       { transform: translateX(-50%) translateY(calc(-55% - 16px)); }
   }
 
   /* ── Indicador scroll ────────────────────────── */
@@ -193,7 +191,7 @@
     transform: translateX(-50%);
     z-index: 10;
     font-family: var(--sans);
-    font-size: 10px;
+    font-size: 9px;
     letter-spacing: 0.3em;
     color: rgba(26,26,24,0.3);
     text-transform: uppercase;
@@ -206,22 +204,66 @@
     margin: 8px auto 0;
   }
 
-  /* ── Responsive ──────────────────────────────── */
+  /* ── Tablet ──────────────────────────────────── */
   @media (max-width: 960px) {
-    .hero__title-block { left: 28px; max-width: 300px; }
-    .hero__side-text   { right: 20px; font-size: 12px; max-width: 180px; }
-    .hero__stage       { width: clamp(260px, 48vw, 460px); }
+    .hero__title-block { left: 28px; max-width: 280px; }
+    .hero__side-text   { right: 20px; font-size: 12px; max-width: 170px; }
+    .hero__stage       { width: clamp(260px, 44vw, 420px); }
+    .hero__perfume     { width: clamp(200px, 34vw, 360px); }
   }
+
+  /* ── Mobile ──────────────────────────────────── */
   @media (max-width: 640px) {
+    /* Hero más alto para dar espacio a perfume + mano */
+    .hero { min-height: 100svh; align-items: flex-start; }
+
+    /* Título en la parte superior */
     .hero__title-block {
       position: absolute;
-      top: 88px; left: 24px; right: 24px;
-      transform: none; max-width: none;
+      top: 72px;
+      left: 24px;
+      right: 24px;
+      transform: none;
+      max-width: none;
     }
-    .hero__title     { font-size: clamp(34px, 10vw, 48px); }
+    .hero__title {
+      font-size: clamp(36px, 11vw, 52px);
+      margin-bottom: 16px;
+    }
+    .hero__av { width: 30px; height: 30px; }
+
+    /* Ocultar texto lateral */
     .hero__side-text { display: none; }
-    .hero__stage     { width: 90%; height: 60vh; }
-    .hero__brand-bg  { font-size: 28vw; }
+
+    /* Stage centrado en la mitad inferior */
+    .hero__stage {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      height: 58vh;
+    }
+
+    /* Perfume más grande en mobile */
+    .hero__perfume {
+      width: clamp(160px, 55vw, 260px);
+      top: 10%;
+      transform: translateX(-50%) translateY(0%);
+    }
+
+    /* Mano visible en mobile */
+    .hero__hand {
+      width: 130%;
+      bottom: -2%;
+      transform: translateX(-50%) translateY(50%);
+    }
+
+    /* Marca fondo */
+    .hero__brand-bg { font-size: 28vw; }
+
+    /* Scroll hint */
+    .hero__scroll-hint { bottom: 16px; }
   }
 </style>
 
@@ -233,28 +275,43 @@
     var hero    = document.getElementById('hero');
     if (!perfume || !hand || !hero) return;
 
-    var pfBaseY = -55; // % inicial del perfume
-
-    var ticking = false;
+    var isMobile = window.innerWidth <= 640;
+    var pfBaseY  = isMobile ? 0 : -55;
+    var ticking  = false;
 
     function update() {
+      isMobile = window.innerWidth <= 640;
+      pfBaseY  = isMobile ? 0 : -55;
+
       var scrollY  = window.pageYOffset || document.documentElement.scrollTop;
       var heroH    = hero.offsetHeight;
       var progress = Math.min(Math.max(scrollY / (heroH * 0.65), 0), 1);
 
-      // Perfume baja: -55% → -20%
-      var pfY = pfBaseY + progress * 35;
-      if (progress > 0) {
-        perfume.style.animationPlayState = 'paused';
-        perfume.style.transform = 'translateX(-50%) translateY(' + pfY + '%)';
+      if (isMobile) {
+        // Mobile: animación más sutil
+        var pfY = pfBaseY + progress * 20;
+        if (progress > 0) {
+          perfume.style.animationPlayState = 'paused';
+          perfume.style.transform = 'translateX(-50%) translateY(' + pfY + '%)';
+        } else {
+          perfume.style.animationPlayState = 'running';
+          perfume.style.transform = '';
+        }
+        var handY = 50 - progress * 35;
+        hand.style.transform = 'translateX(-50%) translateY(' + handY + '%)';
       } else {
-        perfume.style.animationPlayState = 'running';
-        perfume.style.transform = '';
+        // Desktop: perfume baja -55% → -18%, mano sube 60% → 10%
+        var pfY = pfBaseY + progress * 37;
+        if (progress > 0) {
+          perfume.style.animationPlayState = 'paused';
+          perfume.style.transform = 'translateX(-50%) translateY(' + pfY + '%)';
+        } else {
+          perfume.style.animationPlayState = 'running';
+          perfume.style.transform = '';
+        }
+        var handY = 60 - progress * 50;
+        hand.style.transform = 'translateX(-50%) translateY(' + handY + '%)';
       }
-
-      // Mano sube: 60% → 10%
-      var handY = 60 - progress * 50;
-      hand.style.transform = 'translateX(-50%) translateY(' + handY + '%)';
 
       ticking = false;
     }
@@ -263,7 +320,9 @@
     window.addEventListener('scroll', function () {
       if (!ticking) { requestAnimationFrame(update); ticking = true; }
     }, { passive: true });
-    window.addEventListener('resize', update, { passive: true });
+    window.addEventListener('resize', function () {
+      update();
+    }, { passive: true });
   }
 
   if (document.readyState === 'loading') {
