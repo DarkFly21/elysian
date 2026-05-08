@@ -1,7 +1,7 @@
 ---
 /**
  * HERO — Elysian Aromas
- * Composición: perfume flotando encima de la mano, todo centrado.
+ * Perfume baja y mano sube con scroll hasta encontrarse.
  */
 ---
 
@@ -9,9 +9,9 @@
 
   <div class="hero__brand-bg" aria-hidden="true">Elysian</div>
 
-  <!-- Título top-left -->
+  <!-- Título izquierda -->
   <div class="hero__title-block">
-    <h1 class="hero__title">Your finest scent revealed.</h1>
+    <h1 class="hero__title">Tu mejor<br/>fragancia,<br/>revelada.</h1>
     <div class="hero__proof">
       <div class="hero__avatars">
         <img class="hero__av" src="https://i.pravatar.cc/40?img=47" alt="" />
@@ -20,31 +20,25 @@
         <img class="hero__av" src="https://i.pravatar.cc/40?img=48" alt="" />
       </div>
       <div class="hero__stars">★★★★★</div>
-      <div class="hero__reviews-label">2500+ Happy Customers</div>
+      <div class="hero__reviews-label">+2,500 clientes satisfechos</div>
     </div>
   </div>
 
   <!-- Texto derecha -->
   <div class="hero__side-text">
-    We strip away the unnecessary<br />to focus on what truly endures.
+    Eliminamos lo innecesario<br />para enfocarnos en<br />lo que verdaderamente perdura.
   </div>
 
-  <!--
-    COMPOSICIÓN CENTRAL:
-    Un solo contenedor centrado en el viewport.
-    Dentro: perfume arriba, mano abajo solapando.
-    La mano empieza recortada abajo y sube con scroll.
-  -->
+  <!-- Composición central -->
   <div class="hero__stage">
 
-    <!-- Perfume: PNG con blend para eliminar fondo blanco -->
     <img
       class="hero__perfume"
+      id="heroPerfume"
       src="https://www.destinodebelleza.es/assets/images/product_images/700x700_ADGH_Profondo.png"
-      alt="Elysian Perfume"
+      alt="Perfume Elysian"
     />
 
-    <!-- Mano: sube desde abajo con scroll -->
     <img
       class="hero__hand"
       id="heroHand"
@@ -53,6 +47,12 @@
       aria-hidden="true"
     />
 
+  </div>
+
+  <!-- Indicador scroll -->
+  <div class="hero__scroll-hint" aria-hidden="true">
+    <span>Descubre más</span>
+    <div class="hero__scroll-line"></div>
   </div>
 
 </section>
@@ -72,18 +72,21 @@
     min-height: 100vh;
     background: var(--bg);
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* ── Marca fondo ─────────────────────────────── */
   .hero__brand-bg {
     position: absolute;
-    bottom: -0.06em;
+    bottom: -0.08em;
     left: 50%;
     transform: translateX(-50%);
     white-space: nowrap;
     font-family: var(--sans);
-    font-weight: 800;
-    font-size: clamp(110px, 19vw, 280px);
+    font-weight: 900;
+    font-size: clamp(100px, 18vw, 260px);
     letter-spacing: -0.02em;
     color: var(--brand);
     pointer-events: none;
@@ -92,145 +95,174 @@
     line-height: 1;
   }
 
-  /* ── Título top-left ─────────────────────────── */
+  /* ── Título izquierda ────────────────────────── */
   .hero__title-block {
     position: absolute;
-    top: 160px;
-    left: 44px;
-    z-index: 3;
-    max-width: 420px;
+    top: 50%;
+    left: 48px;
+    transform: translateY(-50%);
+    z-index: 10;
+    max-width: 380px;
   }
   .hero__title {
     font-family: var(--sans);
-    font-weight: 800;
-    font-size: clamp(40px, 5.8vw, 88px);
+    font-weight: 900;
+    font-size: clamp(36px, 5vw, 72px);
     line-height: 1.0;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.03em;
     color: var(--text);
-    margin: 0 0 24px 0;
+    margin: 0 0 28px 0;
   }
-  .hero__proof { display: flex; flex-direction: column; gap: 5px; }
-  .hero__avatars { display: flex; margin-bottom: 6px; }
+  .hero__proof        { display: flex; flex-direction: column; gap: 6px; }
+  .hero__avatars      { display: flex; margin-bottom: 4px; }
   .hero__av {
-    width: 34px; height: 34px;
+    width: 32px; height: 32px;
     border-radius: 50%;
     border: 2.5px solid var(--bg);
-    margin-right: -10px;
+    margin-right: -9px;
     object-fit: cover;
   }
-  .hero__stars { font-size: 14px; letter-spacing: 1px; color: var(--text); }
+  .hero__stars        { font-size: 13px; letter-spacing: 2px; color: var(--text); margin-top: 2px; }
   .hero__reviews-label {
     font-family: var(--sans);
     font-size: 11px; font-weight: 500;
-    letter-spacing: 0.05em; color: var(--muted);
+    letter-spacing: 0.06em; color: var(--muted);
   }
 
   /* ── Texto derecha ───────────────────────────── */
   .hero__side-text {
     position: absolute;
-    right: 48px;
+    right: 52px;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 3;
+    z-index: 10;
     font-family: var(--sans);
-    font-size: clamp(14px, 1.4vw, 20px);
+    font-size: clamp(13px, 1.2vw, 17px);
     font-weight: 400;
-    line-height: 1.65;
+    line-height: 1.7;
     color: var(--text);
     text-align: right;
-    max-width: 260px;
+    max-width: 220px;
   }
 
-  /* ── STAGE: contenedor central de la composición ── */
+  /* ── Stage central ───────────────────────────── */
   .hero__stage {
-    position: absolute;
-    /*
-      Centrado horizontal.
-      Verticalmente: el stage ocupa TODO el alto del hero.
-      Los elementos dentro se posicionan relativos al stage.
-    */
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    transform: translateX(-50%);
-    width: clamp(320px, 42vw, 600px);
-    z-index: 2;
-    pointer-events: none;
-    /* Sin overflow para que la mano pueda salir por abajo */
+    position: relative;
+    width: clamp(280px, 36vw, 520px);
+    height: 80vh;
+    z-index: 5;
     overflow: visible;
+    pointer-events: none;
   }
 
-  /* Perfume:
-     - Centrado en el stage horizontalmente
-     - Verticalmente: aprox 30–55% del hero (centro-alto)
-     - Flota con animación
-  */
+  /* Perfume: arriba, baja con scroll vía JS */
   .hero__perfume {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translateX(-50%) translateY(-70%);
-    width: clamp(280px, 34vw, 500px);
-    /* mix-blend-mode funde el fondo blanco del JPG con el crema */
+    transform: translateX(-50%) translateY(-55%);
+    width: clamp(220px, 28vw, 400px);
     mix-blend-mode: multiply;
-    filter: drop-shadow(0 30px 40px rgba(0,0,0,0.12));
-    animation: floatPerfume 7s ease-in-out infinite;
-    z-index: 2;
+    filter: drop-shadow(0 24px 40px rgba(0,0,0,0.13));
+    animation: floatPerfume 6s ease-in-out infinite;
+    z-index: 6;
+    will-change: transform;
   }
 
-  /* Mano:
-     - Centrada en el stage horizontalmente
-     - Pegada al fondo del stage, sobresale hacia abajo
-     - JS la mueve de translateY(35%) → translateY(-5%)
-  */
+  /* Mano: abajo, sube con scroll vía JS */
   .hero__hand {
     position: absolute;
     left: 50%;
-    bottom: 0;
-    transform: translateX(-50%) translateY(35%);
-    width: 105%;
-    z-index: 3;
+    bottom: -10%;
+    transform: translateX(-50%) translateY(60%);
+    width: 115%;
+    z-index: 7;
     will-change: transform;
   }
 
   @keyframes floatPerfume {
-    0%, 100% { transform: translateX(-50%) translateY(-70%); }
-    50%       { transform: translateX(-50%) translateY(calc(-70% - 16px)); }
+    0%, 100% { transform: translateX(-50%) translateY(-55%); }
+    50%       { transform: translateX(-50%) translateY(calc(-55% - 14px)); }
+  }
+
+  /* ── Indicador scroll ────────────────────────── */
+  .hero__scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: rgba(26,26,24,0.3);
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .hero__scroll-line {
+    width: 1px;
+    height: 40px;
+    background: rgba(26,26,24,0.25);
+    margin: 8px auto 0;
   }
 
   /* ── Responsive ──────────────────────────────── */
   @media (max-width: 960px) {
-    .hero__title-block { left: 28px; top: 80px; max-width: 360px; }
-    .hero__side-text   { right: 20px; font-size: 13px; max-width: 200px; }
-    .hero__stage       { width: clamp(260px, 50vw, 480px); }
+    .hero__title-block { left: 28px; max-width: 300px; }
+    .hero__side-text   { right: 20px; font-size: 12px; max-width: 180px; }
+    .hero__stage       { width: clamp(260px, 48vw, 460px); }
   }
   @media (max-width: 640px) {
-    .hero__title-block { position: relative; top: auto; left: auto; padding: 88px 24px 0; }
-    .hero__title       { font-size: clamp(34px, 9vw, 50px); }
-    .hero__side-text   { position: relative; right: auto; top: auto; transform: none; padding: 16px 24px 0; text-align: left; max-width: 100%; }
-    .hero__stage       { position: relative; left: auto; transform: none; width: 100%; height: 65vh; }
-    .hero__brand-bg    { font-size: 25vw; }
+    .hero__title-block {
+      position: absolute;
+      top: 88px; left: 24px; right: 24px;
+      transform: none; max-width: none;
+    }
+    .hero__title     { font-size: clamp(34px, 10vw, 48px); }
+    .hero__side-text { display: none; }
+    .hero__stage     { width: 90%; height: 60vh; }
+    .hero__brand-bg  { font-size: 28vw; }
   }
 </style>
 
 <script is:inline>
 (function () {
   function init() {
-    var hand = document.getElementById('heroHand');
-    var hero = document.getElementById('hero');
-    if (!hand || !hero) return;
+    var perfume = document.getElementById('heroPerfume');
+    var hand    = document.getElementById('heroHand');
+    var hero    = document.getElementById('hero');
+    if (!perfume || !hand || !hero) return;
+
+    var pfBaseY = -55; // % inicial del perfume
+
+    var ticking = false;
 
     function update() {
       var scrollY  = window.pageYOffset || document.documentElement.scrollTop;
       var heroH    = hero.offsetHeight;
-      var progress = Math.min(scrollY / (heroH * 0.6), 1);
-      // mano: 35% → -5% (sube y llega debajo del perfume)
-      var offset   = 35 - (progress * 40);
-      hand.style.transform = 'translateX(-50%) translateY(' + offset + '%)';
+      var progress = Math.min(Math.max(scrollY / (heroH * 0.65), 0), 1);
+
+      // Perfume baja: -55% → -20%
+      var pfY = pfBaseY + progress * 35;
+      if (progress > 0) {
+        perfume.style.animationPlayState = 'paused';
+        perfume.style.transform = 'translateX(-50%) translateY(' + pfY + '%)';
+      } else {
+        perfume.style.animationPlayState = 'running';
+        perfume.style.transform = '';
+      }
+
+      // Mano sube: 60% → 10%
+      var handY = 60 - progress * 50;
+      hand.style.transform = 'translateX(-50%) translateY(' + handY + '%)';
+
+      ticking = false;
     }
 
     update();
-    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('scroll', function () {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    }, { passive: true });
     window.addEventListener('resize', update, { passive: true });
   }
 
