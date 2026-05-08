@@ -1,233 +1,131 @@
 ---
-/**
- * HERO — Elysian Aromas
- * Copia exacta del layout de Essentia:
- * - Título negro bold enorme top-left
- * - Producto centrado en el tercio superior
- * - Mano VISIBLE desde el inicio ocupando la mitad inferior
- * - Al scrollear, mano sube más (parallax suave)
- * - "Elysian" gigante en la parte baja de fondo
- */
+// Nav.astro — Elysian Aromas
 ---
 
-<section class="hero" id="hero">
+<nav class="nav" id="mainNav">
+  <a class="nav__logo" href="/">Elysian</a>
 
-  <!-- Título + social proof — top left -->
-  <div class="hero__title-block">
-    <h1 class="hero__title">Your finest scent revealed.</h1>
-    <div class="hero__proof">
-      <div class="hero__avatars">
-        <img class="hero__av" src="https://i.pravatar.cc/40?img=47" alt="" />
-        <img class="hero__av" src="https://i.pravatar.cc/40?img=44" alt="" />
-        <img class="hero__av" src="https://i.pravatar.cc/40?img=41" alt="" />
-        <img class="hero__av" src="https://i.pravatar.cc/40?img=48" alt="" />
-      </div>
-      <div class="hero__stars">★★★★★</div>
-      <div class="hero__reviews-label">2500+ Happy Customers</div>
-    </div>
+  <div class="nav__right">
+    <a class="nav__cta-outline" href="/coleccion">
+      Ver colección
+      <span class="nav__arrow">→</span>
+    </a>
+    <button class="nav__menu-btn" id="menuBtn" aria-label="Menú">
+      MENÚ
+      <span class="nav__dots" aria-hidden="true">••</span>
+    </button>
   </div>
-
-  <!-- Texto derecha — alineado verticalmente al centro -->
-  <div class="hero__side-text">
-    We strip away the unnecessary<br />to focus on what truly endures.
-  </div>
-
-  <!-- Producto — centrado horizontalmente, tercio superior -->
-  <img
-    class="hero__product"
-    src="https://www.destinodebelleza.es/assets/images/product_images/700x700_ADGH_Profondo.png"
-    alt="Elysian Perfume"
-  />
-
-  <!-- Mano — siempre visible, mitad inferior de la pantalla -->
-  <img
-    class="hero__hand"
-    id="heroHand"
-    src="https://framerusercontent.com/images/wBo5lTi5xGCI92q80tKg9ywiQ4.png"
-    alt=""
-    aria-hidden="true"
-  />
-
-  <!-- Marca gigante fondo — parte baja -->
-  <div class="hero__brand-bg" aria-hidden="true">Elysian</div>
-
-</section>
+</nav>
 
 <style>
-  .hero {
-    --bg:    #f0ebe2;
-    --text:  #1a1a18;
-    --muted: rgba(26,26,24,0.42);
-    --brand: rgba(26,26,24,0.055);
-    --sans:  'Montserrat', system-ui, sans-serif;
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    height: 60px;
+    background: #f0ebe2;
+    font-family: 'Montserrat', system-ui, sans-serif;
   }
 
-  /* ── Base ──────────────────────────────────────── */
-  .hero {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background: var(--bg);
-    overflow: hidden;
-  }
-
-  /* ── Título top-left ───────────────────────────── */
-  .hero__title-block {
-    position: absolute;
-    top: 80px;
-    left: 44px;
-    z-index: 4;
-    max-width: 440px;
-  }
-  .hero__title {
-    font-family: var(--sans);
-    font-weight: 800;
-    font-size: clamp(38px, 5.5vw, 84px);
-    line-height: 1.0;
-    letter-spacing: -0.025em;
-    color: var(--text);
-    margin: 0 0 22px 0;
-  }
-  .hero__proof { display: flex; flex-direction: column; gap: 5px; }
-  .hero__avatars { display: flex; }
-  .hero__av {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: 2.5px solid var(--bg);
-    margin-right: -10px;
-    object-fit: cover;
-  }
-  .hero__stars {
-    font-size: 15px; letter-spacing: 2px;
-    color: var(--text); margin-top: 8px;
-  }
-  .hero__reviews-label {
-    font-family: var(--sans); font-size: 11px;
-    font-weight: 500; letter-spacing: 0.06em;
-    color: var(--muted);
-  }
-
-  /* ── Texto derecha ─────────────────────────────── */
-  .hero__side-text {
-    position: absolute;
-    right: 52px;
-    /* Alineado al centro vertical igual que Essentia */
-    top: 42%;
-    transform: translateY(-50%);
-    z-index: 4;
-    font-family: var(--sans);
-    font-size: clamp(15px, 1.5vw, 21px);
-    font-weight: 400;
-    line-height: 1.65;
-    color: var(--text);
-    text-align: right;
-    max-width: 260px;
-  }
-
-  /* ── Producto — tercio superior centrado ───────── */
-  .hero__product {
-    position: absolute;
-    /* Centro horizontal */
-    left: 50%;
-    transform: translateX(-50%);
-    /*
-      top: 8% hace que el producto empiece cerca del navbar.
-      En Essentia el producto ocupa roughly 10%–55% del viewport.
-    */
-    top: 8%;
-    width: clamp(240px, 30vw, 440px);
-    z-index: 3;
-    mix-blend-mode: multiply;
-    filter: drop-shadow(0 24px 32px rgba(0,0,0,0.10));
-    animation: floatProduct 7s ease-in-out infinite;
-  }
-
-  /* ── Mano — mitad inferior, siempre visible ────── */
-  .hero__hand {
-    position: absolute;
-    left: 50%;
-    /*
-      bottom: -5% para que los dedos lleguen casi al borde.
-      transform: translateX(-50%) sin translateY extra = visible desde inicio.
-      JS añade un pequeño parallax al scrollear.
-    */
-    bottom: -5%;
-    transform: translateX(-50%);
-    width: clamp(500px, 65vw, 900px);
-    z-index: 2;
-    will-change: transform;
-  }
-
-  /* ── Marca fondo ───────────────────────────────── */
-  .hero__brand-bg {
-    position: absolute;
-    bottom: -0.07em;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    font-family: var(--sans);
-    font-weight: 800;
-    font-size: clamp(110px, 18vw, 270px);
+  /* Logo */
+  .nav__logo {
+    font-size: 17px;
+    font-weight: 600;
     letter-spacing: -0.02em;
-    color: var(--brand);
-    pointer-events: none;
-    user-select: none;
-    z-index: 1;
-    line-height: 1;
+    color: #1a1a18;
+    text-decoration: none;
   }
 
-  /* ── Animación producto ────────────────────────── */
-  @keyframes floatProduct {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50%       { transform: translateX(-50%) translateY(-14px); }
+  /* Lado derecho */
+  .nav__right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
-  /* ── Responsive ────────────────────────────────── */
-  @media (max-width: 960px) {
-    .hero__title-block { left: 28px; }
-    .hero__side-text   { right: 24px; font-size: 13px; max-width: 200px; }
-    .hero__product     { width: clamp(200px, 36vw, 360px); }
-    .hero__hand        { width: clamp(400px, 75vw, 700px); }
+  /* Botón outline "Ver colección →" */
+  .nav__cta-outline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 20px;
+    height: 40px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(26,26,24,0.2);
+    background: transparent;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #1a1a18;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+    white-space: nowrap;
   }
-  @media (max-width: 640px) {
-    .hero { height: auto; min-height: 100svh; }
-    .hero__title-block { position: relative; top: auto; left: auto; padding: 88px 24px 0; }
-    .hero__title       { font-size: clamp(32px, 9vw, 48px); }
-    .hero__side-text   { display: none; }
-    .hero__product     { width: 55vw; top: auto; position: relative; left: auto; transform: none; margin: 24px auto 0; display: block; }
-    .hero__hand        { width: 100vw; }
-    .hero__brand-bg    { font-size: 24vw; }
+  .nav__cta-outline:hover {
+    background: rgba(26,26,24,0.06);
+    border-color: rgba(26,26,24,0.4);
+  }
+  .nav__arrow {
+    font-size: 14px;
+    transition: transform 0.2s;
+  }
+  .nav__cta-outline:hover .nav__arrow {
+    transform: translateX(3px);
+  }
+
+  /* Botón sólido "MENÚ ••" */
+  .nav__menu-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 20px;
+    height: 40px;
+    border-radius: 999px;
+    border: none;
+    background: #1a1a18;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #f0ebe2;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    white-space: nowrap;
+  }
+  .nav__menu-btn:hover {
+    background: #2e2e2b;
+    transform: scale(1.02);
+  }
+  .nav__dots {
+    font-size: 8px;
+    letter-spacing: 2px;
+    opacity: 0.7;
+  }
+
+  /* Scroll — agrega sombra sutil */
+  .nav.nav--scrolled {
+    box-shadow: 0 1px 0 rgba(26,26,24,0.08);
   }
 </style>
 
 <script is:inline>
 (function () {
-  function init() {
-    var hand = document.getElementById('heroHand');
-    var hero = document.getElementById('hero');
-    if (!hand || !hero) return;
-
-    function update() {
-      var scrollY  = window.pageYOffset || document.documentElement.scrollTop;
-      var heroH    = hero.offsetHeight;
-      var progress = Math.min(scrollY / heroH, 1);
-      /*
-        Sin scroll: translateX(-50%) translateY(0%) — mano visible
-        Con scroll: sube hasta translateY(-15%) — efecto parallax suave
-      */
-      var offsetY = -(progress * 15);
-      hand.style.transform = 'translateX(-50%) translateY(' + offsetY + '%)';
+  var nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', function () {
+    if (window.scrollY > 10) {
+      nav.classList.add('nav--scrolled');
+    } else {
+      nav.classList.remove('nav--scrolled');
     }
-
-    update();
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update, { passive: true });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  }, { passive: true });
 })();
 </script>
