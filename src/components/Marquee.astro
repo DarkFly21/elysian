@@ -1,73 +1,196 @@
 ---
 /**
- * COMPONENTE: Marquee (Ticker de texto)
- * ──────────────────────────────────────────────────────
- * La banda dorada con texto que corre horizontalmente.
- * Es puramente decorativo/de marca.
+ * COMPONENTE: Marquee con logos de marcas de perfumes
+ * Estilo Elysian — fondo crema, logos en tono oscuro
  */
-
-const items = [
-  'LUXURY FRAGRANCES',
-  'ELYSIAN AROMAS',
-  'DIVINE ALLURE',
-  'EST. 2024',
-  'HANDCRAFTED SCENTS',
-  'ELYSIAN AROMAS',
-];
 ---
 
-<div class="marquee-wrap">
-  <div class="marquee">
-    <div class="marquee__track">
-      {/* Duplicamos los items para el loop infinito */}
-      {[...items, ...items].map((item, i) => (
-        <span class="marquee__item">
-          {item}
-          <span class="marquee__dot" aria-hidden="true">✦</span>
-        </span>
-      ))}
+<div class="mq-wrap">
+  <div class="mq-track-outer">
+    <div class="mq-track">
+
+      <!-- Set 1 -->
+      <span class="mq-item">
+        <!-- Chanel -->
+        <svg class="mq-logo" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="24" font-family="serif" font-size="22" font-weight="400" letter-spacing="6" fill="currentColor">CHANEL</text>
+        </svg>
+      </span>
+      <span class="mq-sep" aria-hidden="true">✦</span>
+
+      <span class="mq-item">
+        <!-- Dior -->
+        <svg class="mq-logo" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="24" font-family="serif" font-size="22" font-weight="400" letter-spacing="6" fill="currentColor">DIOR</text>
+        </svg>
+      </span>
+      <span class="mq-sep" aria-hidden="true">✦</span>
+
+      <span class="mq-item">
+        <!-- Hermès -->
+        <svg class="mq-logo" viewBox="0 0 130 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="24" font-family="serif" font-size="22" font-weight="400" letter-spacing="6" fill="currentColor">HERMÈS</text>
+        </svg>
+      </span>
+      <span class="mq-sep" aria-hidden="true">✦</span>
+
+      <span class="mq-item">
+        <!-- Guerlain -->
+        <svg class="mq-logo" viewBox="0 0 160 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="24" font-family="serif" font-size="22" font-weight="400" letter-spacing="6" fill="currentColor">GUERLAIN</text>
+        </svg>
+      </span>
+      <span class="mq-sep" aria-hidden="true">✦</span>
+
+      <span class="mq-item">
+        <!-- Tom Ford -->
+        <svg class="mq-logo" viewBox="0 0 170 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="24" font-family="serif" font-size="22" font-weight="400" letter-spacing="6" fill="currentColor">TOM FORD</text>
+        </svg>
+      </span>
+      <span class="mq-sep" aria-hidden="true">✦</span>
+
+      <span class="mq-item">
+        <!-- Yves Saint Laurent -->
+        <svg class="mq-logo" viewBox="0 0 60 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="24" font-family="serif" font-size="22" font-weight="400" letter-spacing="6" fill="currentColor">YSL</text>
+        </svg>
+      </span>
+      <span class="mq-sep" aria-hidden="true">✦</span>
+
+      <span class="mq-item">
+        <!-- Armani -->
+        <svg class="mq-logo" viewBox="0 0 140 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="24" font-family="serif" font-size="22" font-weight="400" letter-spacing="6" fill="currentColor">ARMANI</text>
+        </svg>
+      </span>
+      <span class="mq-sep" aria-hidden="true">✦</span>
+
+      <span class="mq-item">
+        <!-- Versace -->
+        <svg class="mq-logo" viewBox="0 0 140 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="24" font-family="serif" font-size="22" font-weight="400" letter-spacing="6" fill="currentColor">VERSACE</text>
+        </svg>
+      </span>
+      <span class="mq-sep" aria-hidden="true">✦</span>
+
+      <!-- Set 2 (duplicado para loop infinito) -->
+      <span class="mq-item">
+        <svg class="mq-logo" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="24" font-family="serif" font-size="22" font-weight="400" letter-spacing="6" fill="currentColor">CHANEL</text>
+        </svg>
+      </span>
+      <span class="mq-sep" aria-hidden="true">✦</span>
+
+      <span class="mq-item">
+        <svg class="mq-logo" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="24" font-family="serif" font-size="22" font-weight="400" letter-spacing="6" fill="currentColor">DIOR</text>
+        </svg>
+      </span>
+      <span class="mq-sep" aria-hidden="true">✦</span>
+
+      <span class="mq-item">
+        <svg class="mq-logo" viewBox="0 0 130 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="24" font-family="serif" font-size="22" font-weight="400" letter-spacing="6" fill="currentColor">HERMÈS</text>
+        </svg>
+      </span>
+      <span class="mq-sep" aria-hidden="true">✦</span>
+
+      <span class="mq-item">
+        <svg class="mq-logo" viewBox="0 0 160 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="24" font-family="serif" font-size="22" font-weight="400" letter-spacing="6" fill="currentColor">GUERLAIN</text>
+        </svg>
+      </span>
+      <span class="mq-sep" aria-hidden="true">✦</span>
+
+      <span class="mq-item">
+        <svg class="mq-logo" viewBox="0 0 170 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="24" font-family="serif" font-size="22" font-weight="400" letter-spacing="6" fill="currentColor">TOM FORD</text>
+        </svg>
+      </span>
+      <span class="mq-sep" aria-hidden="true">✦</span>
+
+      <span class="mq-item">
+        <svg class="mq-logo" viewBox="0 0 60 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="24" font-family="serif" font-size="22" font-weight="400" letter-spacing="6" fill="currentColor">YSL</text>
+        </svg>
+      </span>
+      <span class="mq-sep" aria-hidden="true">✦</span>
+
+      <span class="mq-item">
+        <svg class="mq-logo" viewBox="0 0 140 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="24" font-family="serif" font-size="22" font-weight="400" letter-spacing="6" fill="currentColor">ARMANI</text>
+        </svg>
+      </span>
+      <span class="mq-sep" aria-hidden="true">✦</span>
+
+      <span class="mq-item">
+        <svg class="mq-logo" viewBox="0 0 140 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="24" font-family="serif" font-size="22" font-weight="400" letter-spacing="6" fill="currentColor">VERSACE</text>
+        </svg>
+      </span>
+      <span class="mq-sep" aria-hidden="true">✦</span>
+
     </div>
   </div>
 </div>
 
 <style>
-.marquee-wrap {
-  border-top: 1px solid var(--c-border);
-  border-bottom: 1px solid var(--c-border);
-  overflow: hidden;
-  padding: 14px 0;
-  background: rgba(201,169,110,0.03);
-}
+  .mq-wrap {
+    width: 100%;
+    overflow: hidden;
+    background: #f0ebe2;
+    border-top: 1px solid rgba(26,26,24,0.1);
+    border-bottom: 1px solid rgba(26,26,24,0.1);
+    padding: 20px 0;
+  }
 
-.marquee {
-  overflow: hidden;
-  white-space: nowrap;
-}
+  .mq-track-outer {
+    overflow: hidden;
+    white-space: nowrap;
+  }
 
-.marquee__track {
-  display: inline-flex;
-  animation: marquee 30s linear infinite;
-}
+  .mq-track {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    animation: mq-scroll 35s linear infinite;
+    will-change: transform;
+  }
 
-.marquee__item {
-  font-size: 11px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--c-gold);
-  padding: 0 32px;
-  opacity: 0.7;
-  display: inline-flex;
-  align-items: center;
-  gap: 32px;
-}
+  /* Pausa al hover */
+  .mq-wrap:hover .mq-track {
+    animation-play-state: paused;
+  }
 
-.marquee__dot {
-  font-size: 8px;
-  opacity: 0.5;
-}
+  .mq-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 40px;
+    color: rgba(26,26,24,0.35);
+    transition: color 0.3s ease;
+    cursor: default;
+  }
 
-/* Pausa el marquee al hacer hover */
-.marquee-wrap:hover .marquee__track {
-  animation-play-state: paused;
-}
+  .mq-item:hover {
+    color: rgba(26,26,24,0.75);
+  }
+
+  .mq-logo {
+    height: 18px;
+    width: auto;
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+    display: block;
+  }
+
+  .mq-sep {
+    color: rgba(26,26,24,0.18);
+    font-size: 8px;
+    flex-shrink: 0;
+  }
+
+  @keyframes mq-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
 </style>
