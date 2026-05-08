@@ -1,7 +1,7 @@
 ---
 /**
  * COMPONENTE: IngredientsSection — Elysian Aromas
- * Layout 2 columnas: título sticky izquierda, stack de cards derecha.
+ * 2 columnas: título sticky izq, stack de cards der.
  */
 
 const ingredients = [
@@ -10,28 +10,28 @@ const ingredients = [
     origin: 'Bulgaria',
     note: 'Nota de salida',
     description: 'La reina de las flores. Dulce, aterciopelada, con sutiles matices de fruta que evocan jardines en plena primavera búlgara.',
-    img: 'https://images.unsplash.com/photo-1490750967868-88df5691cc84?w=400&h=300&fit=crop',
+    img: 'https://images.unsplash.com/photo-1490750967868-88df5691cc84?w=600&q=80',
   },
   {
     name: 'Oud Árabe',
     origin: 'Arabia Saudita',
     note: 'Nota de fondo',
     description: 'La madera más preciada del mundo. Rico, profundo, con reminiscencias de miel y cuero que persisten horas después de la aplicación.',
-    img: 'https://images.unsplash.com/photo-1600612253971-2aa52fc16358?w=400&h=300&fit=crop',
+    img: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80',
   },
   {
     name: 'Jazmín Sambac',
     origin: 'India',
     note: 'Nota de corazón',
     description: 'Intensamente floral y casi indólico. La esencia de las noches de verano en los jardines de Mysore, capturada en su máxima expresión.',
-    img: 'https://images.unsplash.com/photo-1596438459194-f275f413d6ff?w=400&h=300&fit=crop',
+    img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
   },
   {
     name: 'Ámbar Gris',
     origin: 'Océano Índico',
     note: 'Nota de fondo',
     description: 'Cálido, marino, con una complejidad terrosa que fija y amplifica los demás aromas, dándoles una durabilidad excepcional.',
-    img: 'https://images.unsplash.com/photo-1559056199-5c083e0a7e82?w=400&h=300&fit=crop',
+    img: 'https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=600&q=80',
   },
 ];
 ---
@@ -39,63 +39,67 @@ const ingredients = [
 <section class="ing" id="ingredientes">
   <div class="ing__inner">
 
-    <!-- Columna izquierda: título sticky -->
+    <!-- Izquierda: título sticky -->
     <div class="ing__left">
-      <div class="ing__label">
+      <p class="ing__label">
         <span class="ing__label-line"></span>
-        <span>Ingredientes</span>
-      </div>
+        Ingredientes
+      </p>
       <h2 class="ing__title">
-        Lo mejor<br />de la<br />naturaleza,<br />destilado<br />para ti.
+        Lo mejor<br/>de la<br/>naturaleza,<br/>destilado<br/>para ti.
       </h2>
     </div>
 
-    <!-- Columna derecha: stack de cards -->
+    <!-- Derecha: stack -->
     <div class="ing__right">
-      <div class="ing__stack-wrap">
 
-        {ingredients.map((ing, i) => (
-          <>
-            <input
-              class="ing__radio"
-              id={`ing-${i}`}
-              type="radio"
-              name="ing-panel"
-              checked={i === 0}
-            />
-            <article class={`ing-card ing-card--${i + 1}`}>
-              <header class="ing-card__header">
-                <div class="ing-card__header-left">
-                  <span class="ing-card__num">0{i + 1}</span>
-                  <div>
-                    <h3 class="ing-card__name">{ing.name}</h3>
-                    <span class="ing-card__origin">{ing.origin}</span>
-                  </div>
+      {ingredients.map((ing, i) => (
+        <>
+          <input
+            class="ing__radio"
+            id={`ing-${i}`}
+            type="radio"
+            name="ing-panel"
+            checked={i === 0}
+          />
+          <article class={`ing-card ing-card--${i + 1}`}>
+
+            <header class="ing-card__header">
+              <div class="ing-card__hl">
+                <span class="ing-card__num">0{i + 1}</span>
+                <div>
+                  <h3 class="ing-card__name">{ing.name}</h3>
+                  <span class="ing-card__origin">{ing.origin}</span>
                 </div>
-                <div class="ing-card__header-right">
-                  <span class="ing-card__note">{ing.note}</span>
-                  <label
-                    class="ing-card__next-btn"
-                    for={`ing-${(i + 1) % ingredients.length}`}
-                    aria-label="Siguiente ingrediente"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </label>
-                </div>
-              </header>
-              <div class="ing-card__body">
-                <img src={ing.img} alt={ing.name} class="ing-card__img" loading="lazy" />
-                <p class="ing-card__desc">{ing.description}</p>
               </div>
-            </article>
-          </>
-        ))}
+              <div class="ing-card__hr">
+                <span class="ing-card__note">{ing.note}</span>
+                <label class="ing-card__btn" for={`ing-${(i + 1) % ingredients.length}`} aria-label="Siguiente">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </label>
+              </div>
+            </header>
 
-      </div>
+            <div class="ing-card__body">
+              <div class="ing-card__img-wrap">
+                <img
+                  src={ing.img}
+                  alt={ing.name}
+                  class="ing-card__img"
+                  loading="lazy"
+                  crossorigin="anonymous"
+                />
+              </div>
+              <p class="ing-card__desc">{ing.description}</p>
+            </div>
+
+          </article>
+        </>
+      ))}
+
     </div>
-
   </div>
 </section>
 
@@ -103,26 +107,26 @@ const ingredients = [
   .ing {
     width: 100%;
     background: #f0ebe2;
-    padding: 120px 0 180px;
+    padding: 120px 0 200px;
     font-family: 'Montserrat', system-ui, sans-serif;
     overflow: hidden;
   }
 
-  /* ── Layout 2 columnas ───────────────────────── */
+  /* ── Layout ──────────────────────────────────── */
   .ing__inner {
     max-width: 1300px;
     margin: 0 auto;
     padding: 0 52px;
     display: grid;
-    grid-template-columns: 1fr 1.4fr;
+    grid-template-columns: 380px 1fr;
     gap: 80px;
     align-items: start;
   }
 
-  /* ── Columna izquierda: sticky ───────────────── */
+  /* ── Izquierda sticky ────────────────────────── */
   .ing__left {
     position: sticky;
-    top: 120px;
+    top: 100px;
   }
 
   .ing__label {
@@ -133,19 +137,19 @@ const ingredients = [
     font-weight: 600;
     letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: rgba(26,26,24,0.45);
-    margin-bottom: 28px;
+    color: rgba(26,26,24,0.4);
+    margin: 0 0 24px 0;
   }
   .ing__label-line {
     display: block;
-    width: 32px;
+    width: 28px;
     height: 1px;
-    background: rgba(26,26,24,0.3);
+    background: rgba(26,26,24,0.25);
     flex-shrink: 0;
   }
 
   .ing__title {
-    font-size: clamp(36px, 4.5vw, 68px);
+    font-size: clamp(38px, 4vw, 64px);
     font-weight: 800;
     letter-spacing: -0.035em;
     line-height: 1.0;
@@ -153,16 +157,13 @@ const ingredients = [
     margin: 0;
   }
 
-  /* ── Columna derecha ─────────────────────────── */
+  /* ── Derecha: stack ──────────────────────────── */
   .ing__right {
-    padding-top: 8px;
-  }
-
-  /* ── Stack wrapper ───────────────────────────── */
-  .ing__stack-wrap {
     display: grid;
     grid-template-areas: "stack";
     position: relative;
+    /* altura mínima para que el stack tenga espacio */
+    min-height: 420px;
   }
 
   /* Radios ocultos */
@@ -174,176 +175,188 @@ const ingredients = [
     clip: rect(0,0,0,0);
     white-space: nowrap;
     border: 0;
+    grid-area: stack;
   }
 
-  /* ── Cards base ──────────────────────────────── */
+  /* ── Card ────────────────────────────────────── */
   .ing-card {
     grid-area: stack;
-    position: relative;
     background: #1a1a18;
-    border-radius: 24px;
+    border-radius: 20px;
     overflow: hidden;
-    transition: transform 500ms cubic-bezier(0.4,0,0.2,1),
-                opacity 500ms ease,
-                scale 500ms cubic-bezier(0.4,0,0.2,1);
+    transition:
+      transform 500ms cubic-bezier(0.4,0,0.2,1),
+      scale 500ms cubic-bezier(0.4,0,0.2,1),
+      opacity 500ms ease;
     will-change: transform, scale, opacity;
+    /* Posiciones por defecto (card 1 activa) */
   }
 
-  /* ── Card header ─────────────────────────────── */
+  /* ── Header ──────────────────────────────────── */
   .ing-card__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 22px 24px;
-    background: rgba(240,235,226,0.05);
+    gap: 12px;
+    padding: 20px 22px;
     border-bottom: 1px solid rgba(240,235,226,0.08);
   }
 
-  .ing-card__header-left {
+  .ing-card__hl {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
+    min-width: 0;
   }
 
   .ing-card__num {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 40px;
+    font-size: 36px;
     font-weight: 300;
-    color: rgba(240,235,226,0.15);
+    color: rgba(240,235,226,0.12);
     line-height: 1;
     flex-shrink: 0;
   }
 
   .ing-card__name {
-    font-size: clamp(16px, 1.8vw, 24px);
+    font-size: clamp(16px, 1.8vw, 22px);
     font-weight: 700;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.02em;
     color: #f0ebe2;
-    margin: 0 0 3px 0;
+    margin: 0 0 3px;
     line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .ing-card__origin {
     font-size: 9px;
     font-weight: 600;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(240,235,226,0.35);
+    color: rgba(240,235,226,0.3);
   }
 
-  .ing-card__header-right {
+  .ing-card__hr {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     flex-shrink: 0;
   }
 
   .ing-card__note {
     font-size: 9px;
     font-weight: 700;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: rgba(240,235,226,0.4);
+    color: rgba(240,235,226,0.38);
     background: rgba(240,235,226,0.07);
     border: 1px solid rgba(240,235,226,0.1);
-    padding: 5px 12px;
+    padding: 5px 11px;
     border-radius: 999px;
     white-space: nowrap;
   }
 
-  .ing-card__next-btn {
+  .ing-card__btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     border-radius: 999px;
     background: #f0ebe2;
     color: #1a1a18;
     cursor: pointer;
-    transition: background 0.25s, transform 0.2s;
     flex-shrink: 0;
+    transition: background 0.2s, transform 0.2s;
   }
-  .ing-card__next-btn:hover {
-    background: #ddd8cf;
-    transform: scale(1.08);
+  .ing-card__btn:hover { background: #ddd8cf; transform: scale(1.08); }
+
+  /* ── Body ────────────────────────────────────── */
+  .ing-card__body {
+    display: flex;
+    opacity: 0;
+    transition: opacity 350ms ease 150ms;
+    min-height: 200px;
   }
 
-  /* ── Card body ───────────────────────────────── */
-  .ing-card__body {
-    display: grid;
-    grid-template-columns: 180px 1fr;
-    opacity: 0;
-    transition: opacity 400ms ease 200ms;
+  .ing-card__img-wrap {
+    width: 200px;
+    flex-shrink: 0;
+    overflow: hidden;
   }
 
   .ing-card__img {
     width: 100%;
-    height: 200px;
+    height: 100%;
     object-fit: cover;
     display: block;
   }
 
   .ing-card__desc {
-    padding: 24px;
+    flex: 1;
+    padding: 24px 22px;
     font-size: 13px;
     line-height: 1.8;
-    color: rgba(240,235,226,0.55);
+    color: rgba(240,235,226,0.5);
     margin: 0;
     display: flex;
     align-items: center;
   }
 
-  /* ── Stack positions ─────────────────────────── */
-  .ing-card--1 { order: 4; z-index: 4; transform: translateY(0);      scale: 1;    opacity: 1;    }
-  .ing-card--2 { order: 3; z-index: 3; transform: translateY(-3.5rem); scale: 0.96; opacity: 0.85; }
-  .ing-card--3 { order: 2; z-index: 2; transform: translateY(-6.5rem); scale: 0.92; opacity: 0.7;  }
-  .ing-card--4 { order: 1; z-index: 1; transform: translateY(-9rem);   scale: 0.88; opacity: 0.55; }
+  /* ── Posiciones del stack ────────────────────── */
+  /* Estado por defecto: card 1 arriba */
+  .ing-card--1 { order:4; z-index:4; transform:translateY(0);       scale:1;    opacity:1;    }
+  .ing-card--2 { order:3; z-index:3; transform:translateY(-3.2rem); scale:0.96; opacity:0.82; }
+  .ing-card--3 { order:2; z-index:2; transform:translateY(-6rem);   scale:0.92; opacity:0.65; }
+  .ing-card--4 { order:1; z-index:1; transform:translateY(-8.5rem); scale:0.88; opacity:0.48; }
 
-  /* Card activa muestra body */
+  /* Body visible solo en la activa */
   .ing__radio:nth-of-type(1):checked ~ .ing-card--1 .ing-card__body,
   .ing__radio:nth-of-type(2):checked ~ .ing-card--2 .ing-card__body,
   .ing__radio:nth-of-type(3):checked ~ .ing-card--3 .ing-card__body,
   .ing__radio:nth-of-type(4):checked ~ .ing-card--4 .ing-card__body { opacity: 1; }
 
   /* Radio 1 */
-  .ing__radio:nth-of-type(1):checked ~ .ing-card--1 { order:4; z-index:4; transform:translateY(0);      scale:1;    opacity:1;    }
-  .ing__radio:nth-of-type(1):checked ~ .ing-card--2 { order:3; z-index:3; transform:translateY(-3.5rem); scale:0.96; opacity:0.85; }
-  .ing__radio:nth-of-type(1):checked ~ .ing-card--3 { order:2; z-index:2; transform:translateY(-6.5rem); scale:0.92; opacity:0.7;  }
-  .ing__radio:nth-of-type(1):checked ~ .ing-card--4 { order:1; z-index:1; transform:translateY(-9rem);   scale:0.88; opacity:0.55; }
+  .ing__radio:nth-of-type(1):checked ~ .ing-card--1 { order:4; z-index:4; transform:translateY(0);       scale:1;    opacity:1;    }
+  .ing__radio:nth-of-type(1):checked ~ .ing-card--2 { order:3; z-index:3; transform:translateY(-3.2rem); scale:0.96; opacity:0.82; }
+  .ing__radio:nth-of-type(1):checked ~ .ing-card--3 { order:2; z-index:2; transform:translateY(-6rem);   scale:0.92; opacity:0.65; }
+  .ing__radio:nth-of-type(1):checked ~ .ing-card--4 { order:1; z-index:1; transform:translateY(-8.5rem); scale:0.88; opacity:0.48; }
 
   /* Radio 2 */
-  .ing__radio:nth-of-type(2):checked ~ .ing-card--2 { order:4; z-index:4; transform:translateY(0);      scale:1;    opacity:1;    }
-  .ing__radio:nth-of-type(2):checked ~ .ing-card--3 { order:3; z-index:3; transform:translateY(-3.5rem); scale:0.96; opacity:0.85; }
-  .ing__radio:nth-of-type(2):checked ~ .ing-card--4 { order:2; z-index:2; transform:translateY(-6.5rem); scale:0.92; opacity:0.7;  }
-  .ing__radio:nth-of-type(2):checked ~ .ing-card--1 { order:1; z-index:1; transform:translateY(-9rem);   scale:0.88; opacity:0.55; }
+  .ing__radio:nth-of-type(2):checked ~ .ing-card--2 { order:4; z-index:4; transform:translateY(0);       scale:1;    opacity:1;    }
+  .ing__radio:nth-of-type(2):checked ~ .ing-card--3 { order:3; z-index:3; transform:translateY(-3.2rem); scale:0.96; opacity:0.82; }
+  .ing__radio:nth-of-type(2):checked ~ .ing-card--4 { order:2; z-index:2; transform:translateY(-6rem);   scale:0.92; opacity:0.65; }
+  .ing__radio:nth-of-type(2):checked ~ .ing-card--1 { order:1; z-index:1; transform:translateY(-8.5rem); scale:0.88; opacity:0.48; }
 
   /* Radio 3 */
-  .ing__radio:nth-of-type(3):checked ~ .ing-card--3 { order:4; z-index:4; transform:translateY(0);      scale:1;    opacity:1;    }
-  .ing__radio:nth-of-type(3):checked ~ .ing-card--4 { order:3; z-index:3; transform:translateY(-3.5rem); scale:0.96; opacity:0.85; }
-  .ing__radio:nth-of-type(3):checked ~ .ing-card--1 { order:2; z-index:2; transform:translateY(-6.5rem); scale:0.92; opacity:0.7;  }
-  .ing__radio:nth-of-type(3):checked ~ .ing-card--2 { order:1; z-index:1; transform:translateY(-9rem);   scale:0.88; opacity:0.55; }
+  .ing__radio:nth-of-type(3):checked ~ .ing-card--3 { order:4; z-index:4; transform:translateY(0);       scale:1;    opacity:1;    }
+  .ing__radio:nth-of-type(3):checked ~ .ing-card--4 { order:3; z-index:3; transform:translateY(-3.2rem); scale:0.96; opacity:0.82; }
+  .ing__radio:nth-of-type(3):checked ~ .ing-card--1 { order:2; z-index:2; transform:translateY(-6rem);   scale:0.92; opacity:0.65; }
+  .ing__radio:nth-of-type(3):checked ~ .ing-card--2 { order:1; z-index:1; transform:translateY(-8.5rem); scale:0.88; opacity:0.48; }
 
   /* Radio 4 */
-  .ing__radio:nth-of-type(4):checked ~ .ing-card--4 { order:4; z-index:4; transform:translateY(0);      scale:1;    opacity:1;    }
-  .ing__radio:nth-of-type(4):checked ~ .ing-card--1 { order:3; z-index:3; transform:translateY(-3.5rem); scale:0.96; opacity:0.85; }
-  .ing__radio:nth-of-type(4):checked ~ .ing-card--2 { order:2; z-index:2; transform:translateY(-6.5rem); scale:0.92; opacity:0.7;  }
-  .ing__radio:nth-of-type(4):checked ~ .ing-card--3 { order:1; z-index:1; transform:translateY(-9rem);   scale:0.88; opacity:0.55; }
+  .ing__radio:nth-of-type(4):checked ~ .ing-card--4 { order:4; z-index:4; transform:translateY(0);       scale:1;    opacity:1;    }
+  .ing__radio:nth-of-type(4):checked ~ .ing-card--1 { order:3; z-index:3; transform:translateY(-3.2rem); scale:0.96; opacity:0.82; }
+  .ing__radio:nth-of-type(4):checked ~ .ing-card--2 { order:2; z-index:2; transform:translateY(-6rem);   scale:0.92; opacity:0.65; }
+  .ing__radio:nth-of-type(4):checked ~ .ing-card--3 { order:1; z-index:1; transform:translateY(-8.5rem); scale:0.88; opacity:0.48; }
 
   /* ── Responsive ──────────────────────────────── */
   @media (max-width: 1024px) {
     .ing__inner { grid-template-columns: 1fr; gap: 48px; padding: 0 32px; }
     .ing__left  { position: static; }
-    .ing__title { font-size: clamp(32px, 7vw, 52px); }
+    .ing__title { font-size: clamp(32px, 6vw, 52px); }
   }
 
   @media (max-width: 640px) {
-    .ing        { padding: 72px 0 140px; }
+    .ing { padding: 72px 0 160px; }
     .ing__inner { padding: 0 20px; gap: 36px; }
     .ing__title { font-size: clamp(28px, 9vw, 44px); }
-    .ing-card__body { grid-template-columns: 1fr; }
-    .ing-card__img  { height: 160px; }
+    .ing-card__body { flex-direction: column; }
+    .ing-card__img-wrap { width: 100%; height: 160px; }
     .ing-card__header { flex-wrap: wrap; gap: 10px; }
+    .ing-card__note { display: none; }
     .ing-card--2 { transform: translateY(-2.5rem); }
     .ing-card--3 { transform: translateY(-4.5rem); }
     .ing-card--4 { transform: translateY(-6.5rem); }
