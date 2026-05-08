@@ -1,7 +1,8 @@
 ---
 /**
  * COMPONENTE: ProductCard — Elysian Aromas
- * Card con imagen full-bleed, info superpuesta, hover refinado.
+ * Card limpia: imagen arriba con hover zoom,
+ * info abajo sobre fondo crema. Botón estilo nav.
  */
 
 interface Props {
@@ -33,66 +34,52 @@ const imageSrc = image || 'https://framerusercontent.com/images/9p6ZdVRkfJqY0sgt
 <article class:list={['pc', { 'pc--featured': featured }]}>
   <a href={`/coleccion/${slug}`} class="pc__link" aria-label={title}>
 
-    <!-- Imagen full -->
+    <!-- Imagen -->
     <div class="pc__img-wrap">
-      <img
-        src={imageSrc}
-        alt={imageAlt}
-        class="pc__img"
-        loading="lazy"
-      />
-      <!-- Gradiente inferior permanente -->
-      <div class="pc__gradient"></div>
+      <img src={imageSrc} alt={imageAlt} class="pc__img" loading="lazy" />
+
+      {notes.length > 0 && (
+        <span class="pc__notes">{notes.slice(0, 3).join(' · ')}</span>
+      )}
     </div>
 
-    <!-- Contenido sobre la imagen -->
-    <div class="pc__body">
-
-      <!-- Top: notas aromáticas -->
-      <div class="pc__top">
-        {notes.length > 0 && (
-          <span class="pc__notes">{notes.slice(0, 3).join(' · ')}</span>
+    <!-- Info -->
+    <div class="pc__info">
+      <div class="pc__info-top">
+        <h3 class="pc__title">{title}</h3>
+        {excerpt && (
+          <p class="pc__excerpt" set:html={excerpt} />
         )}
       </div>
 
-      <!-- Bottom: nombre + precio + CTA -->
-      <div class="pc__bottom">
-        <div class="pc__text">
-          <h3 class="pc__title">{title}</h3>
-          {excerpt && (
-            <p class="pc__excerpt" set:html={excerpt} />
-          )}
-        </div>
-        <div class="pc__footer">
-          <span class="pc__price">{price}</span>
-          <span class="pc__cta">
-            Ver
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-        </div>
+      <div class="pc__footer">
+        <span class="pc__price">{price}</span>
+        <span class="pc__cta">
+          Ver
+          <span class="pc__cta-dots" aria-hidden="true">••</span>
+        </span>
       </div>
-
     </div>
 
   </a>
 </article>
 
 <style>
-  /* ── Base ────────────────────────────────────── */
   .pc {
     position: relative;
     border-radius: 20px;
     overflow: hidden;
-    background: #e4ddd3;
+    background: #eae4d9;
     font-family: 'Montserrat', system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
   }
 
   .pc__link {
-    display: block;
-    text-decoration: none;
+    display: flex;
+    flex-direction: column;
     height: 100%;
+    text-decoration: none;
   }
 
   /* ── Imagen ──────────────────────────────────── */
@@ -101,10 +88,7 @@ const imageSrc = image || 'https://framerusercontent.com/images/9p6ZdVRkfJqY0sgt
     width: 100%;
     aspect-ratio: 3/4;
     overflow: hidden;
-  }
-
-  .pc--featured .pc__img-wrap {
-    aspect-ratio: 2/3;
+    flex-shrink: 0;
   }
 
   .pc__img {
@@ -113,140 +97,104 @@ const imageSrc = image || 'https://framerusercontent.com/images/9p6ZdVRkfJqY0sgt
     object-fit: cover;
     object-position: center;
     mix-blend-mode: multiply;
-    transition: transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
+  .pc:hover .pc__img { transform: scale(1.06); }
 
-  .pc:hover .pc__img {
-    transform: scale(1.07);
-  }
-
-  /* Gradiente inferior siempre visible */
-  .pc__gradient {
+  /* Pill de notas aromáticas */
+  .pc__notes {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(15,13,10,0.72) 0%,
-      rgba(15,13,10,0.18) 45%,
-      transparent 70%
-    );
-    transition: opacity 0.4s;
-  }
-  .pc:hover .pc__gradient {
-    opacity: 1;
-    background: linear-gradient(
-      to top,
-      rgba(15,13,10,0.82) 0%,
-      rgba(15,13,10,0.28) 50%,
-      transparent 72%
-    );
+    top: 16px;
+    left: 16px;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(26,26,24,0.55);
+    background: rgba(240,235,226,0.75);
+    border: 1px solid rgba(26,26,24,0.08);
+    padding: 5px 12px;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
   }
 
-  /* ── Body encima de imagen ───────────────────── */
-  .pc__body {
-    position: absolute;
-    inset: 0;
+  /* ── Info ────────────────────────────────────── */
+  .pc__info {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 20px;
+    flex: 1;
+    padding: 20px 20px 18px;
+    background: #f0ebe2;
+    border-top: 1px solid rgba(26,26,24,0.07);
+    gap: 16px;
   }
 
-  /* ── Top ─────────────────────────────────────── */
-  .pc__top {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .pc__notes {
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(240,235,226,0.6);
-    background: rgba(240,235,226,0.1);
-    border: 1px solid rgba(240,235,226,0.18);
-    padding: 5px 12px;
-    border-radius: 999px;
-    backdrop-filter: blur(4px);
-  }
-
-  /* ── Bottom ──────────────────────────────────── */
-  .pc__bottom {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .pc__text { display: flex; flex-direction: column; gap: 6px; }
+  .pc__info-top { display: flex; flex-direction: column; gap: 6px; }
 
   .pc__title {
-    font-size: clamp(18px, 1.8vw, 28px);
+    font-size: clamp(16px, 1.6vw, 22px);
     font-weight: 700;
     letter-spacing: -0.025em;
-    line-height: 1.1;
-    color: #f0ebe2;
+    line-height: 1.15;
+    color: #1a1a18;
     margin: 0;
-    transition: color 0.3s;
   }
-  .pc--featured .pc__title {
-    font-size: clamp(22px, 2.4vw, 38px);
-  }
+  .pc--featured .pc__title { font-size: clamp(20px, 2vw, 28px); }
 
   .pc__excerpt {
-    font-size: 11px;
-    font-weight: 400;
-    line-height: 1.55;
-    color: rgba(240,235,226,0.55);
+    font-size: 12px;
+    line-height: 1.6;
+    color: rgba(26,26,24,0.5);
     margin: 0;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    /* Oculto por defecto, aparece al hover */
-    opacity: 0;
-    transform: translateY(4px);
-    transition: opacity 0.35s, transform 0.35s;
   }
   .pc__excerpt p { margin: 0; }
 
-  .pc:hover .pc__excerpt {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* ── Footer: precio + CTA ────────────────────── */
+  /* ── Footer ──────────────────────────────────── */
   .pc__footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 12px;
-    border-top: 1px solid rgba(240,235,226,0.15);
+    padding-top: 14px;
+    border-top: 1px solid rgba(26,26,24,0.08);
   }
 
   .pc__price {
-    font-size: 15px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
     font-weight: 300;
-    letter-spacing: 0.04em;
-    color: rgba(240,235,226,0.9);
     font-style: italic;
+    color: #1a1a18;
+    letter-spacing: 0.02em;
   }
 
+  /* Botón estilo nav — pill oscuro */
   .pc__cta {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: 9px;
+    padding: 0 16px;
+    height: 36px;
+    border-radius: 999px;
+    background: #1a1a18;
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: #f0ebe2;
-    padding-bottom: 2px;
-    border-bottom: 1px solid rgba(240,235,226,0.35);
-    transition: gap 0.3s, border-color 0.3s;
+    transition: background 0.25s, transform 0.2s;
+  }
+  .pc__cta-dots {
+    font-size: 7px;
+    letter-spacing: 2px;
+    opacity: 0.5;
   }
   .pc:hover .pc__cta {
-    gap: 13px;
-    border-color: rgba(240,235,226,0.8);
+    background: #2e2e2b;
+    transform: scale(1.03);
   }
 </style>
