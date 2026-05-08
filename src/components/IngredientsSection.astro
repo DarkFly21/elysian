@@ -1,74 +1,77 @@
 ---
 /**
- * COMPONENTE: IngredientsSection
- * ──────────────────────────────────────────────────────
- * Sección que muestra las notas aromáticas / ingredientes estrella.
- * Visualmente es la sección con imagen de fondo y cards encima.
+ * COMPONENTE: IngredientsSection — Elysian Aromas
+ * Ingredientes estrella. Fondo crema, layout editorial,
+ * imagen lateral con parallax, cards limpias.
  */
 
 const ingredients = [
   {
     name: 'Rosa de Damasco',
     origin: 'Bulgaria',
-    note: 'Top note',
+    note: 'Nota de salida',
     description: 'La reina de las flores. Dulce, aterciopelada, con sutiles matices de fruta.',
   },
   {
     name: 'Oud Árabe',
     origin: 'Arabia Saudita',
-    note: 'Base note',
+    note: 'Nota de fondo',
     description: 'La madera más preciada del mundo. Rico, profundo, con reminiscencias de miel.',
   },
   {
     name: 'Jazmín Sambac',
     origin: 'India',
-    note: 'Heart note',
+    note: 'Nota de corazón',
     description: 'Intensamente floral y casi indólico. La esencia de las noches de verano.',
   },
   {
     name: 'Ámbar Gris',
     origin: 'Océano Índico',
-    note: 'Base note',
+    note: 'Nota de fondo',
     description: 'Cálido, marino, con una complejidad terrosa. Fija y amplifica los demás aromas.',
   },
 ];
 ---
 
-<section class="ingredients">
-  <!-- Imagen de fondo con parallax -->
-  <div class="ingredients__bg">
-    <img
-      src="https://framerusercontent.com/images/Qi3nYHH8jDLxYC6vrOJ1VKaYI.png"
-      alt=""
-      aria-hidden="true"
-      id="parallaxBg"
-    />
-    <div class="ingredients__bg-overlay"></div>
-  </div>
+<section class="ing" id="ingredientes">
+  <div class="ing__inner">
 
-  <div class="container">
-    
-    <!-- Header -->
-    <div class="ingredients__header">
-      <div class="ingredients__label">
-        <div class="gold-line"></div>
-        <span>Ingredients</span>
+    <!-- Columna izquierda: header + imagen -->
+    <div class="ing__left">
+      <div class="ing__label">
+        <span class="ing__label-line"></span>
+        <span>Ingredientes</span>
       </div>
-      <h2 class="ingredients__title">
-        Nature's finest,<br/>
-        distilled for you.
+      <h2 class="ing__title">
+        Lo mejor de<br />la naturaleza,<br />destilado.
       </h2>
+
+      <div class="ing__img-wrap">
+        <img
+          id="ingParallaxBg"
+          src="https://framerusercontent.com/images/Qi3nYHH8jDLxYC6vrOJ1VKaYI.png"
+          alt="Ingredientes Elysian"
+          class="ing__img"
+          loading="lazy"
+        />
+        <!-- Número decorativo grande -->
+        <span class="ing__deco-num" aria-hidden="true">04</span>
+      </div>
     </div>
 
-    <!-- Grid de ingredientes -->
-    <div class="ingredients__grid">
+    <!-- Columna derecha: lista de ingredientes -->
+    <div class="ing__right">
       {ingredients.map((ing, i) => (
-        <div class="ingredient-card">
-          <div class="ingredient-card__num">0{i+1}</div>
-          <div class="ingredient-card__note">{ing.note}</div>
-          <h3 class="ingredient-card__name">{ing.name}</h3>
-          <p class="ingredient-card__origin">{ing.origin}</p>
-          <p class="ingredient-card__desc">{ing.description}</p>
+        <div class="ing-card">
+          <div class="ing-card__head">
+            <span class="ing-card__num">0{i + 1}</span>
+            <span class="ing-card__note">{ing.note}</span>
+          </div>
+          <div class="ing-card__body">
+            <h3 class="ing-card__name">{ing.name}</h3>
+            <span class="ing-card__origin">{ing.origin}</span>
+          </div>
+          <p class="ing-card__desc">{ing.description}</p>
         </div>
       ))}
     </div>
@@ -77,147 +80,208 @@ const ingredients = [
 </section>
 
 <style>
-.ingredients {
-  position: relative;
-  padding: 160px 0;
-  overflow: hidden;
-}
-
-/* Fondo con imagen parallax */
-.ingredients__bg {
-  position: absolute;
-  inset: 0;
-}
-.ingredients__bg img {
-  width: 100%;
-  height: 120%;
-  object-fit: cover;
-  object-position: center;
-  opacity: 0.3;
-  will-change: transform;
-}
-.ingredients__bg-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    var(--c-bg) 0%,
-    rgba(10,9,6,0.7) 30%,
-    rgba(10,9,6,0.7) 70%,
-    var(--c-bg) 100%
-  );
-}
-
-/* Contenido */
-.ingredients__header {
-  position: relative;
-  z-index: 2;
-  margin-bottom: 80px;
-}
-
-.ingredients__label {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--c-gold);
-  opacity: 0.7;
-  margin-bottom: 24px;
-}
-
-.ingredients__title {
-  font-size: clamp(36px, 4.5vw, 68px);
-  font-weight: 300;
-  color: var(--c-cream);
-  line-height: 1.1;
-}
-
-/* Grid */
-.ingredients__grid {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: var(--c-border);
-}
-
-.ingredient-card {
-  background: var(--c-bg-card);
-  padding: 40px 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  transition: background 0.4s;
-}
-.ingredient-card:hover {
-  background: rgba(201,169,110,0.05);
-}
-
-.ingredient-card__num {
-  font-family: var(--f-serif);
-  font-size: 48px;
-  color: var(--c-gold);
-  opacity: 0.2;
-  line-height: 1;
-  margin-bottom: -8px;
-}
-
-.ingredient-card__note {
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--c-gold);
-  opacity: 0.6;
-}
-
-.ingredient-card__name {
-  font-size: 24px;
-  font-weight: 300;
-  color: var(--c-cream);
-  line-height: 1.2;
-}
-
-.ingredient-card__origin {
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--c-muted);
-}
-
-.ingredient-card__desc {
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--c-cream);
-  opacity: 0.5;
-  margin-top: 8px;
-}
-
-@media (max-width: 1024px) {
-  .ingredients__grid {
-    grid-template-columns: repeat(2, 1fr);
+  .ing {
+    width: 100%;
+    background: #f0ebe2;
+    padding: 120px 0 140px;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    overflow: hidden;
   }
-}
-@media (max-width: 640px) {
-  .ingredients__grid {
-    grid-template-columns: 1fr;
+
+  .ing__inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 52px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
   }
-}
+
+  /* ── Izquierda ───────────────────────────────── */
+  .ing__left {
+    position: sticky;
+    top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .ing__label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(26,26,24,0.45);
+    margin-bottom: 24px;
+  }
+  .ing__label-line {
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: rgba(26,26,24,0.3);
+    flex-shrink: 0;
+  }
+
+  .ing__title {
+    font-size: clamp(32px, 3.8vw, 60px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: #1a1a18;
+    margin: 0 0 48px 0;
+  }
+
+  /* Imagen con parallax */
+  .ing__img-wrap {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 4/5;
+  }
+
+  .ing__img {
+    width: 100%;
+    height: 110%;
+    object-fit: cover;
+    object-position: center;
+    will-change: transform;
+    display: block;
+  }
+
+  /* Número decorativo sobre la imagen */
+  .ing__deco-num {
+    position: absolute;
+    bottom: 20px;
+    right: 24px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 96px;
+    font-weight: 300;
+    line-height: 1;
+    color: rgba(240,235,226,0.25);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* ── Derecha: cards ──────────────────────────── */
+  .ing__right {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-top: 8px;
+  }
+
+  .ing-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 32px 0;
+    border-bottom: 1px solid rgba(26,26,24,0.1);
+    transition: padding-left 0.3s ease;
+    cursor: default;
+  }
+  .ing-card:first-child { border-top: 1px solid rgba(26,26,24,0.1); }
+  .ing-card:hover { padding-left: 12px; }
+
+  .ing-card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .ing-card__num {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 36px;
+    font-weight: 300;
+    color: rgba(26,26,24,0.15);
+    line-height: 1;
+  }
+
+  .ing-card__note {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(26,26,24,0.4);
+    background: rgba(26,26,24,0.06);
+    padding: 5px 12px;
+    border-radius: 999px;
+  }
+
+  .ing-card__body {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .ing-card__name {
+    font-size: clamp(20px, 2vw, 30px);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    color: #1a1a18;
+    margin: 0;
+  }
+
+  .ing-card__origin {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(26,26,24,0.35);
+    white-space: nowrap;
+  }
+
+  .ing-card__desc {
+    font-size: 13px;
+    line-height: 1.75;
+    color: rgba(26,26,24,0.55);
+    margin: 0;
+    max-width: 440px;
+  }
+
+  /* ── Responsive ──────────────────────────────── */
+  @media (max-width: 1024px) {
+    .ing__inner { grid-template-columns: 1fr; gap: 56px; padding: 0 32px; }
+    .ing__left  { position: static; }
+    .ing__img-wrap { aspect-ratio: 16/9; }
+    .ing__img   { height: 100%; }
+  }
+
+  @media (max-width: 640px) {
+    .ing         { padding: 80px 0 100px; }
+    .ing__inner  { padding: 0 20px; gap: 40px; }
+    .ing__title  { font-size: clamp(28px, 9vw, 44px); }
+    .ing-card    { padding: 24px 0; }
+    .ing-card__name { font-size: clamp(18px, 5.5vw, 24px); }
+    .ing-card:hover { padding-left: 0; }
+  }
 </style>
 
-<script>
-  // Efecto parallax simple en el fondo
-  const bg = document.getElementById('parallaxBg');
-  
-  window.addEventListener('scroll', () => {
-    if (!bg) return;
-    const section = bg.closest('.ingredients');
+<script is:inline>
+(function () {
+  var img = document.getElementById('ingParallaxBg');
+  if (!img) return;
+
+  var ticking = false;
+
+  function update() {
+    var section = img.closest('.ing');
     if (!section) return;
-    
-    const rect = section.getBoundingClientRect();
-    const progress = -rect.top / (rect.height + window.innerHeight);
-    bg.style.transform = `translateY(${progress * 60}px)`;
-  });
+    var rect = section.getBoundingClientRect();
+    var progress = -rect.top / (rect.height + window.innerHeight);
+    img.style.transform = 'translateY(' + (progress * 50) + 'px)';
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', function () {
+    if (!ticking) { requestAnimationFrame(update); ticking = true; }
+  }, { passive: true });
+
+  update();
+})();
 </script>
