@@ -2,7 +2,6 @@
 /**
  * HERO — Elysian Aromas
  * Perfume baja y mano sube con scroll hasta encontrarse.
- * Ajustado para verse bien al 120% de zoom.
  */
 ---
 
@@ -81,14 +80,13 @@
   /* ── Marca fondo ─────────────────────────────── */
   .hero__brand-bg {
     position: absolute;
-    bottom: -0.05em;
+    bottom: -0.08em;
     left: 50%;
     transform: translateX(-50%);
     white-space: nowrap;
     font-family: var(--sans);
     font-weight: 900;
-    /* reducido para que no tape demasiado al 120% */
-    font-size: clamp(80px, 14vw, 200px);
+    font-size: clamp(100px, 18vw, 260px);
     letter-spacing: -0.02em;
     color: var(--brand);
     pointer-events: none;
@@ -101,103 +99,101 @@
   .hero__title-block {
     position: absolute;
     top: 50%;
-    left: 44px;
+    left: 48px;
     transform: translateY(-50%);
     z-index: 10;
-    max-width: 340px;
+    max-width: 380px;
   }
   .hero__title {
     font-family: var(--sans);
     font-weight: 900;
-    /* más compacto para caber bien al 120% */
-    font-size: clamp(30px, 4vw, 60px);
+    font-size: clamp(36px, 5vw, 72px);
     line-height: 1.0;
     letter-spacing: -0.03em;
     color: var(--text);
-    margin: 0 0 22px 0;
+    margin: 0 0 28px 0;
   }
-  .hero__proof        { display: flex; flex-direction: column; gap: 5px; }
+  .hero__proof        { display: flex; flex-direction: column; gap: 6px; }
   .hero__avatars      { display: flex; margin-bottom: 4px; }
   .hero__av {
-    width: 28px; height: 28px;
+    width: 32px; height: 32px;
     border-radius: 50%;
-    border: 2px solid var(--bg);
-    margin-right: -8px;
+    border: 2.5px solid var(--bg);
+    margin-right: -9px;
     object-fit: cover;
   }
-  .hero__stars        { font-size: 12px; letter-spacing: 2px; color: var(--text); margin-top: 2px; }
+  .hero__stars        { font-size: 13px; letter-spacing: 2px; color: var(--text); margin-top: 2px; }
   .hero__reviews-label {
     font-family: var(--sans);
-    font-size: 10px; font-weight: 500;
+    font-size: 11px; font-weight: 500;
     letter-spacing: 0.06em; color: var(--muted);
   }
 
   /* ── Texto derecha ───────────────────────────── */
   .hero__side-text {
     position: absolute;
-    right: 44px;
+    right: 52px;
     top: 50%;
     transform: translateY(-50%);
     z-index: 10;
     font-family: var(--sans);
-    font-size: clamp(11px, 1vw, 15px);
+    font-size: clamp(13px, 1.2vw, 17px);
     font-weight: 400;
     line-height: 1.7;
     color: var(--text);
     text-align: right;
-    max-width: 200px;
+    max-width: 220px;
   }
 
   /* ── Stage central ───────────────────────────── */
   .hero__stage {
     position: relative;
-    /* reducido para que quepa al 120% */
-    width: clamp(240px, 30vw, 440px);
-    height: 82vh;
+    width: clamp(280px, 36vw, 520px);
+    height: 80vh;
     z-index: 5;
     overflow: visible;
     pointer-events: none;
   }
 
-  /* Perfume */
+  /* Perfume: arriba, baja con scroll vía JS */
   .hero__perfume {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translateX(-50%) translateY(-58%);
-    width: clamp(180px, 22vw, 340px);
+    transform: translateX(-50%) translateY(-55%);
+    width: clamp(220px, 28vw, 400px);
     mix-blend-mode: multiply;
-    filter: drop-shadow(0 20px 36px rgba(0,0,0,0.13));
+    filter: drop-shadow(0 24px 40px rgba(0,0,0,0.13));
     animation: floatPerfume 6s ease-in-out infinite;
     z-index: 6;
     will-change: transform;
   }
 
-  /* Mano: reposicionada más al centro y visible desde el inicio */
+  /* Mano: abajo, sube con scroll vía JS */
   .hero__hand {
     position: absolute;
-    left: 52%;                      /* leve offset a la derecha */
-    bottom: -5%;                    /* empieza más arriba que antes */
-    transform: translateX(-50%) translateY(55%);
-    width: 105%;
+    left: 50%;
+    bottom: -10%;
+    transform: translateX(-50%) translateY(60%);
+    width: 115%;
     z-index: 7;
     will-change: transform;
   }
 
   @keyframes floatPerfume {
-    0%, 100% { transform: translateX(-50%) translateY(-58%); }
-    50%       { transform: translateX(-50%) translateY(calc(-58% - 12px)); }
+    0%, 100% { transform: translateX(-50%) translateY(-55%); }
+    50%       { transform: translateX(-50%) translateY(calc(-55% - 14px)); }
   }
 
   /* ── Indicador scroll ────────────────────────── */
   .hero__scroll-hint {
     position: absolute;
-    bottom: 28px;
+    bottom: 32px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
     font-family: var(--sans);
-    font-size: 9px;
+    font-size: 10px;
     letter-spacing: 0.3em;
     color: rgba(26,26,24,0.3);
     text-transform: uppercase;
@@ -205,27 +201,27 @@
   }
   .hero__scroll-line {
     width: 1px;
-    height: 36px;
+    height: 40px;
     background: rgba(26,26,24,0.25);
     margin: 8px auto 0;
   }
 
   /* ── Responsive ──────────────────────────────── */
   @media (max-width: 960px) {
-    .hero__title-block { left: 24px; max-width: 260px; }
-    .hero__side-text   { right: 16px; font-size: 11px; max-width: 160px; }
-    .hero__stage       { width: clamp(220px, 42vw, 380px); }
+    .hero__title-block { left: 28px; max-width: 300px; }
+    .hero__side-text   { right: 20px; font-size: 12px; max-width: 180px; }
+    .hero__stage       { width: clamp(260px, 48vw, 460px); }
   }
   @media (max-width: 640px) {
     .hero__title-block {
       position: absolute;
-      top: 80px; left: 20px; right: 20px;
+      top: 88px; left: 24px; right: 24px;
       transform: none; max-width: none;
     }
-    .hero__title     { font-size: clamp(30px, 9vw, 44px); }
+    .hero__title     { font-size: clamp(34px, 10vw, 48px); }
     .hero__side-text { display: none; }
-    .hero__stage     { width: 88%; height: 58vh; }
-    .hero__brand-bg  { font-size: 26vw; }
+    .hero__stage     { width: 90%; height: 60vh; }
+    .hero__brand-bg  { font-size: 28vw; }
   }
 </style>
 
@@ -237,7 +233,7 @@
     var hero    = document.getElementById('hero');
     if (!perfume || !hand || !hero) return;
 
-    var pfBaseY = -58;
+    var pfBaseY = -55; // % inicial del perfume
 
     var ticking = false;
 
@@ -246,8 +242,8 @@
       var heroH    = hero.offsetHeight;
       var progress = Math.min(Math.max(scrollY / (heroH * 0.65), 0), 1);
 
-      // Perfume baja: -58% → -22%
-      var pfY = pfBaseY + progress * 36;
+      // Perfume baja: -55% → -20%
+      var pfY = pfBaseY + progress * 35;
       if (progress > 0) {
         perfume.style.animationPlayState = 'paused';
         perfume.style.transform = 'translateX(-50%) translateY(' + pfY + '%)';
@@ -256,8 +252,8 @@
         perfume.style.transform = '';
       }
 
-      // Mano sube: 55% → 8%
-      var handY = 55 - progress * 47;
+      // Mano sube: 60% → 10%
+      var handY = 60 - progress * 50;
       hand.style.transform = 'translateX(-50%) translateY(' + handY + '%)';
 
       ticking = false;
