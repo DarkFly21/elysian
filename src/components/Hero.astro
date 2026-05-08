@@ -223,9 +223,20 @@
     }
     .hero__title {
       font-size: clamp(40px, 12vw, 58px);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
-    .hero__av { width: 30px; height: 30px; }
+
+    /* Reseñas en mobile: compactas y en fila */
+    .hero__proof {
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .hero__avatars { margin-bottom: 0; }
+    .hero__av { width: 26px; height: 26px; margin-right: -7px; }
+    .hero__stars { font-size: 11px; letter-spacing: 1px; margin-top: 0; }
+    .hero__reviews-label { font-size: 10px; }
 
     .hero__side-text { display: none; }
 
