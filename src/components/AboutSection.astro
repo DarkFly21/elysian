@@ -1,8 +1,7 @@
 ---
 /**
  * COMPONENTE: AboutSection — Elysian Aromas
- * Layout asimétrico, imagen grande izquierda, texto derecha.
- * Estilo crema/oscuro coherente con el hero.
+ * Contador animado en stats, botón estilo nav.
  */
 ---
 
@@ -18,14 +17,11 @@
           class="abt__img"
           loading="lazy"
         />
-        <!-- Badge flotante -->
         <div class="abt__badge">
           <span class="abt__badge-num">12</span>
           <span class="abt__badge-label">Aromas<br/>únicos</span>
         </div>
       </div>
-
-      <!-- Línea decorativa lateral -->
       <div class="abt__side-line" aria-hidden="true">
         <span>EST. 2024</span>
       </div>
@@ -55,27 +51,32 @@
         tradiciones ancestrales con artesanía contemporánea para crear algo verdaderamente atemporal.
       </p>
 
-      <!-- Stats -->
+      <!-- Stats con contador -->
       <div class="abt__stats">
         <div class="abt__stat">
-          <span class="abt__stat-num">08</span>
+          <span class="abt__stat-num" data-target="8" data-suffix="">
+            <span class="abt__counter">0</span>
+          </span>
           <span class="abt__stat-label">Años de oficio</span>
         </div>
         <div class="abt__stat">
-          <span class="abt__stat-num">42</span>
+          <span class="abt__stat-num" data-target="42" data-suffix="">
+            <span class="abt__counter">0</span>
+          </span>
           <span class="abt__stat-label">Ingredientes raros</span>
         </div>
         <div class="abt__stat">
-          <span class="abt__stat-num">∞</span>
+          <span class="abt__stat-num abt__stat-num--inf">
+            <span>∞</span>
+          </span>
           <span class="abt__stat-label">Recuerdos creados</span>
         </div>
       </div>
 
+      <!-- Botón estilo nav -->
       <a href="/nosotros" class="abt__cta">
         Conoce nuestra historia
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M1 8h14M9 2l6 6-6 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <span class="abt__cta-dots" aria-hidden="true">••</span>
       </a>
 
     </div>
@@ -104,14 +105,10 @@
   /* ── Visual ──────────────────────────────────── */
   .abt__visual {
     position: relative;
-    display: flex;
-    align-items: stretch;
-    gap: 0;
   }
 
   .abt__img-wrap {
     position: relative;
-    flex: 1;
     border-radius: 20px;
     overflow: hidden;
   }
@@ -124,11 +121,9 @@
     display: block;
     transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
-  .abt__img-wrap:hover .abt__img {
-    transform: scale(1.04);
-  }
+  .abt__img-wrap:hover .abt__img { transform: scale(1.04); }
 
-  /* Badge flotante */
+  /* Badge */
   .abt__badge {
     position: absolute;
     bottom: 28px;
@@ -161,29 +156,22 @@
     line-height: 1.4;
   }
 
-  /* Línea decorativa lateral con texto rotado */
+  /* Texto lateral rotado */
   .abt__side-line {
     position: absolute;
     left: -36px;
     top: 50%;
     transform: translateY(-50%) rotate(-90deg);
-    transform-origin: center;
-    display: flex;
-    align-items: center;
-    gap: 10px;
     white-space: nowrap;
     font-size: 9px;
     font-weight: 600;
     letter-spacing: 0.3em;
-    color: rgba(26,26,24,0.25);
+    color: rgba(26,26,24,0.2);
     text-transform: uppercase;
   }
 
   /* ── Contenido ───────────────────────────────── */
-  .abt__content {
-    display: flex;
-    flex-direction: column;
-  }
+  .abt__content { display: flex; flex-direction: column; }
 
   .abt__label {
     display: flex;
@@ -215,7 +203,6 @@
 
   .abt__text {
     font-size: 14px;
-    font-weight: 400;
     line-height: 1.8;
     color: rgba(26,26,24,0.6);
     margin: 0 0 16px 0;
@@ -246,12 +233,15 @@
 
   .abt__stat-num {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 44px;
+    font-size: 48px;
     font-weight: 300;
     color: #1a1a18;
     line-height: 1;
     letter-spacing: -0.02em;
+    display: block;
   }
+  .abt__stat-num--inf { font-size: 52px; }
+
   .abt__stat-label {
     font-size: 9px;
     font-weight: 600;
@@ -260,48 +250,95 @@
     color: rgba(26,26,24,0.45);
   }
 
-  /* ── CTA ─────────────────────────────────────── */
+  /* ── Botón estilo nav ────────────────────────── */
   .abt__cta {
     display: inline-flex;
     align-items: center;
     gap: 12px;
     margin-top: 52px;
+    align-self: flex-start;
+    padding: 0 24px;
+    height: 46px;
+    border-radius: 999px;
+    background: #1a1a18;
+    font-family: 'Montserrat', system-ui, sans-serif;
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #1a1a18;
+    color: #f0ebe2;
     text-decoration: none;
-    padding-bottom: 4px;
-    border-bottom: 1.5px solid rgba(26,26,24,0.25);
-    transition: gap 0.3s ease, border-color 0.3s;
-    align-self: flex-start;
+    transition: background 0.25s, transform 0.2s;
   }
   .abt__cta:hover {
-    gap: 18px;
-    border-color: #1a1a18;
+    background: #2e2e2b;
+    transform: scale(1.02);
+  }
+  .abt__cta-dots {
+    font-size: 8px;
+    letter-spacing: 2px;
+    opacity: 0.55;
   }
 
   /* ── Responsive ──────────────────────────────── */
   @media (max-width: 1024px) {
-    .abt__inner {
-      grid-template-columns: 1fr;
-      gap: 56px;
-      padding: 0 32px;
-    }
-    .abt__img { height: 460px; }
+    .abt__inner { grid-template-columns: 1fr; gap: 56px; padding: 0 32px; }
+    .abt__img   { height: 460px; }
     .abt__side-line { display: none; }
     .abt__badge { right: 16px; bottom: 16px; }
   }
 
   @media (max-width: 640px) {
-    .abt { padding: 80px 0 100px; }
+    .abt        { padding: 80px 0 100px; }
     .abt__inner { padding: 0 20px; gap: 40px; }
-    .abt__img { height: 360px; }
+    .abt__img   { height: 340px; }
     .abt__title { font-size: clamp(30px, 9vw, 44px); }
-    .abt__stats { gap: 0; }
-    .abt__stat-num { font-size: 36px; }
+    .abt__stat-num { font-size: 38px; }
     .abt__badge { width: 90px; height: 90px; }
     .abt__badge-num { font-size: 30px; }
   }
 </style>
+
+<script is:inline>
+(function () {
+  function animateCounter(el, target, duration) {
+    var start = 0;
+    var startTime = null;
+
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      // ease out cubic
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target);
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(step);
+  }
+
+  function initCounters() {
+    var stats = document.querySelectorAll('.abt__stat-num[data-target]');
+    if (!stats.length) return;
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var wrap = entry.target;
+        var target = parseInt(wrap.getAttribute('data-target'), 10);
+        var counter = wrap.querySelector('.abt__counter');
+        if (counter) animateCounter(counter, target, 1800);
+        observer.unobserve(wrap);
+      });
+    }, { threshold: 0.5 });
+
+    stats.forEach(function (el) { observer.observe(el); });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCounters);
+  } else {
+    initCounters();
+  }
+})();
+</script>
