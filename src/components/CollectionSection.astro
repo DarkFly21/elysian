@@ -1,49 +1,76 @@
 ---
 /**
- * COMPONENTE: CollectionSection
- * ──────────────────────────────────────────────────────
- * Muestra la cuadrícula de productos en la página home.
- * Recibe los productos ya normalizados desde WordPress (o mock data).
- *
- * CÓMO LLEGAN LOS DATOS:
- * index.astro llama a getProducts() → pasa el resultado como prop aquí
- * → este componente los renderiza con <ProductCard />
+ * COMPONENTE: CollectionSection — Elysian Aromas
+ * Cards grandes con imagen full, hover elegante, layout asimétrico.
  */
-
 import ProductCard from './ProductCard.astro';
 
 interface Props {
-  products: any[]; // Tipo any temporalmente; en producción usar interfaz Product
+  products: any[];
 }
 
 const { products } = Astro.props;
 ---
 
-<section class="collection" id="collection">
-  <div class="container">
+<section class="col-sec" id="collection">
+  <div class="col-sec__inner">
 
-    <!-- Header de sección -->
-    <div class="collection__header">
-      <div class="collection__label">
-        <div class="gold-line"></div>
-        <span>Our Collections</span>
+    <!-- Header -->
+    <div class="col-sec__header">
+      <div class="col-sec__label">
+        <span class="col-sec__label-line"></span>
+        <span>Nuestra Colección</span>
       </div>
-      <h2 class="collection__title">
-        Inspired by<br />
-        heavenly realms.
-      </h2>
-      <a href="/coleccion" class="collection__all">
-        View All
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-        </svg>
-      </a>
+      <div class="col-sec__header-right">
+        <h2 class="col-sec__title">
+          Inspiradas en<br />reinos celestiales.
+        </h2>
+        <a href="/coleccion" class="col-sec__all">
+          Ver todo
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M1 8h14M9 2l6 6-6 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
     </div>
 
-    <!-- Grid de productos -->
-    <div class="collection__grid">
-      {products.map((product) => (
-        <ProductCard {...product} />
+    <!-- Grid asimétrico -->
+    <div class="col-sec__grid">
+      {products.map((product, i) => (
+        <a
+          href={`/coleccion/${product.slug}`}
+          class={`col-card col-card--${i === 0 ? 'featured' : 'regular'}`}
+        >
+          <!-- Imagen -->
+          <div class="col-card__img-wrap">
+            <img
+              class="col-card__img"
+              src={product.image || product.images?.[0]?.src || ''}
+              alt={product.name}
+              loading={i === 0 ? 'eager' : 'lazy'}
+            />
+            <div class="col-card__overlay"></div>
+          </div>
+
+          <!-- Info -->
+          <div class="col-card__info">
+            <div class="col-card__meta">
+              <span class="col-card__num">0{i + 1}</span>
+              {product.category && (
+                <span class="col-card__cat">{product.category}</span>
+              )}
+            </div>
+            <div class="col-card__bottom">
+              <h3 class="col-card__name">{product.name}</h3>
+              <span class="col-card__cta">
+                Descubrir
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
+              </span>
+            </div>
+          </div>
+        </a>
       ))}
     </div>
 
@@ -51,84 +78,254 @@ const { products } = Astro.props;
 </section>
 
 <style>
-.collection {
-  padding: 120px 0;
-}
-
-.collection__header {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  align-items: end;
-  gap: 40px;
-  margin-bottom: 64px;
-}
-
-.collection__label {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--c-gold);
-  opacity: 0.7;
-  grid-column: 1;
-  grid-row: 1;
-  align-self: start;
-}
-
-.collection__title {
-  font-size: clamp(36px, 5vw, 72px);
-  font-weight: 300;
-  color: var(--c-cream);
-  grid-column: 1;
-  grid-row: 2;
-}
-
-.collection__all {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--c-gold);
-  grid-column: 3;
-  grid-row: 2;
-  transition: gap 0.3s;
-}
-.collection__all:hover { gap: 16px; }
-
-/* Grid de 3 columnas */
-.collection__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-
-@media (max-width: 1024px) {
-  .collection__grid {
-    grid-template-columns: repeat(2, 1fr);
+  .col-sec {
+    width: 100%;
+    background: #f0ebe2;
+    padding: 100px 0 120px;
+    font-family: 'Montserrat', system-ui, sans-serif;
   }
-}
 
-@media (max-width: 640px) {
-  .collection {
-    padding: 80px 0;
+  .col-sec__inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 52px;
   }
-  .collection__header {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
+
+  /* ── Header ──────────────────────────────────── */
+  .col-sec__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 56px;
+    gap: 32px;
+  }
+
+  .col-sec__label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(26,26,24,0.5);
+    align-self: flex-start;
+    padding-top: 8px;
+  }
+  .col-sec__label-line {
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: rgba(26,26,24,0.35);
+    flex-shrink: 0;
+  }
+
+  .col-sec__header-right {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex: 1;
+    gap: 24px;
+  }
+
+  .col-sec__title {
+    font-size: clamp(32px, 4vw, 64px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: #1a1a18;
+    margin: 0;
+  }
+
+  .col-sec__all {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #1a1a18;
+    text-decoration: none;
+    white-space: nowrap;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(26,26,24,0.25);
+    transition: gap 0.3s ease, border-color 0.3s;
+  }
+  .col-sec__all:hover {
+    gap: 16px;
+    border-color: #1a1a18;
+  }
+
+  /* ── Grid asimétrico ─────────────────────────── */
+  .col-sec__grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr;
+    grid-template-rows: auto;
     gap: 16px;
   }
-  .collection__label { grid-column: 1; }
-  .collection__title { grid-column: 1; }
-  .collection__all {
-    grid-column: 1;
-    grid-row: 3;
+
+  /* ── Card base ───────────────────────────────── */
+  .col-card {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #e8e2d8;
+    cursor: pointer;
   }
-  .collection__grid {
-    grid-template-columns: 1fr;
+
+  .col-card__img-wrap {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
   }
-}
+
+  .col-card--featured .col-card__img-wrap { aspect-ratio: 3/4; }
+  .col-card--regular  .col-card__img-wrap { aspect-ratio: 4/5; }
+
+  .col-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    mix-blend-mode: multiply;
+  }
+  .col-card:hover .col-card__img {
+    transform: scale(1.06);
+  }
+
+  /* Overlay sutil al hover */
+  .col-card__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(26,26,24,0.55) 0%,
+      rgba(26,26,24,0.1) 40%,
+      transparent 70%
+    );
+    transition: opacity 0.4s;
+    opacity: 0.7;
+  }
+  .col-card:hover .col-card__overlay { opacity: 1; }
+
+  /* ── Info sobre la imagen ────────────────────── */
+  .col-card__info {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 24px;
+  }
+
+  .col-card__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .col-card__num {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: rgba(240,235,226,0.6);
+  }
+
+  .col-card__cat {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(240,235,226,0.55);
+    background: rgba(240,235,226,0.12);
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(240,235,226,0.2);
+  }
+
+  .col-card__bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .col-card__name {
+    font-size: clamp(16px, 1.6vw, 26px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: #f0ebe2;
+    margin: 0;
+    flex: 1;
+  }
+
+  .col-card--featured .col-card__name {
+    font-size: clamp(22px, 2.2vw, 36px);
+  }
+
+  .col-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #f0ebe2;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s, transform 0.3s;
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba(240,235,226,0.4);
+  }
+  .col-card:hover .col-card__cta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Card destacada ocupa toda la altura del grid ── */
+  .col-card--featured {
+    grid-row: 1 / 2;
+  }
+
+  /* ── Responsive ──────────────────────────────── */
+  @media (max-width: 1024px) {
+    .col-sec__inner { padding: 0 32px; }
+    .col-sec__grid  { grid-template-columns: 1.4fr 1fr; }
+    .col-card--featured { grid-row: 1 / 3; }
+    .col-card--regular:last-child { display: none; }
+  }
+
+  @media (max-width: 640px) {
+    .col-sec { padding: 72px 0 80px; }
+    .col-sec__inner { padding: 0 20px; }
+
+    .col-sec__header {
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 32px;
+      gap: 16px;
+    }
+    .col-sec__header-right {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .col-sec__title { font-size: clamp(28px, 9vw, 44px); }
+
+    .col-sec__grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .col-card--featured { grid-row: auto; }
+    .col-card--featured .col-card__img-wrap { aspect-ratio: 4/3; }
+    .col-card--regular  .col-card__img-wrap { aspect-ratio: 4/3; }
+    .col-card__cta { opacity: 1; transform: none; }
+    .col-card--regular:last-child { display: block; }
+  }
 </style>
