@@ -1,69 +1,91 @@
 ---
 /**
  * HERO — Elysian Aromas
- * Elementos grandes para verse bien al 140% zoom
- * Mobile: layout vertical limpio
+ * Sticky scroll: el hero ocupa 200vh.
+ * El perfume queda fijo en pantalla mientras la mano sube a encontrarlo.
  */
 ---
 
-<section class="hero" id="hero">
+<!-- Wrapper que da altura al scroll (2 pantallas) -->
+<div class="hero-scroll" id="heroScroll">
 
-  <div class="hero__brand-bg" aria-hidden="true">Elysian</div>
+  <!-- Sticky container — se queda pegado al top mientras scrolleas -->
+  <div class="hero-sticky" id="heroSticky">
 
-  <div class="hero__title-block">
-    <h1 class="hero__title">Tu mejor<br/>fragancia,<br/>revelada.</h1>
-    <div class="hero__proof">
-      <div class="hero__avatars">
-        <img class="hero__av" src="https://i.pravatar.cc/40?img=47" alt="" />
-        <img class="hero__av" src="https://i.pravatar.cc/40?img=44" alt="" />
-        <img class="hero__av" src="https://i.pravatar.cc/40?img=41" alt="" />
-        <img class="hero__av" src="https://i.pravatar.cc/40?img=48" alt="" />
+    <section class="hero" id="hero">
+
+      <div class="hero__brand-bg" aria-hidden="true">Elysian</div>
+
+      <div class="hero__title-block">
+        <h1 class="hero__title">Tu mejor<br/>fragancia,<br/>revelada.</h1>
+        <div class="hero__proof">
+          <div class="hero__avatars">
+            <img class="hero__av" src="https://i.pravatar.cc/40?img=47" alt="" />
+            <img class="hero__av" src="https://i.pravatar.cc/40?img=44" alt="" />
+            <img class="hero__av" src="https://i.pravatar.cc/40?img=41" alt="" />
+            <img class="hero__av" src="https://i.pravatar.cc/40?img=48" alt="" />
+          </div>
+          <div class="hero__stars">★★★★★</div>
+          <div class="hero__reviews-label">+2,500 clientes satisfechos</div>
+        </div>
       </div>
-      <div class="hero__stars">★★★★★</div>
-      <div class="hero__reviews-label">+2,500 clientes satisfechos</div>
-    </div>
-  </div>
 
-  <div class="hero__side-text">
-    Eliminamos lo innecesario<br />para enfocarnos en<br />lo que verdaderamente perdura.
-  </div>
+      <div class="hero__side-text">
+        Eliminamos lo innecesario<br />para enfocarnos en<br />lo que verdaderamente perdura.
+      </div>
 
-  <div class="hero__stage">
-    <img
-      class="hero__perfume"
-      id="heroPerfume"
-      src="https://www.destinodebelleza.es/assets/images/product_images/700x700_ADGH_Profondo.png"
-      alt="Perfume Elysian"
-    />
-    <img
-      class="hero__hand"
-      id="heroHand"
-      src="https://framerusercontent.com/images/wBo5lTi5xGCI92q80tKg9ywiQ4.png"
-      alt=""
-      aria-hidden="true"
-    />
-  </div>
+      <div class="hero__stage">
+        <img
+          class="hero__perfume"
+          id="heroPerfume"
+          src="https://www.destinodebelleza.es/assets/images/product_images/700x700_ADGH_Profondo.png"
+          alt="Perfume Elysian"
+        />
+        <img
+          class="hero__hand"
+          id="heroHand"
+          src="https://framerusercontent.com/images/wBo5lTi5xGCI92q80tKg9ywiQ4.png"
+          alt=""
+          aria-hidden="true"
+        />
+      </div>
 
-  <div class="hero__scroll-hint" aria-hidden="true">
-    <span>Descubre más</span>
-    <div class="hero__scroll-line"></div>
-  </div>
+      <div class="hero__scroll-hint" id="heroScrollHint" aria-hidden="true">
+        <span>Descubre más</span>
+        <div class="hero__scroll-line"></div>
+      </div>
 
-</section>
+    </section>
+
+  </div>
+</div>
 
 <style>
+  /* ── Scroll wrapper: 200vh para que sticky tenga recorrido ── */
+  .hero-scroll {
+    position: relative;
+    height: 200vh;
+  }
+
+  /* ── Sticky: se pega al top y ocupa 100vh ─────── */
+  .hero-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ── Hero base ───────────────────────────────── */
   .hero {
     --bg:    #f0ebe2;
     --text:  #1a1a18;
     --muted: rgba(26,26,24,0.45);
     --brand: rgba(26,26,24,0.055);
     --sans:  'Montserrat', system-ui, sans-serif;
-  }
 
-  .hero {
     position: relative;
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
     background: var(--bg);
     overflow: hidden;
     display: flex;
@@ -149,6 +171,7 @@
     pointer-events: none;
   }
 
+  /* Perfume: empieza centrado, JS lo mueve */
   .hero__perfume {
     position: absolute;
     left: 50%;
@@ -162,6 +185,7 @@
     will-change: transform;
   }
 
+  /* Mano: empieza abajo, JS la sube */
   .hero__hand {
     position: absolute;
     left: 50%;
@@ -190,7 +214,9 @@
     color: rgba(26,26,24,0.3);
     text-transform: uppercase;
     text-align: center;
+    transition: opacity 0.4s;
   }
+  .hero__scroll-hint.hidden { opacity: 0; }
   .hero__scroll-line {
     width: 1px; height: 40px;
     background: rgba(26,26,24,0.25);
@@ -208,8 +234,11 @@
 
   /* ── Mobile ──────────────────────────────────── */
   @media (max-width: 640px) {
+    /* En mobile reducimos el wrapper a 150vh para no cansar */
+    .hero-scroll { height: 150vh; }
+
     .hero {
-      min-height: 100svh;
+      height: 100vh;
       align-items: flex-start;
     }
 
@@ -225,8 +254,6 @@
       font-size: clamp(40px, 12vw, 58px);
       margin-bottom: 12px;
     }
-
-    /* Reseñas en mobile: compactas y en fila */
     .hero__proof {
       flex-direction: row;
       align-items: center;
@@ -248,7 +275,6 @@
       width: 100%;
       height: 55vh;
     }
-
     .hero__perfume {
       width: clamp(180px, 62vw, 300px);
       top: 5%;
@@ -256,14 +282,12 @@
       transform: translateX(-50%) translateY(0%);
       animation: floatPerfumeMobile 6s ease-in-out infinite;
     }
-
     .hero__hand {
       width: 140%;
       bottom: -4%;
       left: 50%;
       transform: translateX(-50%) translateY(52%);
     }
-
     .hero__brand-bg  { font-size: 30vw; }
     .hero__scroll-hint { bottom: 12px; }
   }
@@ -277,33 +301,46 @@
 <script is:inline>
 (function () {
   function init() {
-    var perfume = document.getElementById('heroPerfume');
-    var hand    = document.getElementById('heroHand');
-    var hero    = document.getElementById('hero');
-    if (!perfume || !hand || !hero) return;
+    var perfume   = document.getElementById('heroPerfume');
+    var hand      = document.getElementById('heroHand');
+    var scrollWrap = document.getElementById('heroScroll');
+    var hint      = document.getElementById('heroScrollHint');
+    if (!perfume || !hand || !scrollWrap) return;
 
     var ticking = false;
 
     function isMobile() { return window.innerWidth <= 640; }
 
     function update() {
-      var scrollY  = window.pageYOffset || document.documentElement.scrollTop;
-      var heroH    = hero.offsetHeight;
-      var progress = Math.min(Math.max(scrollY / (heroH * 0.65), 0), 1);
+      var scrollY   = window.pageYOffset || document.documentElement.scrollTop;
+      var wrapTop   = scrollWrap.getBoundingClientRect().top + scrollY;
+      var wrapH     = scrollWrap.offsetHeight;
+      var viewH     = window.innerHeight;
+
+      // progress: 0 cuando entra, 1 cuando termina el recorrido sticky
+      var scrollable = wrapH - viewH;
+      var scrolled   = Math.max(0, scrollY - wrapTop);
+      var progress   = Math.min(Math.max(scrolled / scrollable, 0), 1);
+
+      if (hint) {
+        hint.classList.toggle('hidden', progress > 0.05);
+      }
 
       if (isMobile()) {
-        var handY = 52 - progress * 38;
+        // Mobile: mano sube suavemente
+        var handY = 52 - progress * 40;
         hand.style.transform = 'translateX(-50%) translateY(' + handY + '%)';
         if (progress > 0) {
           perfume.style.animationPlayState = 'paused';
-          var pfY = progress * 15;
-          perfume.style.transform = 'translateX(-50%) translateY(' + pfY + '%)';
+          perfume.style.transform = 'translateX(-50%) translateY(' + (progress * 12) + '%)';
         } else {
           perfume.style.animationPlayState = 'running';
           perfume.style.transform = '';
         }
       } else {
-        var pfY = -55 + progress * 39;
+        // Desktop
+        // Perfume: baja suavemente -55% → -18% (se mueve poco, el sticky hace el truco visual)
+        var pfY = -55 + progress * 37;
         if (progress > 0) {
           perfume.style.animationPlayState = 'paused';
           perfume.style.transform = 'translateX(-50%) translateY(' + pfY + '%)';
@@ -311,8 +348,9 @@
           perfume.style.animationPlayState = 'running';
           perfume.style.transform = '';
         }
-        var handY = 60 - progress * 52;
-        hand.style.transform = 'translateX(-50%) translateY(' + handY + '%)';
+        // Mano: sube 60% → 5%
+        var handY2 = 60 - progress * 55;
+        hand.style.transform = 'translateX(-50%) translateY(' + handY2 + '%)';
       }
 
       ticking = false;
